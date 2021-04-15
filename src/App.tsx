@@ -9,7 +9,10 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <ChartSlider />
+      <div style={{ paddingLeft: "100px" }}>
+        <ChartSlider />
+      </div>
+
       <Main />
     </div>
   );

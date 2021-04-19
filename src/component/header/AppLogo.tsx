@@ -14,7 +14,7 @@ function AppLogo() {
           alt="logo"
         />
       </div>
-      <div style={{ fontSize: "2rem", float: "left" }}>Team name</div>
+      <div style={{ fontSize: "2rem", float: "left" }}>Dr.포폴</div>
     </>
   );
 }

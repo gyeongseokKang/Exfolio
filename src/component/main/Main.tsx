@@ -1,32 +1,46 @@
 import React from "react";
+import analysisPF from "./analysisPF.jpg";
+import createPF from "./createPF.png";
+import "./Main.css";
 
-function Main() {
+function Main({ history }: any) {
   return (
     <>
-      <div style={{ alignItems: "center" }}>
-        <div style={{ float: "left", width: "10%" }}></div>
+      <div className="mainlayout">
         <div
-          style={{
-            border: "1px solid",
-            float: "left",
-            width: "30%",
-            height: "200px",
+          className="card"
+          onClick={() => {
+            history.push("/create");
           }}
         >
-          포트폴리오 평가
+          <img
+            src={createPF}
+            alt="Avatar"
+            style={{ width: "100%", height: "400px" }}
+          />
+          <div className="container">
+            <h2>Create PortFolio</h2>
+            <p>유저가 원하는 비중의 포트폴리오를 생성</p>
+          </div>
         </div>
-        <div style={{ border: "1px solid", float: "left", width: "20%" }}></div>
+
         <div
-          style={{
-            border: "1px solid",
-            float: "left",
-            width: "30%",
-            height: "200px",
+          className="card"
+          style={{ float: "right" }}
+          onClick={() => {
+            history.push("/analysis");
           }}
         >
-          포트폴리오 생성
+          <img
+            src={analysisPF}
+            alt="Avatar"
+            style={{ width: "100%", height: "400px" }}
+          />
+          <div className="container">
+            <h2>Analysis PortFolio</h2>
+            <p>다양한 모델을 통해 유저의 포트폴리오를 분석 및 평가</p>
+          </div>
         </div>
-        <div style={{ float: "left", width: "10%" }}></div>
       </div>
     </>
   );

@@ -1,6 +1,11 @@
 import React from "react";
 import ChartSlider from "./chartSlider/ChartSlider";
+import EfficientFrontierChart from "./efficientFrontier/EfficientFrontierChart";
+import EfficientFrontierDetail from "./efficientFrontier/EfficientFrontierDetail";
 import StockListLayout from "./StockListLayout";
+import "./CreatePortfolio.css";
+import { Paper } from "@material-ui/core";
+import RecommendPortfolio from "./recommendPortfolio/RecommendPortfolio";
 
 const CreatePortfolio = () => {
   let testList = [
@@ -44,11 +49,23 @@ const CreatePortfolio = () => {
         onDelete={onDelete}
         onAdd={onAdd}
       />
-      <ChartSlider
+      <Paper
+        component="ul"
+        style={{
+          margin: "10px 10px 10px 10px",
+        }}
+      >
+        <div className="EfficientFrontier">
+          <EfficientFrontierChart />
+          <EfficientFrontierDetail />
+        </div>
+      </Paper>
+      <RecommendPortfolio />
+      {/* <ChartSlider
         stockList={sharesHeldList}
         onChange={onChange}
         onDelete={onDelete}
-      />
+      />  */}
     </>
   );
 };

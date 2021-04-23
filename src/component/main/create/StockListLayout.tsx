@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       flexWrap: "wrap",
       listStyle: "none",
-      width: "80%",
+      width: "100%",
       padding: theme.spacing(0.5),
       margin: 0,
     },

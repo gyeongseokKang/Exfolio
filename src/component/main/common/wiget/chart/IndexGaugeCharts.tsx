@@ -29,7 +29,7 @@ const COLOR_CONFIG = {
       color: "red",
     },
   },
-  sharp: {
+  sharpe: {
     good: {
       range: [1.2, 1000],
       color: "green",
@@ -48,7 +48,13 @@ const COLOR_CONFIG = {
   },
 };
 
-function createGaugeConfig(value: number, position: number, type: "volatility" | "returns" | "sharp", fontSize: number): Plotly.Data {
+const TITLE_LIST = {
+  volatility: "변동성",
+  returns: "기대 수입",
+  sharpe: "효율성",
+};
+
+function createGaugeConfig(value: number, position: number, type: "volatility" | "returns" | "sharpe"): Plotly.Data {
   let color = undefined;
   if (COLOR_CONFIG[type]["good"]["range"][0] <= value && value < COLOR_CONFIG[type]["good"]["range"][1]) {
     color = COLOR_CONFIG[type]["good"]["color"];
@@ -63,19 +69,21 @@ function createGaugeConfig(value: number, position: number, type: "volatility" |
   return {
     type: "indicator",
     mode: "gauge+number",
+    title: { text: TITLE_LIST[type], font: { size: 16 } },
     domain: { row: 0, column: position },
     value: value,
+
     gauge: {
-      axis: { range: type === "sharp" ? [0, 2] : [0, 60], visible: false },
+      axis: { range: type === "sharpe" ? [0, 2] : [0, 60], visible: false },
       bar: { color: color },
       bgcolor: "white",
       borderwidth: 0,
       bordercolor: "gray",
     },
     number: {
-      suffix: type === "sharp" ? "" : "%",
+      suffix: type === "sharpe" ? "" : "%",
       font: {
-        size: fontSize,
+        size: 18,
         color: "gray",
       },
     },
@@ -85,24 +93,22 @@ function createGaugeConfig(value: number, position: number, type: "volatility" |
 export default function IndexGaugeCharts({
   volatility,
   returns,
-  sharp,
-  height = 200,
+  sharpe,
+  height = 150,
   width = 400,
-  fontSize = 18,
 }: {
   volatility: number;
   returns: number;
-  sharp: number;
+  sharpe: number;
   height?: number;
   width?: number;
-  fontSize?: number;
 }) {
   return (
     <Plot
       data={[
-        createGaugeConfig(volatility, 0, "volatility", fontSize),
-        createGaugeConfig(returns, 1, "returns", fontSize),
-        createGaugeConfig(sharp, 2, "sharp", fontSize),
+        createGaugeConfig(volatility, 0, "volatility"),
+        createGaugeConfig(returns, 1, "returns"),
+        createGaugeConfig(sharpe, 2, "sharpe"),
       ]}
       layout={{
         height: height,

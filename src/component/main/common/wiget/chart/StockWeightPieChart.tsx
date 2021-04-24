@@ -3,13 +3,13 @@ import Plot from "react-plotly.js";
 export default function StockWeightPieChart({
   labels,
   values,
-  title = "Efficient Frontier",
+  title,
   width = 500,
   height = 500,
 }: {
   values: Array<number | string>;
   labels: Plotly.Datum[];
-  title?: string;
+  title: string;
   width?: number;
   height?: number;
 }) {

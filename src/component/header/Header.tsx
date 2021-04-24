@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import applogo from "./applogo.png"; //"@res/applogo.png";
+import React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

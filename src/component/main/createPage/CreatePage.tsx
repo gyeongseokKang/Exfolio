@@ -1,11 +1,11 @@
 import React from "react";
-import EfficientFrontierChart from "./efficientFrontier/EfficientFrontierChart";
-import EfficientFrontierDetail from "./efficientFrontier/EfficientFrontierDetail";
-import StockListLayout from "./StockListLayout";
-import "./CreatePortfolio.css";
+import EfficientFrontierChart from "./component/efficientFrontier/component/EfficientFrontierChart";
+import EfficientFrontierDetail from "./component/efficientFrontier/component/EfficientFrontierDetail";
+import StockChipGroup from "./component/stockChipGroup/StockChipGroup";
 import { Paper } from "@material-ui/core";
-import RecommendPortfolio from "./recommendPortfolio/RecommendPortfolio";
+import RecommendPortfolio from "./component/recommendPortfolio/RecommendPortfolio";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import EfficientFrontier from "./component/efficientFrontier/EfficientFrontier";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CreatePortfolio = () => {
+const CreatePage = () => {
   const classes = useStyles();
   let testList = [
     { name: "삼성", radio: 50 },
@@ -29,13 +29,13 @@ const CreatePortfolio = () => {
   const onChange = (name: string, value: number) => {
     let updateList = [...sharesHeldList];
     updateList = updateList.map((item) => {
-      console.log(item);
       return item.name !== name ? item : { name: item.name, radio: value };
     });
     setSharesHeldList(updateList);
   };
 
   const onAdd = (name: string) => {
+    if (sharesHeldList.find((item) => item.name === name)) return;
     let updateList = [...sharesHeldList];
     updateList.push({ name: name, radio: 10 });
     setSharesHeldList(updateList);
@@ -46,30 +46,20 @@ const CreatePortfolio = () => {
     updateList = updateList.filter((item) => {
       return item.name !== name;
     });
-
-    console.log(updateList);
     setSharesHeldList(updateList);
   };
 
   return (
     <>
       <Paper elevation={0} className={classes.root}>
-        <StockListLayout
-          stockList={sharesHeldList}
-          onChange={onChange}
-          onDelete={onDelete}
-          onAdd={onAdd}
-        />
+        <StockChipGroup stockList={sharesHeldList} onChange={onChange} onDelete={onDelete} onAdd={onAdd} />
         <Paper
           component="ul"
           style={{
             margin: "10px 10px 10px 10px",
           }}
         >
-          <div className="EfficientFrontier">
-            <EfficientFrontierChart />
-            <EfficientFrontierDetail />
-          </div>
+          <EfficientFrontier />
         </Paper>
         <RecommendPortfolio />
         {/* <ChartSlider
@@ -82,4 +72,4 @@ const CreatePortfolio = () => {
   );
 };
 
-export default CreatePortfolio;
+export default CreatePage;

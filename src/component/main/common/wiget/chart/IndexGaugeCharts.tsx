@@ -1,3 +1,4 @@
+import React from "react";
 import Plot from "react-plotly.js";
 
 const COLOR_CONFIG = {
@@ -54,13 +55,26 @@ const TITLE_LIST = {
   sharpe: "효율성",
 };
 
-function createGaugeConfig(value: number, position: number, type: "volatility" | "returns" | "sharpe"): Plotly.Data {
+function createGaugeConfig(
+  value: number,
+  position: number,
+  type: "volatility" | "returns" | "sharpe"
+): Plotly.Data {
   let color = undefined;
-  if (COLOR_CONFIG[type]["good"]["range"][0] <= value && value < COLOR_CONFIG[type]["good"]["range"][1]) {
+  if (
+    COLOR_CONFIG[type]["good"]["range"][0] <= value &&
+    value < COLOR_CONFIG[type]["good"]["range"][1]
+  ) {
     color = COLOR_CONFIG[type]["good"]["color"];
-  } else if (COLOR_CONFIG[type]["medium"]["range"][0] <= value && value < COLOR_CONFIG[type]["medium"]["range"][1]) {
+  } else if (
+    COLOR_CONFIG[type]["medium"]["range"][0] <= value &&
+    value < COLOR_CONFIG[type]["medium"]["range"][1]
+  ) {
     color = COLOR_CONFIG[type]["medium"]["color"];
-  } else if (COLOR_CONFIG[type]["bad"]["range"][0] <= value && value < COLOR_CONFIG[type]["bad"]["range"][1]) {
+  } else if (
+    COLOR_CONFIG[type]["bad"]["range"][0] <= value &&
+    value < COLOR_CONFIG[type]["bad"]["range"][1]
+  ) {
     color = COLOR_CONFIG[type]["bad"]["color"];
   } else {
     color = COLOR_CONFIG["default"]["color"];

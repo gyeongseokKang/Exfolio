@@ -2,6 +2,7 @@ import { Paper } from "@material-ui/core";
 import analysisPF from "./analysisPF.jpg";
 import createPF from "./createPF.png";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

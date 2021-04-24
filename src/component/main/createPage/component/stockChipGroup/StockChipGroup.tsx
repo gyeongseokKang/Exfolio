@@ -2,10 +2,10 @@ import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
-import AppleIcon from "@material-ui/icons/Apple";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { Popover } from "@material-ui/core";
 import axios from "axios";
+import SearchBarDialog from "./component/searchBarDialog/SearchBarDialog";
+import { Avatar } from "@material-ui/core";
 
 interface stockInfo {
   name: string;
@@ -32,6 +32,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     chip: {
       margin: theme.spacing(0.5),
+      "& .MuiChip-deleteIcon": {
+        visibility: "hidden",
+      },
+      "&:hover": {
+        "& .MuiChip-deleteIcon": {
+          visibility: "visible",
+        },
+      },
     },
     button: {
       width: "15%",
@@ -47,24 +55,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function StockListLayout(prop: StockListLayoutProp) {
+export default function StockChipGroup(prop: StockListLayoutProp) {
   const classes = useStyles();
 
   const handleDelete = (name: string) => () => {
     prop.onDelete(name);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
-    //prop.onAdd("애플");
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   const onApplyClick = () => {
@@ -91,42 +92,20 @@ export default function StockListLayout(prop: StockListLayoutProp) {
             margin: "10px 10px 10px 10px",
           }}
         >
-          {prop.stockList.map((item) => {
-            return (
-              <li key={item.name}>
-                <Chip
-                  icon={<AppleIcon />}
-                  label={item.name}
-                  onDelete={handleDelete(item.name)}
-                  className={classes.chip}
-                />
-              </li>
-            );
-          })}
-          <Chip
-            icon={<AddCircleIcon />}
-            label={"주식 추가"}
-            onClick={handleClick}
-            className={classes.chip}
-          />
-          <Popover
-            id={"search"}
-            open={open}
+          {prop.stockList.map((item) => (
+            <li key={item.name}>
+              <Chip avatar={<Avatar>주</Avatar>} label={item.name} onDelete={handleDelete(item.name)} className={classes.chip} />
+            </li>
+          ))}
+          <Chip icon={<AddCircleIcon />} label={"주식 추가"} onClick={handleClick} className={classes.chip} />
+          <SearchBarDialog
+            onOpen={open}
             anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-          >
-            <div style={{ width: "300px", height: "500px" }}>
-              ddddddddddddddddddddddddddddddddddd
-            </div>
-          </Popover>
+            setAnchorEl={setAnchorEl}
+            onAdd={prop.onAdd}
+            onDelete={prop.onDelete}
+            checkedList={prop.stockList}
+          />
         </Paper>
         <Paper component="ul" className={classes.button}>
           <div onClick={onApplyClick}>Apply</div>

@@ -1,6 +1,4 @@
 import React from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import CloseIcon from "@material-ui/icons/Close";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Checkbox } from "@material-ui/core";
 
@@ -22,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface SearchBarBodyProp {
-  onAdd(name: string): void;
+  onAdd(name: string, code: string): void;
   onDelete(name: string): void;
   filteredPosts: any;
 }
@@ -41,7 +39,11 @@ const SearchBarBody = ({ onAdd, onDelete, filteredPosts }: SearchBarBodyProp) =>
             id={StockData.name}
             style={{ paddingBottom: "1px" }}
             onClick={(e: any) => {
-              if (e.target.innerText.length > 0) onAdd(e.target.id.split("_")[0]);
+              if (e.target.innerText.length > 0) {
+                let codeElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_code`);
+                let nameElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_name`);
+                if (codeElement && nameElement) onAdd(nameElement.innerText, codeElement.innerText);
+              }
             }}
           >
             <div id={`${StockData.name}_code`} style={{ float: "left", width: "80px", fontSize: "0.8rem", color: "gray", paddingTop: "15px" }}>
@@ -56,7 +58,9 @@ const SearchBarBody = ({ onAdd, onDelete, filteredPosts }: SearchBarBodyProp) =>
               color="primary"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 if (e.target.checked) {
-                  onAdd(e.target.id);
+                  let codeElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_code`);
+                  let nameElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_name`);
+                  if (codeElement && nameElement) onAdd(nameElement.innerText, codeElement.innerText);
                 } else {
                   onDelete(e.target.id);
                 }

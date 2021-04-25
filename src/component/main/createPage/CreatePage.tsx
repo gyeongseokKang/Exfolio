@@ -34,21 +34,25 @@ function getSteps() {
 }
 
 function getStepContent(step: number) {
-  let testList = [{ name: "삼성전자", radio: 50 }];
+  let testList = [
+    { code: "5930", name: "삼성전자", weight: 50 },
+    { code: "6360", name: "GS건설", weight: 30 },
+    { code: "139480", name: "이마트", weight: 20 },
+  ];
   const [sharesHeldList, setSharesHeldList] = React.useState(testList);
 
   const onChange = (name: string, value: number) => {
     let updateList = [...sharesHeldList];
     updateList = updateList.map((item) => {
-      return item.name !== name ? item : { name: item.name, radio: value };
+      return item.name !== name ? item : { name: item.name, code: item.code, weight: value };
     });
     setSharesHeldList(updateList);
   };
 
-  const onAdd = (name: string) => {
-    if (sharesHeldList.find((item: { name: string }) => item.name === name)) return;
+  const onAdd = (name: string, code: string) => {
+    if (sharesHeldList.find((item: { name: string; code: string }) => item.name === name || item.code === code)) return;
     let updateList = [...sharesHeldList];
-    updateList.push({ name: name, radio: 10 });
+    updateList.push({ name: name, code: code, weight: 0 });
     setSharesHeldList(updateList);
   };
 
@@ -64,7 +68,7 @@ function getStepContent(step: number) {
     case 0:
       return <StockChipGroup stockList={sharesHeldList} onChange={onChange} onDelete={onDelete} onAdd={onAdd} />;
     case 1:
-      return <SelectedPortfolio />;
+      return <SelectedPortfolio stockList={sharesHeldList} />;
     case 2:
       return `Try out different ad text to see what brings in the most customers,
               and learn how to enhance your ads using features like ad extensions.

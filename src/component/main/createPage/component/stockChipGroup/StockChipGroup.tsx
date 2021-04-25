@@ -9,14 +9,15 @@ import { Avatar } from "@material-ui/core";
 
 interface stockInfo {
   name: string;
-  radio: number;
+  code: string;
+  weight: number;
 }
 
 interface StockListLayoutProp {
   stockList: stockInfo[];
   onChange(name: string, value: number): void;
   onDelete(name: string): void;
-  onAdd(name: string): void;
+  onAdd(name: string, code: string): void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -107,9 +108,9 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
             checkedList={prop.stockList}
           />
         </Paper>
-        <Paper component="ul" className={classes.button}>
+        {/* <Paper component="ul" className={classes.button}>
           <div onClick={onApplyClick}>Apply</div>
-        </Paper>
+        </Paper> */}
       </div>
     </>
   );

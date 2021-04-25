@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const filterPosts = (
   stockList: any, //{ type: "코스피" | "코스닥"; code: string; name: string }[],
   query: string,
-  checkedList: { name: string; radio: number }[]
+  checkedList: { name: string; code: string; weight: number }[]
 ) => {
   if (!query) {
     return [];
@@ -34,11 +34,12 @@ interface searchBarDialogProp {
   onOpen: boolean;
   anchorEl: HTMLButtonElement | null;
   setAnchorEl: (anchorEl: HTMLButtonElement | null) => void;
-  onAdd(name: string): void;
+  onAdd(name: string, code: string): void;
   onDelete(name: string): void;
   checkedList: {
     name: string;
-    radio: number;
+    code: string;
+    weight: number;
   }[];
 }
 

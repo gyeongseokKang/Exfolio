@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Popover, Checkbox } from "@material-ui/core";
+import { Popover } from "@material-ui/core";
 import SearchBarInput from "./component/SearchBarInput";
 import StockData from "./stockList.json";
 import SearchBarBody from "./component/SearchBarBody";
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const filterPosts = (
-  stockList: any, //{ type: "코스피" | "코스닥"; code: string; name: string }[],
+  stockList: { type: string; code: string; name: string }[],
   query: string,
   checkedList: { name: string; code: string; weight: number }[]
 ) => {
@@ -21,10 +21,12 @@ const filterPosts = (
     return [];
   }
   return stockList
-    .filter((stock: any) => {
-      return stock.type.includes(query) || stock.code.includes(query) || stock.name.toLowerCase().includes(query);
+    .filter((stock: { type: string; code: string; name: string }) => {
+      return (
+        stock.code.includes(query) || stock.name.toLowerCase().includes(query)
+      );
     })
-    .map((stock: any) => {
+    .map((stock: { type: string; code: string; name: string }) => {
       let checked = checkedList.some((item) => item.name === stock.name);
       return { ...stock, checked: checked };
     });
@@ -43,11 +45,22 @@ interface searchBarDialogProp {
   }[];
 }
 
-const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, checkedList }: searchBarDialogProp) => {
+const SearchBarDialog = ({
+  onOpen,
+  anchorEl,
+  setAnchorEl,
+  onAdd,
+  onDelete,
+  checkedList,
+}: searchBarDialogProp) => {
   const classes = useStyles();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const filteredPosts = filterPosts(StockData.stockList, searchQuery, checkedList);
+  const filteredPosts = filterPosts(
+    StockData.stockList,
+    searchQuery,
+    checkedList
+  );
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -72,8 +85,15 @@ const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, check
             style: { maxHeight: "500px", width: "300px" },
           }}
         >
-          <SearchBarInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-          <SearchBarBody onAdd={onAdd} onDelete={onDelete} filteredPosts={filteredPosts} />
+          <SearchBarInput
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          <SearchBarBody
+            onAdd={onAdd}
+            onDelete={onDelete}
+            filteredPosts={filteredPosts}
+          />
         </Popover>
       </div>
     </>

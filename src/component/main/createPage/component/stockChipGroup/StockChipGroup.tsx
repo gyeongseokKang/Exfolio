@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "left",
       flexWrap: "wrap",
       listStyle: "none",
       width: "100%",
@@ -63,7 +63,9 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
     prop.onDelete(name);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -95,10 +97,20 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
         >
           {prop.stockList.map((item) => (
             <li key={item.name}>
-              <Chip avatar={<Avatar>주</Avatar>} label={item.name} onDelete={handleDelete(item.name)} className={classes.chip} />
+              <Chip
+                avatar={<Avatar>주</Avatar>}
+                label={item.name}
+                onDelete={handleDelete(item.name)}
+                className={classes.chip}
+              />
             </li>
           ))}
-          <Chip icon={<AddCircleIcon />} label={"주식 추가"} onClick={handleClick} className={classes.chip} />
+          <Chip
+            icon={<AddCircleIcon />}
+            label={"주식 추가"}
+            onClick={handleClick}
+            className={classes.chip}
+          />
           <SearchBarDialog
             onOpen={open}
             anchorEl={anchorEl}

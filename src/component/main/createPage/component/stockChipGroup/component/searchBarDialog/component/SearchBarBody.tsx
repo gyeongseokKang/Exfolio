@@ -5,9 +5,7 @@ import { Checkbox } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
-      justifyContent: "center",
-      paddingTop: "10px",
+      padding: "10px",
     },
     input: {
       borderLeftWidth: "0px",
@@ -25,13 +23,18 @@ interface SearchBarBodyProp {
   filteredPosts: any;
 }
 
-const SearchBarBody = ({ onAdd, onDelete, filteredPosts }: SearchBarBodyProp) => {
+const SearchBarBody = ({
+  onAdd,
+  onDelete,
+  filteredPosts,
+}: SearchBarBodyProp) => {
+  const classes = useStyles();
   return (
     <>
-      <div className="matchedStockList" style={{ padding: "10px" }}>
+      <div className={classes.root}>
         <div style={{ borderBottom: "1px solid gold" }}>
           <div style={{ float: "left", width: "80px" }}>코드</div>
-          <div style={{ float: "left", width: "150px" }}>주식명</div>
+          <div style={{ float: "left", width: "130px" }}>주식명</div>
           <div>보유</div>
         </div>
         {filteredPosts.map((StockData: any) => (
@@ -40,16 +43,33 @@ const SearchBarBody = ({ onAdd, onDelete, filteredPosts }: SearchBarBodyProp) =>
             style={{ paddingBottom: "1px" }}
             onClick={(e: any) => {
               if (e.target.innerText.length > 0) {
-                let codeElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_code`);
-                let nameElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_name`);
-                if (codeElement && nameElement) onAdd(nameElement.innerText, codeElement.innerText);
+                let codeElement: HTMLElement | null = document.querySelector(
+                  `#${e.target.id.split("_")[0]}_code`
+                );
+                let nameElement: HTMLElement | null = document.querySelector(
+                  `#${e.target.id.split("_")[0]}_name`
+                );
+                if (codeElement && nameElement)
+                  onAdd(nameElement.innerText, codeElement.innerText);
               }
             }}
           >
-            <div id={`${StockData.name}_code`} style={{ float: "left", width: "80px", fontSize: "0.8rem", color: "gray", paddingTop: "15px" }}>
+            <div
+              id={`${StockData.name}_code`}
+              style={{
+                float: "left",
+                width: "80px",
+                fontSize: "0.8rem",
+                color: "gray",
+                paddingTop: "15px",
+              }}
+            >
               {StockData.code}
             </div>
-            <div id={`${StockData.name}_name`} style={{ float: "left", width: "150px", paddingTop: "12px" }}>
+            <div
+              id={`${StockData.name}_name`}
+              style={{ float: "left", width: "130px", paddingTop: "12px" }}
+            >
               {StockData.name}
             </div>
             <Checkbox
@@ -58,9 +78,14 @@ const SearchBarBody = ({ onAdd, onDelete, filteredPosts }: SearchBarBodyProp) =>
               color="primary"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 if (e.target.checked) {
-                  let codeElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_code`);
-                  let nameElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_name`);
-                  if (codeElement && nameElement) onAdd(nameElement.innerText, codeElement.innerText);
+                  let codeElement: HTMLElement | null = document.querySelector(
+                    `#${e.target.id.split("_")[0]}_code`
+                  );
+                  let nameElement: HTMLElement | null = document.querySelector(
+                    `#${e.target.id.split("_")[0]}_name`
+                  );
+                  if (codeElement && nameElement)
+                    onAdd(nameElement.innerText, codeElement.innerText);
                 } else {
                   onDelete(e.target.id);
                 }

@@ -57,7 +57,7 @@ interface PortfolioRatioProp {
   weights: any;
 }
 
-const PortfolioRatio = ({ weights, stockList }: PortfolioRatioProp) => {
+const PortfolioWeight = ({ weights, stockList }: PortfolioRatioProp) => {
   const classes = useStyles();
   const rows: Data[] = [];
   console.log(weights);
@@ -67,7 +67,10 @@ const PortfolioRatio = ({ weights, stockList }: PortfolioRatioProp) => {
   }
 
   return (
-    <div className="PortfolioRatio" style={{ width: "400px", paddingLeft: "50px" }}>
+    <div
+      className="PortfolioRatio"
+      style={{ width: "400px", paddingLeft: "50px" }}
+    >
       <h2>포트폴리오 비중</h2>
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
@@ -75,7 +78,11 @@ const PortfolioRatio = ({ weights, stockList }: PortfolioRatioProp) => {
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
-                  <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
                     {column.label}
                   </TableCell>
                 ))}
@@ -104,4 +111,4 @@ const PortfolioRatio = ({ weights, stockList }: PortfolioRatioProp) => {
   );
 };
 
-export default PortfolioRatio;
+export default PortfolioWeight;

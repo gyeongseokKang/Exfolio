@@ -1,6 +1,7 @@
 import React from "react";
 import PortfolioPerformance from "./component/PortfolioPerformance";
-import PortfolioRatio from "./component/PortfolioRatio";
+import PortfolioTabLayout from "./component/PortfolioTabLayout";
+import PortfolioWeight from "./component/PortfolioWeight";
 
 const testValue = {
   frontier: [
@@ -74,8 +75,13 @@ const SelectedPortfolio = ({ stockList }: SelectedPortfolioProp) => {
   return (
     <>
       <div className="SelectedPortfolio" style={{ display: "flex" }}>
-        <PortfolioPerformance returns={value.returns} risk={value.risk} sharpe={value.sharpe} />
-        <PortfolioRatio weights={value.weights} stockList={stockList} />
+        <PortfolioTabLayout />
+        <PortfolioPerformance
+          returns={value.returns}
+          risk={value.risk}
+          sharpe={value.sharpe}
+        />
+        <PortfolioWeight weights={value.weights} stockList={stockList} />
       </div>
     </>
   );

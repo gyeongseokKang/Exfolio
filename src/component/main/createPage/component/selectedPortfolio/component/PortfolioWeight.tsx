@@ -69,7 +69,11 @@ const PortfolioWeight = ({ weights, stockList }: PortfolioRatioProp) => {
   return (
     <div
       className="PortfolioRatio"
-      style={{ width: "400px", paddingLeft: "50px" }}
+      style={{
+        paddingLeft: "30px",
+        paddingRight: "30px",
+        paddingBottom: "10px",
+      }}
     >
       <h2>포트폴리오 비중</h2>
       <Paper className={classes.root}>

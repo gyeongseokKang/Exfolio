@@ -1,5 +1,5 @@
 import React from "react";
-import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
+import IndexGaugeCharts from "src/component/main/common/wiget/chart/IndexGaugeCharts";
 
 interface PortfolioPerformanceProp {
   returns: number;
@@ -17,21 +17,15 @@ interface PortfolioPerformanceProp {
 //     }
 // }
 
-const PortfolioPerformance = ({ returns, risk, sharpe }: PortfolioPerformanceProp) => {
-  returns = Math.floor(returns * 100);
-  risk = Math.floor(risk * 100);
-  sharpe = Math.floor(sharpe * 100);
+const PortfolioPerformance = ({
+  returns,
+  risk,
+  sharpe,
+}: PortfolioPerformanceProp) => {
   return (
     <>
-      <div className="PortfolioPerformance" style={{ width: "532px" }}>
-        <div style={{ width: "100%" }}>
-          <h2>Performance</h2>
-          <h3>Expected Annual Returns {returns}%</h3>
-          <h3>Expected Annual Risk {risk}%</h3>
-          <h3>Expected Annual sharpe {sharpe}</h3>
-        </div>
-        <PortfolioInfoCard volatility={returns} returns={risk} sharpe={sharpe} />
-      </div>
+      <h2>Performance</h2>
+      <IndexGaugeCharts volatility={returns} returns={risk} sharpe={sharpe} />
     </>
   );
 };

@@ -7,6 +7,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import TapEfficientFrontier from "./tapComponent/TapEfficientFrontier";
+import TapRecommendPortfolio from "./tapComponent/TapRecommendPortfolio";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,7 +46,7 @@ function a11yProps(index: any) {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 800,
+    width: 1000,
   },
 }));
 
@@ -91,7 +92,7 @@ export default function PortfolioTabLayout() {
           Efficient Frontier(ML Approach)
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Recommend Portfolio
+          <TapRecommendPortfolio />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
           Related ETF

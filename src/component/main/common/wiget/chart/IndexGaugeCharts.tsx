@@ -108,8 +108,8 @@ export default function IndexGaugeCharts({
   volatility,
   returns,
   sharpe,
-  height = 150,
-  width = 400,
+  height = 100,
+  width = 260,
 }: {
   volatility: number;
   returns: number;
@@ -117,6 +117,9 @@ export default function IndexGaugeCharts({
   height?: number;
   width?: number;
 }) {
+  returns = returns * 100;
+  volatility = volatility * 100;
+
   return (
     <Plot
       data={[

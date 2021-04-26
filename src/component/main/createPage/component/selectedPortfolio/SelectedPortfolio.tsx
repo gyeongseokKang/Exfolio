@@ -1,3 +1,4 @@
+import { Card } from "@material-ui/core";
 import React from "react";
 import PortfolioPerformance from "./component/PortfolioPerformance";
 import PortfolioTabLayout from "./component/PortfolioTabLayout";
@@ -75,13 +76,19 @@ const SelectedPortfolio = ({ stockList }: SelectedPortfolioProp) => {
   return (
     <>
       <div className="SelectedPortfolio" style={{ display: "flex" }}>
-        <PortfolioTabLayout />
-        <PortfolioPerformance
-          returns={value.returns}
-          risk={value.risk}
-          sharpe={value.sharpe}
-        />
-        <PortfolioWeight weights={value.weights} stockList={stockList} />
+        <div style={{ paddingRight: "20px" }}>
+          <PortfolioTabLayout />
+        </div>
+        <div>
+          <Card style={{ textAlign: "center" }}>
+            <PortfolioPerformance
+              returns={value.returns}
+              risk={value.risk}
+              sharpe={value.sharpe}
+            />
+            <PortfolioWeight weights={value.weights} stockList={stockList} />
+          </Card>
+        </div>
       </div>
     </>
   );

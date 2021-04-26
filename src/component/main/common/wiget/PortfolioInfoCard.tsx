@@ -13,18 +13,26 @@ export default function PortfolioInfoCard({
   returns,
   sharpe,
 }: {
-  values?: Array<number | string>;
-  labels?: Plotly.Datum[];
-  title?: string;
+  values: Array<number | string>;
+  labels: Plotly.Datum[];
+  title: string;
   volatility: number;
   returns: number;
   sharpe: number;
 }) {
   return (
-    <Card style={{ width: 532, textAlign: "center" }}>
+    <Card style={{ width: 280, textAlign: "center" }}>
       <CardContent>
-        {/* <StockWeightPieChart values={values} labels={labels} title={title}></StockWeightPieChart> */}
-        <IndexGaugeCharts sharpe={sharpe} returns={returns} volatility={volatility}></IndexGaugeCharts>
+        <StockWeightPieChart
+          values={values}
+          labels={labels}
+          title={title}
+        ></StockWeightPieChart>
+        <IndexGaugeCharts
+          sharpe={sharpe}
+          returns={returns}
+          volatility={volatility}
+        ></IndexGaugeCharts>
       </CardContent>
     </Card>
   );

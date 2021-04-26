@@ -24,11 +24,14 @@ export default function StockWeightPieChart({
           hoverinfo: "label+percent",
           textinfo: "label+percent",
           sort: false,
+          textposition: "inside",
+          insidetextorientation: "horizontal",
         },
       ]}
       layout={{
-        width: width,
-        height: height,
+        width: 250,
+        height: 300,
+        margin: { t: 30, b: 20, r: 0, l: 0 },
         showlegend: false,
         title: title,
       }}

@@ -8,15 +8,14 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "left",
       flexWrap: "wrap",
     },
-    paper: {},
     card: {
       boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       transition: "0.3s",
       maxWidth: "400px",
-      margin: "80px",
+      margin: "200px 120px 120px 120px",
       float: "left",
       "&:hover": {
         boxShadow: "0 16px 24px 0 rgba(172, 34, 34, 0.2)",

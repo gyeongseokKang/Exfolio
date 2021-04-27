@@ -49,8 +49,10 @@ const SearchBarBody = ({
                 let nameElement: HTMLElement | null = document.querySelector(
                   `#${e.target.id.split("_")[0]}_name`
                 );
-                if (codeElement && nameElement)
+                if (codeElement && nameElement) {
                   onAdd(nameElement.innerText, codeElement.innerText);
+                  console.log("클릭", nameElement.innerText);
+                }
               }
             }}
           >

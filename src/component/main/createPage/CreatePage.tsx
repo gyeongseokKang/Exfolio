@@ -33,40 +33,32 @@ function getSteps() {
   return ["Choose Stock", "Select Portfolio", "Confirm Portfolio"];
 }
 
-function getStepContent(step: number) {
-  let testList = [
-    { code: "5930", name: "삼성전자", weight: 50 },
-    { code: "6360", name: "GS건설", weight: 30 },
-    { code: "139480", name: "이마트", weight: 20 },
-  ];
-  const [sharesHeldList, setSharesHeldList] = React.useState(testList);
+interface stepContentProp {
+  step: number;
+  sharesHeldList: any;
+  onChange: (name: string, value: number) => void;
+  onDelete: (name: string) => void;
+  onAdd: (name: string, code: string) => void;
+}
 
-  const onChange = (name: string, value: number) => {
-    let updateList = [...sharesHeldList];
-    updateList = updateList.map((item) => {
-      return item.name !== name ? item : { name: item.name, code: item.code, weight: value };
-    });
-    setSharesHeldList(updateList);
-  };
-
-  const onAdd = (name: string, code: string) => {
-    if (sharesHeldList.find((item: { name: string; code: string }) => item.name === name || item.code === code)) return;
-    let updateList = [...sharesHeldList];
-    updateList.push({ name: name, code: code, weight: 0 });
-    setSharesHeldList(updateList);
-  };
-
-  const onDelete = (name: string) => {
-    let updateList = [...sharesHeldList];
-    updateList = updateList.filter((item) => {
-      return item.name !== name;
-    });
-    setSharesHeldList(updateList);
-  };
-
+function getStepContent({
+  step,
+  sharesHeldList,
+  onChange,
+  onDelete,
+  onAdd,
+}: stepContentProp) {
+  console.log(sharesHeldList);
   switch (step) {
     case 0:
-      return <StockChipGroup stockList={sharesHeldList} onChange={onChange} onDelete={onDelete} onAdd={onAdd} />;
+      return (
+        <StockChipGroup
+          stockList={sharesHeldList}
+          onChange={onChange}
+          onDelete={onDelete}
+          onAdd={onAdd}
+        />
+      );
     case 1:
       return <SelectedPortfolio stockList={sharesHeldList} />;
     case 2:
@@ -96,6 +88,41 @@ export default function VerticalLinearStepper() {
     setActiveStep(0);
   };
 
+  const [sharesHeldList, setSharesHeldList] = React.useState<
+    { name: string; code: string; weight: number }[]
+  >([]);
+
+  const onChange = (name: string, value: number) => {
+    let updateList = [...sharesHeldList];
+    updateList = updateList.map((item) => {
+      return item.name !== name
+        ? item
+        : { name: item.name, code: item.code, weight: value };
+    });
+    setSharesHeldList(updateList);
+  };
+
+  const onAdd = (name: string, code: string) => {
+    if (
+      sharesHeldList.find(
+        (item: { name: string; code: string }) =>
+          item.name === name || item.code === code
+      )
+    )
+      return;
+    let updateList = [...sharesHeldList];
+    updateList.push({ name: name, code: code, weight: 0 });
+    setSharesHeldList(updateList);
+  };
+
+  const onDelete = (name: string) => {
+    let updateList = [...sharesHeldList];
+    updateList = updateList.filter((item) => {
+      return item.name !== name;
+    });
+    setSharesHeldList(updateList);
+  };
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -103,13 +130,28 @@ export default function VerticalLinearStepper() {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              {getStepContent(index)}
+              {getStepContent({
+                step: index,
+                sharesHeldList,
+                onChange,
+                onDelete,
+                onAdd,
+              })}
               <div className={classes.actionsContainer}>
                 <div>
-                  <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className={classes.button}
+                  >
                     Back
                   </Button>
-                  <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
                     {activeStep === steps.length - 1 ? "Finish" : "Next"}
                   </Button>
                 </div>

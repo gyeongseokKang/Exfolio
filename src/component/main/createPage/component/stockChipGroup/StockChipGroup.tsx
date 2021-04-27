@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme: Theme) =>
       listStyle: "none",
       width: "100%",
       padding: theme.spacing(0.5),
-      margin: 0,
+      margin: "10px 10px 10px 10px",
+      maxWidth: "800px",
     },
     chip: {
       margin: theme.spacing(0.5),
@@ -43,14 +44,20 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     button: {
-      width: "15%",
+      width: "10%",
       margin: "10px 10px 10px 10px",
-      fontSize: "2rem",
+      fontSize: "1rem",
       fontWeight: "bold",
+      "& .MuiChip-icon": {
+        transition: "all 0.3s ease",
+      },
       "&:hover": {
-        background: "#f00",
+        background: "#B6EBFF",
         boxShadow: "0 16px 24px 0 rgba(172, 34, 34, 0.2)",
         cursor: "pointer",
+        "& .MuiChip-icon": {
+          transform: "rotate(90deg)",
+        },
       },
     },
   })
@@ -87,29 +94,26 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
 
   return (
     <>
-      <div style={{ display: "flex" }}>
-        <Paper
-          component="ul"
-          className={classes.root}
-          style={{
-            margin: "10px 10px 10px 10px",
-          }}
-        >
-          {prop.stockList.map((item) => (
-            <li key={item.name}>
-              <Chip
-                avatar={<Avatar>주</Avatar>}
-                label={item.name}
-                onDelete={handleDelete(item.name)}
-                className={classes.chip}
-              />
-            </li>
-          ))}
+      <div>
+        <Paper elevation={0} style={{ display: "flex" }}>
+          <Paper component="ul" className={classes.root}>
+            {prop.stockList.map((item) => (
+              <li key={item.name}>
+                <Chip
+                  avatar={<Avatar>S</Avatar>}
+                  label={item.name}
+                  onDelete={handleDelete(item.name)}
+                  className={classes.chip}
+                />
+              </li>
+            ))}
+          </Paper>
+
           <Chip
+            className={classes.button}
             icon={<AddCircleIcon />}
             label={"주식 추가"}
             onClick={handleClick}
-            className={classes.chip}
           />
           <SearchBarDialog
             onOpen={open}
@@ -120,9 +124,6 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
             checkedList={prop.stockList}
           />
         </Paper>
-        {/* <Paper component="ul" className={classes.button}>
-          <div onClick={onApplyClick}>Apply</div>
-        </Paper> */}
       </div>
     </>
   );

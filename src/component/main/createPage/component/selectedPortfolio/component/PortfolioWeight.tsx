@@ -8,6 +8,15 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+  },
+  container: {
+    maxHeight: 440,
+  },
+});
+
 interface Column {
   id: "name" | "code" | "weight";
   label: string;
@@ -31,20 +40,6 @@ interface Data {
   name: string;
   weight: number;
 }
-// weights: {
-//   현대차: 0.52242,
-//   GS건설: 0.47758,
-//   이마트: 0.0,
-// },
-
-const useStyles = makeStyles({
-  root: {
-    width: "100%",
-  },
-  container: {
-    maxHeight: 440,
-  },
-});
 
 interface stockInfo {
   name: string;
@@ -54,16 +49,24 @@ interface stockInfo {
 
 interface PortfolioRatioProp {
   stockList: stockInfo[];
-  weights: any;
+  weights: {
+    name: string[];
+    value: number[];
+  };
 }
 
 const PortfolioWeight = ({ weights, stockList }: PortfolioRatioProp) => {
   const classes = useStyles();
   const rows: Data[] = [];
   console.log(weights);
-  for (let key in weights) {
-    let code = stockList.find((item) => item.name === key)!.code;
-    rows.push({ code: code, name: key, weight: weights[key] });
+
+  for (let i = 0; i < weights.name.length; i++) {
+    let code = stockList.find((item) => item.name === weights.name[i])?.code;
+    rows.push({
+      code: code || "-",
+      name: weights.name[i],
+      weight: weights.value[i],
+    });
   }
 
   return (
@@ -95,7 +98,7 @@ const PortfolioWeight = ({ weights, stockList }: PortfolioRatioProp) => {
             <TableBody>
               {rows.map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

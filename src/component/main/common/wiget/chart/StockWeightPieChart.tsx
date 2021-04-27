@@ -5,8 +5,8 @@ export default function StockWeightPieChart({
   labels,
   values,
   title,
-  width = 500,
-  height = 500,
+  width = 250,
+  height = 280,
 }: {
   values: Array<number | string>;
   labels: Plotly.Datum[];
@@ -29,8 +29,8 @@ export default function StockWeightPieChart({
         },
       ]}
       layout={{
-        width: 250,
-        height: 300,
+        width: width,
+        height: height,
         margin: { t: 30, b: 20, r: 0, l: 0 },
         showlegend: false,
         title: title,

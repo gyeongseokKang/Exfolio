@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Card } from "@material-ui/core";
+import { Button, Card } from "@material-ui/core";
 import React from "react";
 import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
@@ -17,6 +17,10 @@ const useStyles = makeStyles((theme: Theme) =>
         height: 440,
       },
     },
+    selectButton: {
+      marginTop: "-70px",
+      marginLeft: "180px",
+    },
   })
 );
 
@@ -31,14 +35,21 @@ interface RRSW {
 }
 
 interface TapRecommendPortfolioProp {
+  min_risk?: RRSW;
+  max_returns?: RRSW;
+  max_sharpe?: RRSW;
+  handleType: (type: string) => void;
+}
+
+interface testTapRecommendPortfolioProp {
   min_risk: RRSW;
   max_returns: RRSW;
   max_sharpe: RRSW;
 }
 
-const TapRecommendPortfolio = () => {
+const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
   const classes = useStyles();
-  let specific: TapRecommendPortfolioProp = testSpecific;
+  let specific: testTapRecommendPortfolioProp = testSpecific;
   return (
     <>
       <div className={classes.root}>
@@ -51,6 +62,16 @@ const TapRecommendPortfolio = () => {
             returns={specific.min_risk.returns}
             sharpe={specific.min_risk.sharpe}
           />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.selectButton}
+            onClick={() => {
+              handleType("min_risk");
+            }}
+          >
+            Select
+          </Button>
         </Paper>
         <Paper elevation={0}>
           <PortfolioInfoCard
@@ -61,6 +82,16 @@ const TapRecommendPortfolio = () => {
             returns={specific.max_sharpe.returns}
             sharpe={specific.max_sharpe.sharpe}
           />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.selectButton}
+            onClick={() => {
+              handleType("max_sharpe");
+            }}
+          >
+            Select
+          </Button>
         </Paper>
         <Paper elevation={0}>
           <PortfolioInfoCard
@@ -71,6 +102,16 @@ const TapRecommendPortfolio = () => {
             returns={specific.max_returns.returns}
             sharpe={specific.max_returns.sharpe}
           />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.selectButton}
+            onClick={() => {
+              handleType("max_returns");
+            }}
+          >
+            Select
+          </Button>
         </Paper>
       </div>
     </>

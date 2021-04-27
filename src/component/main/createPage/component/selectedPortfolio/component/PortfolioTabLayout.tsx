@@ -50,7 +50,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function PortfolioTabLayout() {
+interface PortfolioTabLayoutProp {
+  handleType: (type: string) => void;
+}
+
+export default function PortfolioTabLayout({
+  handleType,
+}: PortfolioTabLayoutProp) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -92,7 +98,7 @@ export default function PortfolioTabLayout() {
           Efficient Frontier(ML Approach)
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <TapRecommendPortfolio />
+          <TapRecommendPortfolio handleType={handleType} />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
           Related ETF

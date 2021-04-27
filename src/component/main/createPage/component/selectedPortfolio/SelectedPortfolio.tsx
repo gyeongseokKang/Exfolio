@@ -1,4 +1,5 @@
-import { Card } from "@material-ui/core";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Card, CircularProgress } from "@material-ui/core";
 import React from "react";
 import PortfolioPerformance from "./component/PortfolioPerformance";
 import PortfolioTabLayout from "./component/PortfolioTabLayout";
@@ -33,9 +34,8 @@ const testValue = {
       risk: 0.28834593129772657,
       sharpe: 0.05961961644545211,
       weights: {
-        현대차: 0.33712,
-        GS건설: 0.18933,
-        이마트: 0.47355,
+        name: ["현대차", "GS건설", "이마트"],
+        value: [0.33712, 0.18933, 0.47355],
       },
     },
     max_returns: {
@@ -43,9 +43,8 @@ const testValue = {
       risk: 0.44396041383646057,
       sharpe: 0.37885237136114913,
       weights: {
-        현대차: 0.0,
-        GS건설: 1.0,
-        이마트: 0.0,
+        name: ["현대차", "GS건설", "이마트"],
+        value: [0, 1, 0],
       },
     },
     max_sharpe: {
@@ -53,9 +52,8 @@ const testValue = {
       risk: 0.34744185214581924,
       sharpe: 0.45008274937462234,
       weights: {
-        삼성전자: 0.33712,
-        GS건설: 0.18933,
-        이마트: 0.47355,
+        name: ["현대차", "GS건설", "이마트"],
+        value: [0.52242, 0.47758, 0.0],
       },
     },
   },
@@ -71,22 +69,72 @@ interface SelectedPortfolioProp {
   stockList: stockInfo[];
 }
 
+interface RRSW {
+  returns: number;
+  risk: number;
+  sharpe: number;
+  weights: {
+    name: string[];
+    value: number[];
+  };
+}
+
 const SelectedPortfolio = ({ stockList }: SelectedPortfolioProp) => {
+  console.log(stockList);
+  //여기서 axios로 연결
   const value = testValue.specific.max_sharpe;
+  const [selectedPF, setSelectedPF] = React.useState<RRSW>(
+    testValue.specific.max_sharpe
+  );
+  const [loading, setLoading] = React.useState(false);
+  const timer = React.useRef<number>();
+
+  const handleType = (type: string) => {
+    setLoading(true);
+    if (
+      type === "max_sharpe" ||
+      type === "max_returns" ||
+      type === "min_risk"
+    ) {
+      if (testValue.specific[type] === undefined) return;
+      setSelectedPF(testValue.specific[type]);
+      timer.current = window.setTimeout(() => {
+        setLoading(false);
+      }, 750);
+    }
+  };
+
   return (
     <>
       <div className="SelectedPortfolio" style={{ display: "flex" }}>
         <div style={{ paddingRight: "20px" }}>
-          <PortfolioTabLayout />
+          <PortfolioTabLayout handleType={handleType} />
         </div>
         <div>
           <Card style={{ textAlign: "center" }}>
-            <PortfolioPerformance
-              returns={value.returns}
-              risk={value.risk}
-              sharpe={value.sharpe}
-            />
-            <PortfolioWeight weights={value.weights} stockList={stockList} />
+            {!loading ? (
+              <>
+                <PortfolioPerformance
+                  returns={selectedPF.returns}
+                  risk={selectedPF.risk}
+                  sharpe={selectedPF.sharpe}
+                />
+                <PortfolioWeight
+                  weights={selectedPF.weights}
+                  stockList={stockList}
+                />
+              </>
+            ) : (
+              <Card
+                style={{
+                  textAlign: "center",
+                  width: "300px",
+                  height: "400px",
+                }}
+              >
+                <CircularProgress size={70} style={{ marginTop: "165px" }} />
+              </Card>
+            )}
           </Card>
         </div>
       </div>

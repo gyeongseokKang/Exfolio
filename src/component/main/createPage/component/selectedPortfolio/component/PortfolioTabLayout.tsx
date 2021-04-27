@@ -49,16 +49,24 @@ interface RRSW {
   risk: number;
   sharpe: number;
   weights: {
-    name: string[];
-    value: number[];
+    items: string[];
+    values: number[];
   };
 }
 
 interface PortfolioTabLayoutProp {
   handleType: (portfolio: RRSW) => void;
+  frontierData: {
+    frontier: RRSW[];
+    specific: {
+      max_returns: RRSW;
+      max_sharpe: RRSW;
+      min_risk: RRSW;
+    };
+  };
 }
 
-export default function PortfolioTabLayout({ handleType }: PortfolioTabLayoutProp) {
+export default function PortfolioTabLayout({ handleType, frontierData }: PortfolioTabLayoutProp) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -90,7 +98,7 @@ export default function PortfolioTabLayout({ handleType }: PortfolioTabLayoutPro
       </AppBar>
       <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <TapEfficientFrontier />
+          <TapEfficientFrontier handleType={handleType} frontierData={frontierData} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Efficient Frontier(ML Approach)

@@ -1,13 +1,67 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Card } from "@material-ui/core";
+import { Button, Card, Paper } from "@material-ui/core";
 import React from "react";
 import Plot from "react-plotly.js";
+import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
 
-const TapRecommend = () => {
+import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: "flex",
+      flexWrap: "wrap",
+      "& > *": {
+        margin: theme.spacing(1),
+        width: 300,
+        height: 440,
+      },
+    },
+    selectButton: {
+      marginTop: "-70px",
+      marginLeft: "180px",
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+    infoCard: {
+      transform: "rotate(0deg)",
+    },
+  })
+);
+
+interface TapEfficientFrontierProp {
+  handleType: (portfolio: RRSW) => void;
+  frontierData: {
+    frontier: RRSW[];
+    specific: {
+      max_returns: RRSW;
+      max_sharpe: RRSW;
+      min_risk: RRSW;
+    };
+  };
+}
+
+interface RRSW {
+  returns: number;
+  risk: number;
+  sharpe: number;
+  weights: {
+    items: string[];
+    values: number[];
+  };
+}
+
+const TapEfficientFrontier = ({ handleType, frontierData }: TapEfficientFrontierProp) => {
+  const classes = useStyles();
+  const [clickedPF, setClickedPF] = React.useState<RRSW>();
+  frontierData.frontier.forEach((item) => {
+    console.log("dd");
+  });
   return (
     <>
-      <Card style={{ height: "440px" }}>
-        <div style={{ float: "left", paddingRight: "50px" }}>
+      <div className={classes.root}>
+        <Paper className={classes.infoCard} elevation={0}>
           <Plot
             data={[
               {
@@ -34,35 +88,52 @@ const TapRecommend = () => {
             }}
             config={{ displayModeBar: false }}
           />
-        </div>
-        <div>
+        </Paper>
+        <Paper className={classes.infoCard} elevation={0}>
+          <PortfolioInfoCard
+            values={frontierData.specific.min_risk.weights.values}
+            labels={frontierData.specific.min_risk.weights.items}
+            title={"안정 중시형"}
+            volatility={frontierData.specific.min_risk.risk}
+            returns={frontierData.specific.min_risk.returns}
+            sharpe={frontierData.specific.min_risk.sharpe}
+          />
+          <Button
+            className={classes.selectButton}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              //handleType(specific.min_risk);
+            }}
+          >
+            Select
+          </Button>
+        </Paper>
+        <Paper className={classes.infoCard} elevation={0}>
           <Plot
             data={[
               {
-                z: [
-                  [30, 60, 1, -10, null],
-                  [30, 60, 1, null, 20],
-                  [30, 60, null, -10, 20],
-                  [20, null, 60, 80, 30],
-                  [null, 23, 30, 50, 1],
-                ],
-                x: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                y: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                type: "heatmap",
+                x: [1, 2, 3, 4],
+                y: [1, 5, 11, 16],
+                mode: "lines",
+                line: { shape: "spline" },
+                name: "Lines",
               },
             ]}
             layout={{
               margin: { t: 30, b: 30, r: 30, l: 30 },
               width: 300,
               height: 300,
-              title: "Risk Model",
+              showlegend: false,
+              title: "Back testing",
             }}
             config={{ displayModeBar: false }}
           />
-        </div>
-      </Card>
+          <div>해당 포트폴리오로 테스트해본 결과</div>
+        </Paper>
+      </div>
     </>
   );
 };
 
-export default TapRecommend;
+export default TapEfficientFrontier;

@@ -9,8 +9,8 @@ interface RRSW {
   risk: number;
   sharpe: number;
   weights: {
-    name: string[];
-    value: number[];
+    items: string[];
+    values: number[];
   };
 }
 

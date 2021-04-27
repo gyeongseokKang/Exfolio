@@ -35,8 +35,8 @@ interface RRSW {
   risk: number;
   sharpe: number;
   weights: {
-    name: string[];
-    value: number[];
+    items: string[];
+    values: number[];
   };
 }
 
@@ -62,8 +62,8 @@ const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
       <div className={classes.root}>
         <Paper className={classes.infoCard} elevation={0}>
           <PortfolioInfoCard
-            values={specific.min_risk.weights.value}
-            labels={specific.min_risk.weights.name}
+            values={specific.min_risk.weights.values}
+            labels={specific.min_risk.weights.items}
             title={"안정 중시형"}
             volatility={specific.min_risk.risk}
             returns={specific.min_risk.returns}
@@ -82,8 +82,8 @@ const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
         </Paper>
         <Paper className={classes.infoCard} elevation={0}>
           <PortfolioInfoCard
-            values={specific.max_sharpe.weights.value}
-            labels={specific.max_sharpe.weights.name}
+            values={specific.max_sharpe.weights.values}
+            labels={specific.max_sharpe.weights.items}
             title={"밸런스형"}
             volatility={specific.max_sharpe.risk}
             returns={specific.max_sharpe.returns}
@@ -102,8 +102,8 @@ const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
         </Paper>
         <Paper className={classes.infoCard} elevation={0}>
           <PortfolioInfoCard
-            values={specific.max_returns.weights.value}
-            labels={specific.max_returns.weights.name}
+            values={specific.max_returns.weights.values}
+            labels={specific.max_returns.weights.items}
             title={"수익 중시형"}
             volatility={specific.max_returns.risk}
             returns={specific.max_returns.returns}
@@ -128,31 +128,31 @@ const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
 export default TapRecommendPortfolio;
 
 let testSpecific = {
-  min_risk: {
-    returns: 0.037191073827577144,
-    risk: 0.28834593129772657,
-    sharpe: 0.05961961644545211,
-    weights: {
-      name: ["현대차", "GS건설", "이마트"],
-      value: [0.33712, 0.18933, 0.47355],
-    },
-  },
   max_returns: {
-    returns: 0.1881954555724202,
-    risk: 0.44396041383646057,
-    sharpe: 0.37885237136114913,
+    returns: 0.17909763448675378,
+    risk: 0.18606897117477664,
+    sharpe: 0.8550465640899988,
     weights: {
-      name: ["현대차", "GS건설", "이마트"],
-      value: [0, 1, 0],
+      items: ["현대차", "삼성전자", "SK텔레콤"],
+      values: [0.0, 1.0, 0.0],
     },
   },
   max_sharpe: {
-    returns: 0.17637758406160134,
-    risk: 0.34744185214581924,
-    sharpe: 0.45008274937462234,
+    returns: 0.1790976344867547,
+    risk: 0.18606897117477716,
+    sharpe: 0.8550465640900013,
     weights: {
-      name: ["현대차", "GS건설", "이마트"],
-      value: [0.52242, 0.47758, 0.0],
+      items: ["현대차", "삼성전자", "SK텔레콤"],
+      values: [0.0, 1.0, 0.0],
+    },
+  },
+  min_risk: {
+    returns: 0.12240824150775552,
+    risk: 0.12940595360772536,
+    sharpe: 0.791371947369521,
+    weights: {
+      items: ["현대차", "삼성전자", "SK텔레콤"],
+      values: [0.17079, 0.33698, 0.49222],
     },
   },
 };

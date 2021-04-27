@@ -45,8 +45,8 @@ interface RRSW {
   risk: number;
   sharpe: number;
   weights: {
-    name: string[];
-    value: number[];
+    items: string[];
+    values: number[];
   };
 }
 
@@ -105,7 +105,15 @@ export default function VerticalLinearStepper() {
     setSharesHeldList(updateList);
   };
 
-  const [selectedPF, setSelectedPF] = React.useState<RRSW>(testValue.specific.max_sharpe);
+  const [selectedPF, setSelectedPF] = React.useState<RRSW>({
+    returns: 0.17909763448675378,
+    risk: 0.18606897117477664,
+    sharpe: 0.8550465640899988,
+    weights: {
+      items: ["현대차", "삼성전자", "SK텔레콤"],
+      values: [0.3, 0.4, 0.3],
+    },
+  });
   const onChangeSelectedPF = (portfolio: RRSW) => {
     setSelectedPF(portfolio);
   };
@@ -151,57 +159,3 @@ export default function VerticalLinearStepper() {
     </div>
   );
 }
-
-const testValue = {
-  frontier: [
-    {
-      returns: 0.051261243550055346,
-      risk: 0.28900000025066935,
-      sharpe: 0.10817039281294236,
-      weights: {
-        현대차: 0.36153,
-        GS건설: 0.21322,
-        이마트: 0.42526,
-      },
-    },
-    {
-      returns: 0.05958551547020851,
-      risk: 0.29000000083810756,
-      sharpe: 0.13650177708898392,
-      weights: {
-        현대차: 0.37597,
-        GS건설: 0.22735,
-        이마트: 0.39669,
-      },
-    },
-  ],
-  specific: {
-    min_risk: {
-      returns: 0.037191073827577144,
-      risk: 0.28834593129772657,
-      sharpe: 0.05961961644545211,
-      weights: {
-        name: ["현대차", "GS건설", "이마트"],
-        value: [0.33712, 0.18933, 0.47355],
-      },
-    },
-    max_returns: {
-      returns: 0.1881954555724202,
-      risk: 0.44396041383646057,
-      sharpe: 0.37885237136114913,
-      weights: {
-        name: ["현대차", "GS건설", "이마트"],
-        value: [0, 1, 0],
-      },
-    },
-    max_sharpe: {
-      returns: 0.17637758406160134,
-      risk: 0.34744185214581924,
-      sharpe: 0.45008274937462234,
-      weights: {
-        name: ["현대차", "GS건설", "이마트"],
-        value: [0.52242, 0.47758, 0.0],
-      },
-    },
-  },
-};

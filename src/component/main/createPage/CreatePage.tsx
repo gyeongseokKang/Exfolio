@@ -50,10 +50,6 @@ interface RRSW {
   };
 }
 
-function getSteps() {
-  return ["Choose Stock", "Select Portfolio", "Confirm Portfolio"];
-}
-
 function getStepContent({ step, sharesHeldList, selectedPF, onChange, onDelete, onAdd, onChangeSelectedPF }: stepContentProp) {
   switch (step) {
     case 0:
@@ -70,7 +66,7 @@ function getStepContent({ step, sharesHeldList, selectedPF, onChange, onDelete, 
 export default function VerticalLinearStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+  const steps = ["Choose Stock", "Select Portfolio", "Confirm Portfolio"];
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

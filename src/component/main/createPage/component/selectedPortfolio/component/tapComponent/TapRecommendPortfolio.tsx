@@ -20,6 +20,12 @@ const useStyles = makeStyles((theme: Theme) =>
     selectButton: {
       marginTop: "-70px",
       marginLeft: "180px",
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+    infoCard: {
+      transform: "rotate(0deg)",
     },
   })
 );
@@ -38,7 +44,7 @@ interface TapRecommendPortfolioProp {
   min_risk?: RRSW;
   max_returns?: RRSW;
   max_sharpe?: RRSW;
-  handleType: (type: string) => void;
+  handleType: (portfolio: RRSW) => void;
 }
 
 interface testTapRecommendPortfolioProp {
@@ -50,10 +56,11 @@ interface testTapRecommendPortfolioProp {
 const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
   const classes = useStyles();
   let specific: testTapRecommendPortfolioProp = testSpecific;
+
   return (
     <>
       <div className={classes.root}>
-        <Paper elevation={0}>
+        <Paper className={classes.infoCard} elevation={0}>
           <PortfolioInfoCard
             values={specific.min_risk.weights.value}
             labels={specific.min_risk.weights.name}
@@ -67,13 +74,13 @@ const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
             color="primary"
             className={classes.selectButton}
             onClick={() => {
-              handleType("min_risk");
+              handleType(specific.min_risk);
             }}
           >
             Select
           </Button>
         </Paper>
-        <Paper elevation={0}>
+        <Paper className={classes.infoCard} elevation={0}>
           <PortfolioInfoCard
             values={specific.max_sharpe.weights.value}
             labels={specific.max_sharpe.weights.name}
@@ -87,13 +94,13 @@ const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
             color="primary"
             className={classes.selectButton}
             onClick={() => {
-              handleType("max_sharpe");
+              handleType(specific.max_sharpe);
             }}
           >
             Select
           </Button>
         </Paper>
-        <Paper elevation={0}>
+        <Paper className={classes.infoCard} elevation={0}>
           <PortfolioInfoCard
             values={specific.max_returns.weights.value}
             labels={specific.max_returns.weights.name}
@@ -107,7 +114,7 @@ const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
             color="primary"
             className={classes.selectButton}
             onClick={() => {
-              handleType("max_returns");
+              handleType(specific.max_returns);
             }}
           >
             Select

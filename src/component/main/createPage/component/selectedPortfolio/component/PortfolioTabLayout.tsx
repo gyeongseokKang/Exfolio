@@ -20,13 +20,7 @@ function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
+    <div role="tabpanel" hidden={value !== index} id={`full-width-tabpanel-${index}`} aria-labelledby={`full-width-tab-${index}`} {...other}>
       {value === index && (
         <Box p={3}>
           <Typography>{children}</Typography>
@@ -50,13 +44,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface PortfolioTabLayoutProp {
-  handleType: (type: string) => void;
+interface RRSW {
+  returns: number;
+  risk: number;
+  sharpe: number;
+  weights: {
+    name: string[];
+    value: number[];
+  };
 }
 
-export default function PortfolioTabLayout({
-  handleType,
-}: PortfolioTabLayoutProp) {
+interface PortfolioTabLayoutProp {
+  handleType: (portfolio: RRSW) => void;
+}
+
+export default function PortfolioTabLayout({ handleType }: PortfolioTabLayoutProp) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -86,11 +88,7 @@ export default function PortfolioTabLayout({
           <Tab label="Related ETF" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
+      <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
           <TapEfficientFrontier />
         </TabPanel>

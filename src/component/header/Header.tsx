@@ -2,33 +2,39 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import applogo from "./applogo.png"; //"@res/applogo.png";
 import React from "react";
+import HomeIcon from "@material-ui/icons/Home";
+import PostAddIcon from "@material-ui/icons/PostAdd";
+import FindInPageIcon from "@material-ui/icons/FindInPage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
-      paddingLeft: "100px",
-      height: "150px",
-      "& div": {
-        float: "left",
-      },
+      width: "250px",
+      backgroundColor: "#EEEEEE",
+      height: "100vh",
+      float: "left",
+      borderRadius: "0px 20px 20px 0px / 0px 20px 20px 0px",
       "& img": {
         width: "50px",
         height: "50px",
       },
     },
-    homepage: {
+    appName: {
       fontSize: "2rem",
-      float: "left",
       fontWeight: "bold",
     },
-    link: {
+    menu: {
       fontSize: "1rem",
-      float: "left",
-      padding: "10px",
       "& > *": {
-        padding: "5px",
-        color: "#509FD7",
+        paddingBottom: "40px",
+        paddingLeft: "20px",
+      },
+    },
+    link: {
+      color: "black",
+      textDecoration: "none",
+      "& div": {
+        paddingTop: "10px",
       },
     },
   })
@@ -37,19 +43,35 @@ const useStyles = makeStyles((theme: Theme) =>
 function Header({ history }: any) {
   const classes = useStyles();
   return (
-    <header className={classes.root}>
-      <div>
+    <div className={classes.root}>
+      <div style={{ paddingTop: "20px", paddingLeft: "20px" }}>
+        <img src={applogo} alt="logo" style={{ float: "left" }} />
+        <div className={classes.appName}>Dr.Folio</div>
+        <br></br>
+        <br></br>
+        <br></br>
+      </div>
+      <div className={classes.menu}>
         <div>
-          <img src={applogo} alt="logo" />
+          <Link className={classes.link} to="/">
+            <HomeIcon style={{ fontSize: 40, float: "left" }} />
+            <div> 메인 화면</div>
+          </Link>
         </div>
-        <div className={classes.homepage}>Dr.포폴</div>
-        <div className={classes.link}>
-          <Link to="/">홈</Link>
-          <Link to="/create">생성</Link>
-          <Link to="/analysis">분석</Link>
+        <div>
+          <Link className={classes.link} to="/create">
+            <PostAddIcon style={{ fontSize: 40, float: "left" }} />
+            <div> 생성 </div>
+          </Link>
+        </div>
+        <div>
+          <Link className={classes.link} to="/analysis">
+            <FindInPageIcon style={{ fontSize: 40, float: "left" }} />
+            <div> 분석 </div>
+          </Link>
         </div>
       </div>
-    </header>
+    </div>
   );
 }
 

@@ -54,26 +54,41 @@ interface RRSW {
 
 const TapEfficientFrontier = ({ handleType, frontierData }: TapEfficientFrontierProp) => {
   const classes = useStyles();
-  const [clickedPF, setClickedPF] = React.useState<RRSW>();
+  const [clickedPF, setClickedPF] = React.useState<RRSW>(frontierData.frontier[0]);
+
+  let frontierX: number[] = [];
+  let frontierY: number[] = [];
+  let specificX: number[] = [];
+  let specificY: number[] = [];
+
   frontierData.frontier.forEach((item) => {
-    console.log("dd");
+    frontierX.push(item.risk);
+    frontierY.push(item.returns);
   });
+  for (let key in frontierData.specific) {
+    if (key === "max_returns" || key === "max_sharpe" || key === "min_risk") {
+      specificX.push(frontierData.specific[key]!.risk);
+      specificY.push(frontierData.specific[key]!.returns);
+    }
+  }
+
   return (
     <>
       <div className={classes.root}>
         <Paper className={classes.infoCard} elevation={0}>
           <Plot
+            divId="clickedPFChart"
             data={[
               {
-                x: [2, 1, 3, 4],
-                y: [1, 5, 11, 16],
+                x: frontierX,
+                y: frontierY,
                 mode: "lines",
                 line: { shape: "spline" },
                 name: "Lines",
               },
               {
-                x: [1.5, 2, 3],
-                y: [10, 15, 13],
+                x: specificX,
+                y: specificY,
                 mode: "markers",
                 name: "Scatter",
                 marker: { size: 12, symbol: "star" },
@@ -87,23 +102,26 @@ const TapEfficientFrontier = ({ handleType, frontierData }: TapEfficientFrontier
               title: "EF Model",
             }}
             config={{ displayModeBar: false }}
+            onClick={(e: any) => {
+              setClickedPF(frontierData.frontier[e.points[0].pointIndex]);
+            }}
           />
         </Paper>
         <Paper className={classes.infoCard} elevation={0}>
           <PortfolioInfoCard
-            values={frontierData.specific.min_risk.weights.values}
-            labels={frontierData.specific.min_risk.weights.items}
-            title={"안정 중시형"}
-            volatility={frontierData.specific.min_risk.risk}
-            returns={frontierData.specific.min_risk.returns}
-            sharpe={frontierData.specific.min_risk.sharpe}
+            values={clickedPF.weights.values}
+            labels={clickedPF.weights.items}
+            title={"Clicked Model"}
+            volatility={clickedPF.risk}
+            returns={clickedPF.returns}
+            sharpe={clickedPF.sharpe}
           />
           <Button
             className={classes.selectButton}
             variant="contained"
             color="primary"
-            onClick={() => {
-              //handleType(specific.min_risk);
+            onClick={(e: any) => {
+              handleType(clickedPF);
             }}
           >
             Select

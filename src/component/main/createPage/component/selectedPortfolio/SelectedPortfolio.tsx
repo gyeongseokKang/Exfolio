@@ -27,7 +27,6 @@ interface RRSW {
 }
 
 const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
-  console.log(stockList);
   //여기서 axios로 연결
   let frontierData = testSpecific;
   const [loading, setLoading] = React.useState(false);

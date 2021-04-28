@@ -8,6 +8,9 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import TapEfficientFrontier from "./tapComponent/TapEfficientFrontier";
 import TapRecommendPortfolio from "./tapComponent/TapRecommendPortfolio";
+import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
+import { CircularProgress } from "@material-ui/core";
+import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,28 +45,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     width: 1000,
   },
+  loading: {
+    display: "flex",
+    height: "500px",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+  },
 }));
-
-interface RRSW {
-  returns: number;
-  risk: number;
-  sharpe: number;
-  weights: {
-    items: string[];
-    values: number[];
-  };
-}
 
 interface PortfolioTabLayoutProp {
   handleType: (portfolio: RRSW) => void;
-  frontierData: {
-    frontier: RRSW[];
-    specific: {
-      max_returns: RRSW;
-      max_sharpe: RRSW;
-      min_risk: RRSW;
-    };
-  };
+  frontierData: FrontierData | undefined;
 }
 
 export default function PortfolioTabLayout({ handleType, frontierData }: PortfolioTabLayoutProp) {
@@ -98,7 +91,13 @@ export default function PortfolioTabLayout({ handleType, frontierData }: Portfol
       </AppBar>
       <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <TapEfficientFrontier handleType={handleType} frontierData={frontierData} />
+          {frontierData !== undefined ? (
+            <TapEfficientFrontier handleType={handleType} frontierData={frontierData} />
+          ) : (
+            <>
+              <LoadingProgress height={500} description={"포트폴리오 분석중..."} />
+            </>
+          )}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Efficient Frontier(ML Approach)

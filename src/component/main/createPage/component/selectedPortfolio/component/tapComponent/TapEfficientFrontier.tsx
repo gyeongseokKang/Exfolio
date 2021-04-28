@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button, Card, Paper } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import Plot from "react-plotly.js";
 import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
 
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
+import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,29 +34,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface TapEfficientFrontierProp {
   handleType: (portfolio: RRSW) => void;
-  frontierData: {
-    frontier: RRSW[];
-    specific: {
-      max_returns: RRSW;
-      max_sharpe: RRSW;
-      min_risk: RRSW;
-    };
-  };
-}
-
-interface RRSW {
-  returns: number;
-  risk: number;
-  sharpe: number;
-  weights: {
-    items: string[];
-    values: number[];
-  };
+  frontierData: FrontierData;
 }
 
 const TapEfficientFrontier = ({ handleType, frontierData }: TapEfficientFrontierProp) => {
   const classes = useStyles();
-  const [clickedPF, setClickedPF] = React.useState<RRSW>(frontierData.frontier[0]);
+
+  const [clickedPF, setClickedPF] = useState<RRSW>(frontierData.frontier[0]);
 
   let frontierX: number[] = [];
   let frontierY: number[] = [];

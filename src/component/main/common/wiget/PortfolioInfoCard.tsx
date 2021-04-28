@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import IndexGaugeCharts from "./chart/IndexGaugeCharts";
 import StockWeightPieChart from "./chart/StockWeightPieChart";
@@ -23,16 +22,8 @@ export default function PortfolioInfoCard({
   return (
     <Card style={{ width: 280, textAlign: "center" }}>
       <CardContent>
-        <StockWeightPieChart
-          values={values}
-          labels={labels}
-          title={title}
-        ></StockWeightPieChart>
-        <IndexGaugeCharts
-          sharpe={sharpe}
-          returns={returns}
-          volatility={volatility}
-        ></IndexGaugeCharts>
+        <StockWeightPieChart values={values} labels={labels} title={title}></StockWeightPieChart>
+        <IndexGaugeCharts sharpe={sharpe} returns={returns} volatility={volatility}></IndexGaugeCharts>
       </CardContent>
     </Card>
   );

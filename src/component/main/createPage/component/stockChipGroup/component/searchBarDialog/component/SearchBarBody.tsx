@@ -23,11 +23,7 @@ interface SearchBarBodyProp {
   filteredPosts: any;
 }
 
-const SearchBarBody = ({
-  onAdd,
-  onDelete,
-  filteredPosts,
-}: SearchBarBodyProp) => {
+const SearchBarBody = ({ onAdd, onDelete, filteredPosts }: SearchBarBodyProp) => {
   const classes = useStyles();
   return (
     <>
@@ -43,15 +39,10 @@ const SearchBarBody = ({
             style={{ paddingBottom: "1px" }}
             onClick={(e: any) => {
               if (e.target.innerText.length > 0) {
-                let codeElement: HTMLElement | null = document.querySelector(
-                  `#${e.target.id.split("_")[0]}_code`
-                );
-                let nameElement: HTMLElement | null = document.querySelector(
-                  `#${e.target.id.split("_")[0]}_name`
-                );
+                let codeElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_code`);
+                let nameElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_name`);
                 if (codeElement && nameElement) {
                   onAdd(nameElement.innerText, codeElement.innerText);
-                  console.log("클릭", nameElement.innerText);
                 }
               }
             }}
@@ -68,10 +59,7 @@ const SearchBarBody = ({
             >
               {StockData.code}
             </div>
-            <div
-              id={`${StockData.name}_name`}
-              style={{ float: "left", width: "130px", paddingTop: "12px" }}
-            >
+            <div id={`${StockData.name}_name`} style={{ float: "left", width: "130px", paddingTop: "12px" }}>
               {StockData.name}
             </div>
             <Checkbox
@@ -80,14 +68,9 @@ const SearchBarBody = ({
               color="primary"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 if (e.target.checked) {
-                  let codeElement: HTMLElement | null = document.querySelector(
-                    `#${e.target.id.split("_")[0]}_code`
-                  );
-                  let nameElement: HTMLElement | null = document.querySelector(
-                    `#${e.target.id.split("_")[0]}_name`
-                  );
-                  if (codeElement && nameElement)
-                    onAdd(nameElement.innerText, codeElement.innerText);
+                  let codeElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_code`);
+                  let nameElement: HTMLElement | null = document.querySelector(`#${e.target.id.split("_")[0]}_name`);
+                  if (codeElement && nameElement) onAdd(nameElement.innerText, codeElement.innerText);
                 } else {
                   onDelete(e.target.id);
                 }

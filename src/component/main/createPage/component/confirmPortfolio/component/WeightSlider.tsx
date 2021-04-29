@@ -19,10 +19,9 @@ interface RatioSliderProp {
   onChange(name: string, value: number): void;
 }
 
-export default function RatioSlider(prop: RatioSliderProp) {
+export default function WeightSlider(prop: RatioSliderProp) {
   const classes = useStyles();
   const [value, setValue] = React.useState<number | string | Array<number | string>>(prop.value);
-
   const handleSliderChange = (event: any, newValue: number | number[]) => {
     setValue(newValue);
     prop.onChange(prop.name, Number(value));
@@ -31,12 +30,12 @@ export default function RatioSlider(prop: RatioSliderProp) {
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="center">
-        <Typography id="input-slider" gutterBottom>
+        <Typography id="input-slider" gutterBottom style={{ width: "100px", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
           {prop.name}
         </Typography>
         <Grid item xs>
           <Slider
-            value={typeof value === "number" ? value : 0}
+            value={typeof value === "number" ? prop.value : 0}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
             min={0}

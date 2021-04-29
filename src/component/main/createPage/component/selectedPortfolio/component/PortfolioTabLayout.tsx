@@ -103,7 +103,13 @@ export default function PortfolioTabLayout({ handleType, frontierData }: Portfol
           Efficient Frontier(ML Approach)
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <TapRecommendPortfolio handleType={handleType} />
+          {frontierData !== undefined ? (
+            <TapRecommendPortfolio handleType={handleType} recommnedData={frontierData.specific} />
+          ) : (
+            <>
+              <LoadingProgress height={500} description={"포트폴리오 분석중..."} />
+            </>
+          )}
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
           Related ETF

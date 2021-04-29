@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Dialog } from "@material-ui/core";
 import IndexGaugeCharts from "src/component/main/common/wiget/chart/IndexGaugeCharts";
 import Plot from "react-plotly.js";
+import { DiscreteAmount, getDiscreteAmount } from "src/service/getDiscreteAmount";
 
 const useStyles = makeStyles({
   root: {
@@ -22,17 +23,27 @@ const useStyles = makeStyles({
 
 interface ConfirmDialogProp {
   open: boolean;
-  selectedValue: string;
-  onClose: (value: string) => void;
+  finalWeightList: {
+    items: string[];
+    values: number[];
+  };
+  onClose: () => void;
 }
 
-export default function ConfirmDialog({ open, selectedValue, onClose }: ConfirmDialogProp) {
+export default function ConfirmDialog({ open, finalWeightList, onClose }: ConfirmDialogProp) {
   const classes = useStyles();
-
+  const [discreteAmount, setDiscreteAmount] = useState<DiscreteAmount>();
+  console.log(finalWeightList);
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
+  useEffect(() => {
+    getDiscreteAmount({ code: finalWeightList.items, weight: finalWeightList.values }).then((res) => {
+      setDiscreteAmount(res);
+    });
+  }, [finalWeightList]);
+  console.log(discreteAmount);
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <div className={classes.root}>

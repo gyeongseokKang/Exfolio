@@ -12,21 +12,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const filterPosts = (
-  stockList: { type: string; code: string; name: string }[],
-  query: string,
-  checkedList: { name: string; code: string; weight: number }[]
-) => {
+const filterPosts = (stockList: { code: string; name: string }[], query: string, checkedList: { name: string; code: string; weight: number }[]) => {
   if (!query) {
     return [];
   }
   return stockList
-    .filter((stock: { type: string; code: string; name: string }) => {
-      return (
-        stock.code.includes(query) || stock.name.toLowerCase().includes(query)
-      );
+    .filter((stock: { code: string; name: string }) => {
+      return stock.code.includes(query) || stock.name.toLowerCase().includes(query);
     })
-    .map((stock: { type: string; code: string; name: string }) => {
+    .map((stock: { code: string; name: string }) => {
       let checked = checkedList.some((item) => item.name === stock.name);
       return { ...stock, checked: checked };
     });
@@ -45,22 +39,11 @@ interface searchBarDialogProp {
   }[];
 }
 
-const SearchBarDialog = ({
-  onOpen,
-  anchorEl,
-  setAnchorEl,
-  onAdd,
-  onDelete,
-  checkedList,
-}: searchBarDialogProp) => {
+const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, checkedList }: searchBarDialogProp) => {
   const classes = useStyles();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const filteredPosts = filterPosts(
-    StockData.stockList,
-    searchQuery,
-    checkedList
-  );
+  const filteredPosts = filterPosts(StockData.stockList, searchQuery, checkedList);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -85,15 +68,8 @@ const SearchBarDialog = ({
             style: { maxHeight: "500px", width: "300px" },
           }}
         >
-          <SearchBarInput
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-          <SearchBarBody
-            onAdd={onAdd}
-            onDelete={onDelete}
-            filteredPosts={filteredPosts}
-          />
+          <SearchBarInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          <SearchBarBody onAdd={onAdd} onDelete={onDelete} filteredPosts={filteredPosts} />
         </Popover>
       </div>
     </>

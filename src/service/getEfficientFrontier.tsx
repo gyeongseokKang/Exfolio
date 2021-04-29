@@ -18,18 +18,33 @@ export interface FrontierData {
     min_risk: RRSW;
   };
 }
+interface stockInfo {
+  name: string;
+  code: string;
+  weight: number;
+}
 
-export async function getEfficientFrontier(stockList: any): Promise<any> {
-  // const result = await axios
-  //   .post(`http://192.168.175.140:5000/frontier`, {
+export async function getEfficientFrontier(stockList: stockInfo[]): Promise<FrontierData | undefined> {
+  let result: FrontierData | undefined = undefined;
+  // await axios({
+  //   method: "post",
+  //   url: "http://192.168.175.140:5000/frontier",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: JSON.stringify({
   //     mode: "original",
-  //     codes: ["005380", "005930", "017670"],
+  //     codes: stockList.map((item: stockInfo) => item.code),
+  //   }),
+  // })
+  //   .then(function (response) {
+  //     result = response.data;
   //   })
-  //   .then((res) => {
-  //     console.log(res);
+  //   .catch(function (error) {
+  //     console.log(error);
   //   });
-  await sleep(5000);
-  const result = testSpecific;
+  result = testSpecific;
+  //await sleep(2000);
   return result;
 }
 

@@ -41,9 +41,11 @@ interface RRSW {
 }
 
 interface TapRecommendPortfolioProp {
-  min_risk?: RRSW;
-  max_returns?: RRSW;
-  max_sharpe?: RRSW;
+  recommnedData: {
+    min_risk: RRSW;
+    max_returns: RRSW;
+    max_sharpe: RRSW;
+  };
   handleType: (portfolio: RRSW) => void;
 }
 
@@ -53,9 +55,9 @@ interface testTapRecommendPortfolioProp {
   max_sharpe: RRSW;
 }
 
-const TapRecommendPortfolio = ({ handleType }: TapRecommendPortfolioProp) => {
+const TapRecommendPortfolio = ({ handleType, recommnedData }: TapRecommendPortfolioProp) => {
   const classes = useStyles();
-  let specific: testTapRecommendPortfolioProp = testSpecific;
+  let specific: testTapRecommendPortfolioProp = recommnedData;
 
   return (
     <>

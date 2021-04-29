@@ -61,13 +61,14 @@ const ConfirmPortfolio = ({ selectedPF }: ConfirmPortfolioProp) => {
     setOpen(true);
   };
 
-  const handleClose = (value: string) => {
+  const handleClose = () => {
     setOpen(false);
   };
 
   const resetWeight = () => {
     setWeightList({ items: [...weightList.items], values: [...originalWeight] });
   };
+  console.log(weightList);
 
   return (
     <>
@@ -117,7 +118,7 @@ const ConfirmPortfolio = ({ selectedPF }: ConfirmPortfolioProp) => {
             >
               confirm
             </Button>
-            <ConfirmDialog selectedValue={"selectedValue"} open={open} onClose={handleClose} />
+            <ConfirmDialog finalWeightList={weightList} open={open} onClose={handleClose} />
           </div>
         </Card>
       </div>

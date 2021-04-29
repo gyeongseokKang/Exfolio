@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Card, CircularProgress } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
 import { FrontierData, getEfficientFrontier, RRSW } from "src/service/getEfficientFrontier";
@@ -20,9 +20,6 @@ interface SelectedPortfolioProp {
 }
 
 const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
-  getEfficientFrontier(stockList).then((res) => {
-    setFrontierData(res);
-  });
   const [frontierData, setFrontierData] = useState<FrontierData>();
   //let frontierData = testSpecific;
   const [loading, setLoading] = React.useState(false);
@@ -35,6 +32,12 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
       setLoading(false);
     }, 500);
   };
+  useEffect(() => {
+    console.log(stockList);
+    getEfficientFrontier(stockList).then((res) => {
+      setFrontierData(res);
+    });
+  }, [stockList]);
 
   return (
     <>

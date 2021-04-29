@@ -12,10 +12,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const filterPosts = (stockList: { code: string; name: string }[], query: string, checkedList: { name: string; code: string; weight: number }[]) => {
+const matchStock = (stockList: { code: string; name: string }[], query: string, checkedList: { name: string; code: string; weight: number }[]) => {
   if (!query) {
     return [];
   }
+
+  if (!isNaN(Number(query)) && query.length < 3) {
+    return [];
+  }
+
   return stockList
     .filter((stock: { code: string; name: string }) => {
       return stock.code.includes(query) || stock.name.toLowerCase().includes(query);
@@ -43,7 +48,7 @@ const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, check
   const classes = useStyles();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const filteredPosts = filterPosts(StockData.stockList, searchQuery, checkedList);
+  const matchedStocks = matchStock(StockData.stockList, searchQuery, checkedList);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -65,11 +70,11 @@ const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, check
             horizontal: "center",
           }}
           PaperProps={{
-            style: { maxHeight: "500px", width: "300px" },
+            style: { maxHeight: "610px", width: "320px" },
           }}
         >
           <SearchBarInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-          <SearchBarBody onAdd={onAdd} onDelete={onDelete} filteredPosts={filteredPosts} />
+          <SearchBarBody onAdd={onAdd} onDelete={onDelete} matchedStocks={matchedStocks} />
         </Popover>
       </div>
     </>

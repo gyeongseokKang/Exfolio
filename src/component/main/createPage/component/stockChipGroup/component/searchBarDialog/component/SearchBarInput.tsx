@@ -1,21 +1,26 @@
 import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
+import BackspaceIcon from "@material-ui/icons/Backspace";
 import CloseIcon from "@material-ui/icons/Close";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      position: "sticky",
+      top: "0",
       display: "flex",
       justifyContent: "center",
       paddingTop: "10px",
     },
     input: {
-      borderLeftWidth: "0px",
-      borderRightWidth: "0px",
-      borderTopWidth: "0px",
-      borderBottomWidth: "1px",
+      borderWidth: "0px 0px 1px 0px",
       borderBlockColor: "blue",
+    },
+    form: {
+      "&:focus-visible": {
+        backgroundColor: "red",
+      },
     },
   })
 );
@@ -30,8 +35,8 @@ const SearchBarInput = ({ searchQuery, setSearchQuery }: searchBarProp) => {
   return (
     <>
       <div className={classes.root}>
-        <SearchIcon style={{ float: "left" }} />
-        <form action="/" method="get" style={{ float: "left", paddingLeft: "20px", paddingRight: "20px" }}>
+        <SearchIcon fontSize={"small"} />
+        <form className={classes.form} action="/" method="get">
           <input
             autoComplete="off"
             className={classes.input}
@@ -39,11 +44,13 @@ const SearchBarInput = ({ searchQuery, setSearchQuery }: searchBarProp) => {
             onInput={(e: any) => setSearchQuery(e.target.value)}
             type="text"
             id="header-search"
-            placeholder="원하는 주식을 입력하세요"
+            placeholder="삼성전자 or 005930"
             name=""
           />
         </form>
-        <CloseIcon
+        <BackspaceIcon
+          fontSize={"small"}
+          style={{}}
           onClick={() => {
             setSearchQuery("");
           }}

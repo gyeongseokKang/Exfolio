@@ -21,7 +21,6 @@ interface SelectedPortfolioProp {
 
 const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
   const [frontierData, setFrontierData] = useState<FrontierData>();
-  //let frontierData = testSpecific;
   const [loading, setLoading] = React.useState(false);
   const timer = React.useRef<number>();
 

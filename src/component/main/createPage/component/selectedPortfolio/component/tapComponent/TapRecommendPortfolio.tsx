@@ -16,10 +16,12 @@ const useStyles = makeStyles((theme: Theme) =>
         width: 300,
         height: 440,
       },
+      position: "relative",
     },
     selectButton: {
-      marginTop: "-70px",
-      marginLeft: "180px",
+      position: "absolute",
+      bottom: "10px",
+      right: "25px",
       "&:hover": {
         cursor: "pointer",
       },

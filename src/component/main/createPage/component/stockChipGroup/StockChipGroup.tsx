@@ -5,7 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import axios from "axios";
 import SearchBarDialog from "./component/searchBarDialog/SearchBarDialog";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Button } from "@material-ui/core";
 
 interface stockInfo {
   name: string;
@@ -43,19 +43,30 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    placeHolderText: {
+      fontSize: "0.8rem",
+      color: "gray",
+      marginTop: "4px",
+      marginLeft: "10px",
+    },
     button: {
-      width: "10%",
       margin: "10px 10px 10px 10px",
+      padding: "0px 20px 0px 10px",
       fontSize: "1rem",
       fontWeight: "bold",
-      "& .MuiChip-icon": {
+      height: "2rem",
+      borderRadius: "10px",
+      "& .MuiSvgIcon-root": {
         transition: "all 0.3s ease",
+        marginRight: "10px",
       },
       "&:hover": {
-        background: "#B6EBFF",
-        boxShadow: "0 16px 24px 0 rgba(172, 34, 34, 0.2)",
+        color: "white",
+        fontWeight: "normal",
+        background: "#303F9F",
+        boxShadow: "0 8px 16px 0 rgba(172, 34, 34, 0.2)",
         cursor: "pointer",
-        "& .MuiChip-icon": {
+        "& .MuiSvgIcon-root": {
           transform: "rotate(90deg)",
         },
       },
@@ -70,26 +81,12 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
     prop.onDelete(name);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const onApplyClick = () => {
-    axios
-      .post("http://192.168.175.140:5000/frontier", {
-        codes: ["005380", "005930", "017670"],
-      })
-      .then((Response) => {
-        console.log(Response.data);
-      })
-      .catch((Error) => {
-        console.log(Error);
-      });
-  };
   const open = Boolean(anchorEl);
 
   return (
@@ -97,24 +94,17 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
       <div>
         <Paper elevation={0} style={{ display: "flex" }}>
           <Paper component="ul" className={classes.root}>
+            {prop.stockList.length === 0 ? <div className={classes.placeHolderText}>주식 추가 버튼을 클릭하여 주식을 추가하세요</div> : undefined}
             {prop.stockList.map((item) => (
               <li key={item.name}>
-                <Chip
-                  avatar={<Avatar>S</Avatar>}
-                  label={item.name}
-                  onDelete={handleDelete(item.name)}
-                  className={classes.chip}
-                />
+                <Chip avatar={<Avatar>S</Avatar>} label={item.name} onDelete={handleDelete(item.name)} className={classes.chip} />
               </li>
             ))}
           </Paper>
-
-          <Chip
-            className={classes.button}
-            icon={<AddCircleIcon />}
-            label={"주식 추가"}
-            onClick={handleClick}
-          />
+          <Button className={classes.button} variant="contained" size="small" onClick={handleClick}>
+            <AddCircleIcon />
+            주식 추가
+          </Button>
           <SearchBarDialog
             onOpen={open}
             anchorEl={anchorEl}

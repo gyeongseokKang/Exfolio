@@ -7,6 +7,7 @@ import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard
 
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
+import PortfolioInfoCardWithBtn from "src/component/main/common/wiget/PortfolioInfoCardWithBtn";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,11 +36,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface TapEfficientFrontierProp {
-  handleType: (portfolio: RRSW) => void;
+  handleSelectedPF: (portfolio: RRSW) => void;
   frontierData: FrontierData;
 }
 
-const TapEfficientFrontier = ({ handleType, frontierData }: TapEfficientFrontierProp) => {
+const TapEfficientFrontier = ({ handleSelectedPF, frontierData }: TapEfficientFrontierProp) => {
   const classes = useStyles();
 
   const [clickedPF, setClickedPF] = useState<RRSW>(frontierData.frontier[0]);
@@ -94,26 +95,7 @@ const TapEfficientFrontier = ({ handleType, frontierData }: TapEfficientFrontier
             }}
           />
         </Paper>
-        <Paper className={classes.infoCard} elevation={0}>
-          <PortfolioInfoCard
-            values={clickedPF.weights.values}
-            labels={clickedPF.weights.items}
-            title={"Clicked Model"}
-            volatility={clickedPF.risk}
-            returns={clickedPF.returns}
-            sharpe={clickedPF.sharpe}
-          />
-          <Button
-            className={classes.selectButton}
-            variant="contained"
-            color="primary"
-            onClick={(e: any) => {
-              handleType(clickedPF);
-            }}
-          >
-            Select
-          </Button>
-        </Paper>
+        <PortfolioInfoCardWithBtn title={"Clicked Model"} info={clickedPF} onPfClick={handleSelectedPF} />
         <Paper className={classes.infoCard} elevation={0}>
           <Plot
             data={[

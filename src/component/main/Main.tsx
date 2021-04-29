@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "100%",
         height: "400px",
       },
+      "& div": {
+        paddingTop: "10px",
+        fontWeight: 500,
+        fontFamily: "Noto Sans CJK KR",
+      },
     },
   })
 );

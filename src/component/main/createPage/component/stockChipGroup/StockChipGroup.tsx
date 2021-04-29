@@ -34,6 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     chip: {
       margin: theme.spacing(0.5),
+      fontWeight: 500,
+      fontFamily: "Noto Sans CJK KR",
       "& .MuiChip-deleteIcon": {
         visibility: "hidden",
       },
@@ -44,6 +46,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     placeHolderText: {
+      fontWeight: 500,
+      fontFamily: "Noto Sans CJK KR",
       fontSize: "0.8rem",
       color: "gray",
       marginTop: "4px",
@@ -52,10 +56,11 @@ const useStyles = makeStyles((theme: Theme) =>
     button: {
       margin: "10px 10px 10px 10px",
       padding: "0px 20px 0px 10px",
-      fontSize: "1rem",
-      fontWeight: "bold",
       height: "2rem",
       borderRadius: "10px",
+      fontSize: "1rem",
+      fontWeight: 500,
+      fontFamily: "Noto Sans CJK KR",
       "& .MuiSvgIcon-root": {
         transition: "all 0.3s ease",
         marginRight: "10px",

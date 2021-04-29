@@ -5,6 +5,7 @@ import React from "react";
 import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import PortfolioInfoCardWithBtn from "src/component/main/common/wiget/PortfolioInfoCardWithBtn";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     selectButton: {
       position: "absolute",
-      bottom: "10px",
+      bottom: "-15px",
       right: "25px",
       "&:hover": {
         cursor: "pointer",
@@ -48,7 +49,7 @@ interface TapRecommendPortfolioProp {
     max_returns: RRSW;
     max_sharpe: RRSW;
   };
-  handleType: (portfolio: RRSW) => void;
+  handleSelectedPF: (portfolio: RRSW) => void;
 }
 
 interface testTapRecommendPortfolioProp {
@@ -57,73 +58,16 @@ interface testTapRecommendPortfolioProp {
   max_sharpe: RRSW;
 }
 
-const TapRecommendPortfolio = ({ handleType, recommnedData }: TapRecommendPortfolioProp) => {
+const TapRecommendPortfolio = ({ handleSelectedPF, recommnedData }: TapRecommendPortfolioProp) => {
   const classes = useStyles();
   let specific: testTapRecommendPortfolioProp = recommnedData;
 
   return (
     <>
       <div className={classes.root}>
-        <Paper className={classes.infoCard} elevation={0}>
-          <PortfolioInfoCard
-            values={specific.min_risk.weights.values}
-            labels={specific.min_risk.weights.items}
-            title={"안정 중시형"}
-            volatility={specific.min_risk.risk}
-            returns={specific.min_risk.returns}
-            sharpe={specific.min_risk.sharpe}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.selectButton}
-            onClick={() => {
-              handleType(specific.min_risk);
-            }}
-          >
-            Select
-          </Button>
-        </Paper>
-        <Paper className={classes.infoCard} elevation={0}>
-          <PortfolioInfoCard
-            values={specific.max_sharpe.weights.values}
-            labels={specific.max_sharpe.weights.items}
-            title={"밸런스형"}
-            volatility={specific.max_sharpe.risk}
-            returns={specific.max_sharpe.returns}
-            sharpe={specific.max_sharpe.sharpe}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.selectButton}
-            onClick={() => {
-              handleType(specific.max_sharpe);
-            }}
-          >
-            Select
-          </Button>
-        </Paper>
-        <Paper className={classes.infoCard} elevation={0}>
-          <PortfolioInfoCard
-            values={specific.max_returns.weights.values}
-            labels={specific.max_returns.weights.items}
-            title={"수익 중시형"}
-            volatility={specific.max_returns.risk}
-            returns={specific.max_returns.returns}
-            sharpe={specific.max_returns.sharpe}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.selectButton}
-            onClick={() => {
-              handleType(specific.max_returns);
-            }}
-          >
-            Select
-          </Button>
-        </Paper>
+        <PortfolioInfoCardWithBtn title={"안정 중시형"} info={specific.min_risk} onPfClick={handleSelectedPF} />
+        <PortfolioInfoCardWithBtn title={"밸런스형"} info={specific.max_sharpe} onPfClick={handleSelectedPF} />
+        <PortfolioInfoCardWithBtn title={"수익 중시형"} info={specific.max_returns} onPfClick={handleSelectedPF} />
       </div>
     </>
   );

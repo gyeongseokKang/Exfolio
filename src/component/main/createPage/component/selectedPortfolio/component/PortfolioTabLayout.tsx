@@ -9,7 +9,6 @@ import Box from "@material-ui/core/Box";
 import TapEfficientFrontier from "./tapComponent/TapEfficientFrontier";
 import TapRecommendPortfolio from "./tapComponent/TapRecommendPortfolio";
 import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
-import { CircularProgress } from "@material-ui/core";
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 
 interface TabPanelProps {
@@ -44,6 +43,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: 1000,
+    "& span": {
+      fontSize: "1rem",
+      fontWeight: 500,
+      fontFamily: "Noto Sans CJK KR",
+    },
   },
   loading: {
     display: "flex",
@@ -55,11 +59,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface PortfolioTabLayoutProp {
-  handleType: (portfolio: RRSW) => void;
+  handleSelectedPF: (portfolio: RRSW) => void;
   frontierData: FrontierData | undefined;
 }
 
-export default function PortfolioTabLayout({ handleType, frontierData }: PortfolioTabLayoutProp) {
+export default function PortfolioTabLayout({ handleSelectedPF, frontierData }: PortfolioTabLayoutProp) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -83,16 +87,16 @@ export default function PortfolioTabLayout({ handleType, frontierData }: Portfol
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Efficient Frontier" {...a11yProps(0)} />
-          <Tab label="Efficient Frontier(ML Approach)" {...a11yProps(1)} />
-          <Tab label="Recommend Portfolio" {...a11yProps(2)} />
-          <Tab label="Related ETF" {...a11yProps(3)} />
+          <Tab label="리스크 vs. 보상" {...a11yProps(0)} />
+          <Tab label="(AI 기반) 리스크 vs. 보상" {...a11yProps(1)} />
+          <Tab label="Dr.폴리오 추천" {...a11yProps(2)} />
+          <Tab label="관련 ETF 추천" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
           {frontierData !== undefined ? (
-            <TapEfficientFrontier handleType={handleType} frontierData={frontierData} />
+            <TapEfficientFrontier handleSelectedPF={handleSelectedPF} frontierData={frontierData} />
           ) : (
             <>
               <LoadingProgress height={500} description={"포트폴리오 분석중..."} />
@@ -104,7 +108,7 @@ export default function PortfolioTabLayout({ handleType, frontierData }: Portfol
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           {frontierData !== undefined ? (
-            <TapRecommendPortfolio handleType={handleType} recommnedData={frontierData.specific} />
+            <TapRecommendPortfolio handleSelectedPF={handleSelectedPF} recommnedData={frontierData.specific} />
           ) : (
             <>
               <LoadingProgress height={500} description={"포트폴리오 분석중..."} />

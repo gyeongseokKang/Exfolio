@@ -8,8 +8,13 @@ const useStyles = makeStyles({
   root: {
     width: 250,
   },
-  input: {
-    width: 42,
+  stockName: {
+    fontWeight: 500,
+    fontFamily: "Noto Sans CJK KR",
+    width: "100px",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
   },
 });
 
@@ -30,7 +35,7 @@ export default function WeightSlider(prop: RatioSliderProp) {
   return (
     <div className={classes.root}>
       <Grid container spacing={2} alignItems="center">
-        <Typography id="input-slider" gutterBottom style={{ width: "100px", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
+        <Typography className={classes.stockName} id="input-slider" gutterBottom>
           {prop.name}
         </Typography>
         <Grid item xs>

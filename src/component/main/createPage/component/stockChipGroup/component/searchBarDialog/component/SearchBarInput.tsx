@@ -1,7 +1,5 @@
-import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import BackspaceIcon from "@material-ui/icons/Backspace";
-import CloseIcon from "@material-ui/icons/Close";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) =>

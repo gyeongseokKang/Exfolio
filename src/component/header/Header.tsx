@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
       textDecoration: "none",
       "& div": {
         paddingTop: "10px",
+        fontWeight: 500,
+        fontStyle: "normal",
+        fontFamily: "Noto Sans CJK KR",
       },
     },
   })
@@ -55,19 +58,19 @@ function Header({ history }: any) {
         <div>
           <Link className={classes.link} to="/">
             <HomeIcon style={{ fontSize: 40, float: "left" }} />
-            <div> 메인 화면</div>
+            <div>홈</div>
           </Link>
         </div>
         <div>
           <Link className={classes.link} to="/create">
             <PostAddIcon style={{ fontSize: 40, float: "left" }} />
-            <div> 생성 </div>
+            <div>생성</div>
           </Link>
         </div>
         <div>
           <Link className={classes.link} to="/analysis">
             <FindInPageIcon style={{ fontSize: 40, float: "left" }} />
-            <div> 분석 </div>
+            <div>분석</div>
           </Link>
         </div>
       </div>

@@ -8,6 +8,8 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       padding: "10px",
       position: "relative",
+      fontWeight: 500,
+      fontFamily: "Noto Sans CJK KR",
     },
     header: {
       borderBottom: "1px solid lavender",

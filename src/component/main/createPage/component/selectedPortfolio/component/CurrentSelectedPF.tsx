@@ -9,7 +9,7 @@ interface CurrentSelectedPFProp {
 const CurrentSelectedPF = ({ selectedPF }: CurrentSelectedPFProp) => {
   return (
     <>
-      <div style={{ fontWeight: "bold", fontSize: "1.5rem" }}>Selected PF</div>
+      <div style={{ fontWeight: 500, fontStyle: "normal", fontSize: "1.5rem", fontFamily: "Noto Sans CJK KR" }}>현재 포트폴리오</div>
       <PortfolioInfoCard
         values={selectedPF.weights.values}
         labels={selectedPF.weights.items}

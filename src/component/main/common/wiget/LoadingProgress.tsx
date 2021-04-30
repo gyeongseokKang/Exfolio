@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     flexDirection: "column",
     alignItems: "center",
+    fontSize: "1rem",
+    fontWeight: 500,
+    fontFamily: "Noto Sans CJK KR",
   },
 }));
 

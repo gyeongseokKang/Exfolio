@@ -57,7 +57,7 @@ function getStepContent({ step, sharesHeldList, selectedPF, onChange, onDelete, 
     case 1:
       return <SelectedPortfolio stockList={sharesHeldList} selectedPF={selectedPF} onChangeSelectedPF={onChangeSelectedPF} />;
     case 2:
-      return <ConfirmPortfolio selectedPF={selectedPF} />;
+      return <ConfirmPortfolio stockList={sharesHeldList} selectedPF={selectedPF} />;
     default:
       return "Unknown step";
   }

@@ -22,6 +22,7 @@ interface SelectedPortfolioProp {
 
 const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
   const [frontierData, setFrontierData] = useState<FrontierData>();
+  const [frontierAIData, setFrontierAIData] = useState<FrontierData>();
   const [similarETFData, setSimilarETFData] = useState<ETFData[]>();
   const [loading, setLoading] = React.useState(false);
   const timer = React.useRef<number>();
@@ -34,8 +35,11 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
     }, 500);
   };
   useEffect(() => {
-    getEfficientFrontier(stockList).then((res) => {
+    getEfficientFrontier(stockList, "semi_variance").then((res) => {
       setFrontierData(res);
+    });
+    getEfficientFrontier(stockList, "semi_absolute").then((res) => {
+      setFrontierAIData(res);
     });
     getSimilarETF(stockList).then((res) => {
       setSimilarETFData(res);
@@ -46,7 +50,13 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
     <>
       <div className="SelectedPortfolio" style={{ display: "flex" }}>
         <div style={{ paddingRight: "20px" }}>
-          <PortfolioTabLayout handleSelectedPF={handleSelectedPF} stockList={stockList} frontierData={frontierData} similarETFData={similarETFData} />
+          <PortfolioTabLayout
+            handleSelectedPF={handleSelectedPF}
+            stockList={stockList}
+            frontierData={frontierData}
+            frontierAIData={frontierAIData}
+            similarETFData={similarETFData}
+          />
         </div>
         <DoubleArrowIcon style={{ fontSize: "5rem", margin: "auto", marginLeft: "10px", marginRight: "10px" }} />
         <div>

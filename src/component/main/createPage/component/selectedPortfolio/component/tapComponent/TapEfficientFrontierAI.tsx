@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Paper } from "@material-ui/core";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
 import PortfolioInfoCardWithBtn from "src/component/main/common/wiget/PortfolioInfoCardWithBtn";
 import ErrorIcon from "@material-ui/icons/Error";
+import { BackTestData, getBackTest } from "src/service/getBackTest";
+import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,12 +55,15 @@ const useStyles = makeStyles((theme: Theme) =>
 interface TapEfficientFrontierAIProp {
   handleSelectedPF: (portfolio: RRSW) => void;
   frontierData: FrontierData;
+  stockList: { name: string; code: string; weight: number }[];
 }
 
-const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData }: TapEfficientFrontierAIProp) => {
+const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList }: TapEfficientFrontierAIProp) => {
   const classes = useStyles();
 
   const [clickedPF, setClickedPF] = useState<RRSW>(frontierData.frontier[0]);
+  const [backTest, setBackTest] = useState<BackTestData>();
+  const [testFinish, setTestFinish] = useState<Boolean>(false);
 
   let frontierX: number[] = [];
   let frontierY: number[] = [];
@@ -75,6 +80,17 @@ const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData }: TapEfficient
       specificY.push(frontierData.specific[key]!.returns);
     }
   }
+  useEffect(() => {
+    setTestFinish(false);
+    let codeList = clickedPF.weights.items.map((item) => {
+      return stockList.find((target) => (target.name === item ? target.code : ""))?.code || "";
+    });
+
+    getBackTest({ code: codeList, weight: clickedPF.weights.values }).then((res) => {
+      setBackTest(res);
+      setTestFinish(true);
+    });
+  }, [clickedPF, stockList]);
 
   return (
     <>
@@ -134,32 +150,43 @@ const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData }: TapEfficient
           </Paper>
           <Paper className={classes.infoCard} elevation={0}>
             <div>모델 실행 결과</div>
-            <Plot
-              data={[
-                {
-                  x: [1, 2, 3, 4],
-                  y: [1, 5, 11, 16],
-                  mode: "lines",
-                  line: { shape: "spline" },
-                  name: "Lines",
-                },
-              ]}
-              layout={{
-                margin: { t: 0, b: 10, r: 0, l: 10 },
-                width: 300,
-                height: 300,
-                xaxis: {
-                  showticklabels: false,
-                  title: "날짜",
-                },
-                yaxis: {
-                  showticklabels: false,
-                  title: "날짜",
-                },
-                showlegend: false,
-              }}
-              config={{ displayModeBar: false }}
-            />
+            {testFinish && backTest !== undefined ? (
+              <>
+                <br />
+                <div style={{ fontSize: "1.0rem" }}> {backTest.days[0]} 시작 금액 : 1000만원</div>
+                <div style={{ fontSize: "1.0rem" }}>
+                  {backTest.days[backTest.days.length - 1]} 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원
+                </div>
+                <Plot
+                  data={[
+                    {
+                      x: backTest.days,
+                      y: backTest.values.map((item) => Math.round(item * 1000)),
+                      mode: "lines",
+                      line: { shape: "spline" },
+                      name: "Lines",
+                    },
+                  ]}
+                  layout={{
+                    margin: { t: 0, b: 30, r: 50, l: 0 },
+                    width: 300,
+                    height: 200,
+                    showlegend: false,
+                    xaxis: {
+                      tickformat: "%Y %b %d",
+                    },
+                    yaxis: {
+                      side: "right",
+                    },
+                  }}
+                  config={{ displayModeBar: false }}
+                />
+              </>
+            ) : (
+              <div>
+                <LoadingProgress width={300} height={300} description={"테스트 분석중..."} />
+              </div>
+            )}
           </Paper>
           <div className={classes.description}>
             &nbsp;

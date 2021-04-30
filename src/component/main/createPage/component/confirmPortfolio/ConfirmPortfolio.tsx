@@ -16,6 +16,14 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "10px 100px 100px 100px",
       position: "relative",
     },
+    stockSlider: {
+      float: "left",
+      paddingLeft: "80px",
+      paddingRight: "10px",
+      maxHeight: "300px",
+      overflowY: "scroll",
+      overflowX: "hidden",
+    },
     button: {
       fontWeight: 500,
       fontFamily: "Noto Sans CJK KR",
@@ -31,13 +39,32 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    "@global": {
+      "*::-webkit-scrollbar": {
+        width: "0.4em",
+      },
+      "*::-webkit-scrollbar-track": {
+        "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+      },
+      "*::-webkit-scrollbar-thumb": {
+        backgroundColor: "#2E2E2E",
+        outline: "1px solid #E6E6FF",
+        borderRadius: "20px",
+      },
+    },
   })
 );
 
 interface ConfirmPortfolioProp {
   selectedPF: RRSW;
+  stockList: stockInfo[];
 }
 
+interface stockInfo {
+  name: string;
+  code: string;
+  weight: number;
+}
 interface RRSW {
   returns: number;
   risk: number;
@@ -48,7 +75,7 @@ interface RRSW {
   };
 }
 
-const ConfirmPortfolio = ({ selectedPF }: ConfirmPortfolioProp) => {
+const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
   const classes = useStyles();
   const originalWeight: number[] = [...selectedPF.weights.values];
   const [weightList, setWeightList] = useState({ items: [...selectedPF.weights.items], values: [...selectedPF.weights.values] });
@@ -70,7 +97,6 @@ const ConfirmPortfolio = ({ selectedPF }: ConfirmPortfolioProp) => {
   const resetWeight = () => {
     setWeightList({ items: [...weightList.items], values: [...originalWeight] });
   };
-  console.log(weightList);
 
   return (
     <>
@@ -107,7 +133,7 @@ const ConfirmPortfolio = ({ selectedPF }: ConfirmPortfolioProp) => {
             <Button className={classes.button} style={{ float: "right", marginRight: "60px" }} onClick={resetWeight}>
               <RefreshIcon /> 되돌리기
             </Button>
-            <div style={{ float: "left", paddingLeft: "80px" }}>
+            <div className={classes.stockSlider}>
               {weightList.values.map((value, index) => {
                 return <WeightSlider name={weightList.items[index]} value={value} key={weightList.items[index]} onChange={onChange} />;
               })}
@@ -121,7 +147,7 @@ const ConfirmPortfolio = ({ selectedPF }: ConfirmPortfolioProp) => {
             >
               confirm
             </Button>
-            <ConfirmDialog finalWeightList={weightList} open={open} onClose={handleClose} />
+            <ConfirmDialog stockList={stockList} finalWeightList={weightList} open={open} onClose={handleClose} />
           </div>
         </Card>
       </div>

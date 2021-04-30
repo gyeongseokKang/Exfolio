@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: "wrap",
       "& > *": {
         margin: "auto",
-
         fontSize: "1rem",
         fontWeight: 500,
         fontFamily: "Noto Sans CJK KR",
@@ -48,7 +47,6 @@ interface TapSimilarETFProp {
 const TapSimilarETF = ({ handleSelectedPF, stockList, similarETFData }: TapSimilarETFProp) => {
   const classes = useStyles();
   let similarETF: ETFData[] = similarETFData;
-  console.log(similarETF, stockList);
   return (
     <>
       <div className={classes.root}>
@@ -63,14 +61,14 @@ const TapSimilarETF = ({ handleSelectedPF, stockList, similarETFData }: TapSimil
                   return item.name;
                 }),
                 values: item.info.map((item) => {
-                  return Number(item.percent);
+                  return Number((Number(item.percent) / 100).toFixed(2));
                 }),
               },
             };
-            let matchedList = stockList.filter((item) => {
-              return info.weights.items.includes(item.name);
-            });
-            console.log(matchedList);
+            // 포함하고 있는 주식만 구하는 로직
+            // let matchedList = stockList.filter((item) => {
+            //   return info.weights.items.includes(item.name);
+            // });
             return (
               <div className={classes.content} key={item.name} style={{ backgroundColor: "white" }}>
                 <PortfolioInfoCardWithBtn title={item.name} info={info} onPfClick={handleSelectedPF} />

@@ -65,10 +65,11 @@ interface PortfolioTabLayoutProp {
   stockList: { name: string; code: string; weight: number }[];
   handleSelectedPF: (portfolio: RRSW) => void;
   frontierData: FrontierData | undefined;
+  frontierAIData: FrontierData | undefined;
   similarETFData: ETFData[] | undefined;
 }
 
-export default function PortfolioTabLayout({ stockList, frontierData, similarETFData, handleSelectedPF }: PortfolioTabLayoutProp) {
+export default function PortfolioTabLayout({ stockList, frontierData, frontierAIData, similarETFData, handleSelectedPF }: PortfolioTabLayoutProp) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -101,7 +102,7 @@ export default function PortfolioTabLayout({ stockList, frontierData, similarETF
       <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
           {frontierData !== undefined ? (
-            <TapEfficientFrontier handleSelectedPF={handleSelectedPF} frontierData={frontierData} />
+            <TapEfficientFrontier handleSelectedPF={handleSelectedPF} frontierData={frontierData} stockList={stockList} />
           ) : (
             <>
               <LoadingProgress height={500} description={"포트폴리오 분석중..."} />
@@ -109,8 +110,8 @@ export default function PortfolioTabLayout({ stockList, frontierData, similarETF
           )}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          {frontierData !== undefined ? (
-            <TapEfficientFrontierAI handleSelectedPF={handleSelectedPF} frontierData={frontierData} />
+          {frontierAIData !== undefined ? (
+            <TapEfficientFrontierAI handleSelectedPF={handleSelectedPF} frontierData={frontierAIData} stockList={stockList} />
           ) : (
             <>
               <LoadingProgress height={500} description={"AI 분석중..."} />

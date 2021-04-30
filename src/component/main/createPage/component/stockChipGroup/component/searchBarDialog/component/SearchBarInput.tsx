@@ -1,23 +1,38 @@
 import SearchIcon from "@material-ui/icons/Search";
-import BackspaceIcon from "@material-ui/icons/Backspace";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      position: "sticky",
-      top: "0",
       display: "flex",
+      float: "left",
       justifyContent: "center",
       paddingTop: "10px",
+      paddingLeft: "10px",
     },
     input: {
       borderWidth: "0px 0px 1px 0px",
       borderBlockColor: "blue",
+      marginLeft: "-20px",
+      marginRight: "-20px",
+      paddingLeft: "20px",
+      paddingRight: "70px",
+      fontWeight: 500,
+      fontFamily: "Noto Sans CJK KR",
+      zIndex: 10,
+      "&:hover": {
+        background: "#E0E0E0",
+        cursor: "pointer",
+      },
     },
-    form: {
-      "&:focus-visible": {
-        backgroundColor: "red",
+    closeIcon: {
+      marginTop: "2px",
+      transition: "all 0.3s ease",
+      "&:hover": {
+        cursor: "pointer",
+        transform: "rotate(90deg)",
       },
     },
   })
@@ -33,8 +48,8 @@ const SearchBarInput = ({ searchQuery, setSearchQuery }: searchBarProp) => {
   return (
     <>
       <div className={classes.root}>
-        <SearchIcon fontSize={"small"} />
-        <form className={classes.form} action="/" method="get">
+        <SearchIcon fontSize={"small"} style={{ marginTop: "2px", zIndex: 11 }} />
+        <form action="/" method="get">
           <input
             autoComplete="off"
             className={classes.input}
@@ -46,9 +61,9 @@ const SearchBarInput = ({ searchQuery, setSearchQuery }: searchBarProp) => {
             name=""
           />
         </form>
-        <BackspaceIcon
+        <HighlightOffIcon
+          className={classes.closeIcon}
           fontSize={"small"}
-          style={{}}
           onClick={() => {
             setSearchQuery("");
           }}

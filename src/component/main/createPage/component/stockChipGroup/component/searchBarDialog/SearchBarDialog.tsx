@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Popover } from "@material-ui/core";
+import { Button, Popover } from "@material-ui/core";
 import SearchBarInput from "./component/SearchBarInput";
 import StockData from "./stockList.json";
 import SearchBarBody from "./component/SearchBarBody";
@@ -9,6 +9,13 @@ import SearchBarBody from "./component/SearchBarBody";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {},
+    searchInput: {},
+    closeBtn: {
+      marginTop: "5px",
+      fontSize: "0.8rem",
+      fontWeight: 500,
+      fontFamily: "Noto Sans CJK KR",
+    },
   })
 );
 
@@ -55,28 +62,35 @@ const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, check
 
   return (
     <>
-      <div className={classes.root}>
-        <Popover
-          id={"search"}
-          open={onOpen}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          PaperProps={{
-            style: { maxHeight: "610px", width: "320px" },
+      <Popover
+        id={"search"}
+        open={onOpen}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        PaperProps={{
+          style: { maxHeight: "610px", width: "320px" },
+        }}
+      >
+        <SearchBarInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <Button
+          className={classes.closeBtn}
+          onClick={() => {
+            handleClose();
           }}
         >
-          <SearchBarInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-          <SearchBarBody onAdd={onAdd} onDelete={onDelete} matchedStocks={matchedStocks} />
-        </Popover>
-      </div>
+          닫기
+        </Button>
+
+        <SearchBarBody onAdd={onAdd} onDelete={onDelete} matchedStocks={matchedStocks} />
+      </Popover>
     </>
   );
 };

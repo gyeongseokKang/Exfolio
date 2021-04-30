@@ -10,6 +10,9 @@ import TapEfficientFrontier from "./tapComponent/TapEfficientFrontier";
 import TapRecommendPortfolio from "./tapComponent/TapRecommendPortfolio";
 import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
+import TapEfficientFrontierAI from "./tapComponent/TapEfficientFrontierAI";
+import { ETFData } from "src/service/getSimilarETF";
+import TapSimilarETF from "./tapComponent/TapSimilarETF";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,11 +62,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface PortfolioTabLayoutProp {
+  stockList: { name: string; code: string; weight: number }[];
   handleSelectedPF: (portfolio: RRSW) => void;
   frontierData: FrontierData | undefined;
+  similarETFData: ETFData[] | undefined;
 }
 
-export default function PortfolioTabLayout({ handleSelectedPF, frontierData }: PortfolioTabLayoutProp) {
+export default function PortfolioTabLayout({ stockList, frontierData, similarETFData, handleSelectedPF }: PortfolioTabLayoutProp) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -104,19 +109,31 @@ export default function PortfolioTabLayout({ handleSelectedPF, frontierData }: P
           )}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Efficient Frontier(ML Approach)
+          {frontierData !== undefined ? (
+            <TapEfficientFrontierAI handleSelectedPF={handleSelectedPF} frontierData={frontierData} />
+          ) : (
+            <>
+              <LoadingProgress height={500} description={"AI 분석중..."} />
+            </>
+          )}
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           {frontierData !== undefined ? (
             <TapRecommendPortfolio handleSelectedPF={handleSelectedPF} recommnedData={frontierData.specific} />
           ) : (
             <>
-              <LoadingProgress height={500} description={"포트폴리오 분석중..."} />
+              <LoadingProgress height={500} description={"Dr.폴리오 추천중..."} />
             </>
           )}
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          Related ETF
+          {similarETFData !== undefined ? (
+            <TapSimilarETF handleSelectedPF={handleSelectedPF} similarETFData={similarETFData} stockList={stockList} />
+          ) : (
+            <>
+              <LoadingProgress height={500} description={"ETF 분석중..."} />
+            </>
+          )}
         </TabPanel>
       </SwipeableViews>
     </div>

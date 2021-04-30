@@ -5,6 +5,8 @@ import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 import { FrontierData, getEfficientFrontier, RRSW } from "src/service/getEfficientFrontier";
 import CurrentSelectedPF from "./component/CurrentSelectedPF";
 import PortfolioTabLayout from "./component/PortfolioTabLayout";
+import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
+import { ETFData, getSimilarETF } from "src/service/getSimilarETF";
 
 interface stockInfo {
   name: string;
@@ -20,6 +22,7 @@ interface SelectedPortfolioProp {
 
 const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
   const [frontierData, setFrontierData] = useState<FrontierData>();
+  const [similarETFData, setSimilarETFData] = useState<ETFData[]>();
   const [loading, setLoading] = React.useState(false);
   const timer = React.useRef<number>();
 
@@ -31,9 +34,11 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
     }, 500);
   };
   useEffect(() => {
-    console.log(stockList);
     getEfficientFrontier(stockList).then((res) => {
       setFrontierData(res);
+    });
+    getSimilarETF(stockList).then((res) => {
+      setSimilarETFData(res);
     });
   }, [stockList]);
 
@@ -41,18 +46,20 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
     <>
       <div className="SelectedPortfolio" style={{ display: "flex" }}>
         <div style={{ paddingRight: "20px" }}>
-          <PortfolioTabLayout handleSelectedPF={handleSelectedPF} frontierData={frontierData} />
+          <PortfolioTabLayout handleSelectedPF={handleSelectedPF} stockList={stockList} frontierData={frontierData} similarETFData={similarETFData} />
         </div>
+        <DoubleArrowIcon style={{ fontSize: "5rem", margin: "auto", marginLeft: "10px", marginRight: "10px" }} />
         <div>
-          <Card style={{ textAlign: "center" }}>
+          <Card style={{ textAlign: "center", marginTop: "73px" }}>
             {!loading ? (
               <CurrentSelectedPF selectedPF={selectedPF} />
             ) : (
               <Card
                 style={{
                   textAlign: "center",
-                  width: "300px",
-                  height: "400px",
+                  backgroundColor: "#F5F5F5",
+                  width: "280px",
+                  height: "450px",
                 }}
               >
                 <LoadingProgress height={350} description={"포트폴리오 적용중..."} />

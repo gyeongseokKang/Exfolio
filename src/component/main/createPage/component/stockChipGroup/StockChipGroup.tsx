@@ -7,19 +7,6 @@ import axios from "axios";
 import SearchBarDialog from "./component/searchBarDialog/SearchBarDialog";
 import { Avatar, Button } from "@material-ui/core";
 
-interface stockInfo {
-  name: string;
-  code: string;
-  weight: number;
-}
-
-interface StockListLayoutProp {
-  stockList: stockInfo[];
-  onChange(name: string, value: number): void;
-  onDelete(name: string): void;
-  onAdd(name: string, code: string): void;
-}
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -78,6 +65,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
+interface stockInfo {
+  name: string;
+  code: string;
+  weight: number;
+}
+
+interface StockListLayoutProp {
+  stockList: stockInfo[];
+  onChange(name: string, value: number): void;
+  onDelete(name: string): void;
+  onAdd(name: string, code: string): void;
+}
 
 export default function StockChipGroup(prop: StockListLayoutProp) {
   const classes = useStyles();

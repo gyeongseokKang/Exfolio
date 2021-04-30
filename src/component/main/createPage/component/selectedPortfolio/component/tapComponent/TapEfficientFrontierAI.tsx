@@ -50,12 +50,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface TapEfficientFrontierProp {
+interface TapEfficientFrontierAIProp {
   handleSelectedPF: (portfolio: RRSW) => void;
   frontierData: FrontierData;
 }
 
-const TapEfficientFrontier = ({ handleSelectedPF, frontierData }: TapEfficientFrontierProp) => {
+const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData }: TapEfficientFrontierAIProp) => {
   const classes = useStyles();
 
   const [clickedPF, setClickedPF] = useState<RRSW>(frontierData.frontier[0]);
@@ -166,8 +166,9 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData }: TapEfficientFr
             <div>
               * 금융 포트폴리오 모델 <span style={{ color: "red", fontWeight: "bold" }}>Efficient frontier 활용</span>
             </div>
+            <div>* Deep learning 모델을 통한 주가 변동성 예측</div>
             <div>
-              * 과거 <span style={{ color: "red", fontWeight: "bold" }}>360 Days</span> 금융 정보 기반
+              * 과거 <span style={{ color: "red", fontWeight: "bold" }}>30 Days</span> 금융 정보 기반
             </div>
           </div>
         </div>
@@ -177,4 +178,4 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData }: TapEfficientFr
   );
 };
 
-export default TapEfficientFrontier;
+export default TapEfficientFrontierAI;

@@ -82,6 +82,7 @@ export default function StockWeightPieChart({
             type: "pie",
             hoverinfo: "label+percent",
             textinfo: "label+percent",
+            textfont: { size: 15, family: "", color: "" },
             sort: false,
             textposition: "inside",
             insidetextorientation: "horizontal",

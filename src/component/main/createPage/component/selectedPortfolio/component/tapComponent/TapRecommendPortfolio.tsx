@@ -1,10 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Card } from "@material-ui/core";
-import React from "react";
-import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import PortfolioInfoCardWithBtn from "src/component/main/common/wiget/PortfolioInfoCardWithBtn";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -13,22 +7,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       "& > *": {
-        margin: theme.spacing(1),
-        width: 300,
-        height: 440,
+        margin: "auto",
       },
-      position: "relative",
-    },
-    selectButton: {
-      position: "absolute",
-      bottom: "-15px",
-      right: "25px",
-      "&:hover": {
-        cursor: "pointer",
-      },
-    },
-    infoCard: {
-      transform: "rotate(0deg)",
     },
   })
 );

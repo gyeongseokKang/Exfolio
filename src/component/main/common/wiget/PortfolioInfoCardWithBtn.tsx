@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme: Theme) =>
     root: { position: "relative" },
     selectButton: {
       position: "absolute",
-      bottom: "-15px",
-      right: "25px",
+      bottom: "5px",
+      right: "5px",
       "&:hover": {
         cursor: "pointer",
       },

@@ -1,7 +1,6 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Checkbox } from "@material-ui/core";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

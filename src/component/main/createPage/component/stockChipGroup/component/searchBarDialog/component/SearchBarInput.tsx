@@ -2,6 +2,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

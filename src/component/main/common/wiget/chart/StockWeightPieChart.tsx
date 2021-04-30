@@ -1,3 +1,4 @@
+import React from "react";
 import Plotly from "plotly.js";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Plot from "react-plotly.js";

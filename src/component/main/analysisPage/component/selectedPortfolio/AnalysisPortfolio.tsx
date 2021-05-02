@@ -7,6 +7,7 @@ import CurrentSelectedPF from "./component/CurrentSelectedPF";
 import PortfolioTabLayout from "./component/PortfolioTabLayout";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ETFData, getSimilarETF } from "src/service/getSimilarETF";
+import { getPortfolioPerformance, PortfolioPerformance } from "src/service/getPortfolioPerformance";
 
 interface stockInfo {
   name: string;
@@ -14,16 +15,18 @@ interface stockInfo {
   weight: number;
 }
 
-interface SelectedPortfolioProp {
+interface AnalysisPortfolioProp {
   stockList: stockInfo[];
   selectedPF: RRSW;
+  modifiedStockList: stockInfo[];
   onChangeSelectedPF: (PF: RRSW) => void;
 }
 
-const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
+const SelectedPortfolio = ({ stockList, selectedPF, modifiedStockList, onChangeSelectedPF }: AnalysisPortfolioProp) => {
   const [frontierData, setFrontierData] = useState<FrontierData>();
   const [frontierAIData, setFrontierAIData] = useState<FrontierData>();
   const [similarETFData, setSimilarETFData] = useState<ETFData[]>();
+  const [portfolioPerformance, setPortfolioPerformance] = useState<PortfolioPerformance>();
   const [loading, setLoading] = React.useState(false);
   const timer = React.useRef<number>();
 
@@ -35,16 +38,19 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
     }, 500);
   };
   useEffect(() => {
-    getEfficientFrontier(stockList, "semi_variance").then((res) => {
+    getEfficientFrontier(modifiedStockList, "semi_variance").then((res) => {
       setFrontierData(res);
     });
-    getEfficientFrontier(stockList, "semi_absolute").then((res) => {
+    getEfficientFrontier(modifiedStockList, "semi_absolute").then((res) => {
       setFrontierAIData(res);
     });
-    getSimilarETF(stockList).then((res) => {
+    getSimilarETF(modifiedStockList).then((res) => {
       setSimilarETFData(res);
     });
-  }, [stockList]);
+    getPortfolioPerformance(modifiedStockList).then((res) => {
+      setPortfolioPerformance(res);
+    });
+  }, [modifiedStockList]);
 
   return (
     <>
@@ -52,10 +58,11 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
         <div style={{ paddingRight: "20px" }}>
           <PortfolioTabLayout
             handleSelectedPF={handleSelectedPF}
-            stockList={stockList}
+            stockList={modifiedStockList}
             frontierData={frontierData}
             frontierAIData={frontierAIData}
             similarETFData={similarETFData}
+            portfolioPerformance={portfolioPerformance}
           />
         </div>
         <DoubleArrowIcon style={{ fontSize: "5rem", margin: "auto", marginLeft: "10px", marginRight: "10px" }} />

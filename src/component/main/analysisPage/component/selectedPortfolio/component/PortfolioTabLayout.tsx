@@ -13,6 +13,7 @@ import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 import TapEfficientFrontierAI from "./tapComponent/TapEfficientFrontierAI";
 import { ETFData } from "src/service/getSimilarETF";
 import TapSimilarETF from "./tapComponent/TapSimilarETF";
+import { PortfolioPerformance } from "src/service/getPortfolioPerformance";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -67,9 +68,17 @@ interface PortfolioTabLayoutProp {
   frontierData: FrontierData | undefined;
   frontierAIData: FrontierData | undefined;
   similarETFData: ETFData[] | undefined;
+  portfolioPerformance: PortfolioPerformance | undefined;
 }
 
-export default function PortfolioTabLayout({ stockList, frontierData, frontierAIData, similarETFData, handleSelectedPF }: PortfolioTabLayoutProp) {
+export default function PortfolioTabLayout({
+  stockList,
+  frontierData,
+  frontierAIData,
+  similarETFData,
+  portfolioPerformance,
+  handleSelectedPF,
+}: PortfolioTabLayoutProp) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -101,8 +110,13 @@ export default function PortfolioTabLayout({ stockList, frontierData, frontierAI
       </AppBar>
       <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {frontierData !== undefined ? (
-            <TapEfficientFrontier handleSelectedPF={handleSelectedPF} frontierData={frontierData} stockList={stockList} />
+          {frontierData !== undefined && portfolioPerformance !== undefined ? (
+            <TapEfficientFrontier
+              handleSelectedPF={handleSelectedPF}
+              frontierData={frontierData}
+              portfolioPerformance={portfolioPerformance}
+              stockList={stockList}
+            />
           ) : (
             <>
               <LoadingProgress height={500} description={"포트폴리오 분석중..."} />
@@ -110,8 +124,13 @@ export default function PortfolioTabLayout({ stockList, frontierData, frontierAI
           )}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          {frontierAIData !== undefined ? (
-            <TapEfficientFrontierAI handleSelectedPF={handleSelectedPF} frontierData={frontierAIData} stockList={stockList} />
+          {frontierAIData !== undefined && portfolioPerformance !== undefined ? (
+            <TapEfficientFrontierAI
+              handleSelectedPF={handleSelectedPF}
+              frontierData={frontierAIData}
+              portfolioPerformance={portfolioPerformance}
+              stockList={stockList}
+            />
           ) : (
             <>
               <LoadingProgress height={500} description={"AI 분석중..."} />

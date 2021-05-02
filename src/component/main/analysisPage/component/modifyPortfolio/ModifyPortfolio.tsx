@@ -56,8 +56,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ConfirmPortfolioProp {
-  selectedPF: RRSW;
   stockList: stockInfo[];
+  modifiedStockList: stockInfo[];
 }
 
 interface stockInfo {
@@ -65,33 +65,15 @@ interface stockInfo {
   code: string;
   weight: number;
 }
-interface RRSW {
-  returns: number;
-  risk: number;
-  sharpe: number;
-  weights: {
-    items: string[];
-    values: number[];
-  };
-}
 
-const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
+const ModifyPortfolio = ({ stockList, modifiedStockList }: ConfirmPortfolioProp) => {
   const classes = useStyles();
-  const originalWeight: number[] = [...selectedPF.weights.values];
-  const [weightList, setWeightList] = useState({ items: [...selectedPF.weights.items], values: [...selectedPF.weights.values] });
+  const originalWeight: number[] = [...stockList.map((item) => item.weight)];
+  const [weightList, setWeightList] = useState({ items: [...stockList.map((item) => item.name)], values: [...stockList.map((item) => item.weight)] });
   const onChange = (name: string, value: number) => {
     let changed = { items: [...weightList.items], values: [...weightList.values] };
     changed.values[changed.items.indexOf(name)] = value;
     setWeightList(changed);
-  };
-
-  const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   const resetWeight = () => {
@@ -102,7 +84,7 @@ const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
     <>
       <div className={classes.root}>
         <Card className={classes.card}>
-          <h2 style={{ paddingLeft: "300px" }}>포트폴리오 최종 결정</h2>
+          <h2 style={{ paddingLeft: "300px" }}>포트폴리오 수정</h2>
           <div style={{ float: "left", width: "50%" }}>
             <div style={{ paddingLeft: "60px", paddingTop: "20px" }}>
               <Plot
@@ -134,8 +116,8 @@ const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
               <RefreshIcon /> 되돌리기
             </Button>
             <div className={classes.stockSlider}>
-              {weightList.values.map((value, index) => {
-                return <WeightSlider name={weightList.items[index]} value={value} key={weightList.items[index]} onChange={onChange} />;
+              {weightList.items.map((item, index) => {
+                return <WeightSlider name={item} value={weightList.values[index]} key={item} onChange={onChange} />;
               })}
             </div>
             <Button
@@ -143,11 +125,17 @@ const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
               color="primary"
               size="medium"
               style={{ position: "absolute", bottom: "10px", right: "10px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" }}
-              onClick={handleClickOpen}
+              onClick={() => {
+                let weightTotal: number = weightList.values.reduce((acc, curr) => acc + curr, 0);
+                if (weightTotal > 1) {
+                  modifiedStockList = modifiedStockList.map((item, index) => {
+                    return { name: item.name, code: item.code, weight: Number((weightList.values[index] / weightTotal).toFixed(4)) };
+                  });
+                }
+              }}
             >
               confirm
             </Button>
-            <ConfirmDialog stockList={stockList} finalWeightList={weightList} open={open} onClose={handleClose} />
           </div>
         </Card>
       </div>
@@ -155,4 +143,4 @@ const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
   );
 };
 
-export default ConfirmPortfolio;
+export default ModifyPortfolio;

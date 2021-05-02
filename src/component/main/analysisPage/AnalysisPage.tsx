@@ -9,8 +9,8 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import StockChipGroup from "./component/stockChipGroup/StockChipGroup";
-import SelectedPortfolio from "./component/selectedPortfolio/SelectedPortfolio";
-import ConfirmPortfolio from "./component/confirmPortfolio/ConfirmPortfolio";
+import SelectedPortfolio from "./component/selectedPortfolio/AnalysisPortfolio";
+import ModifyPortfolio from "./component/modifyPortfolio/ModifyPortfolio";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface stepContentProp {
   step: number;
   sharesHeldList: any;
+  modifiedStockList: any;
   selectedPF: RRSW;
   onChange: (name: string, value: number) => void;
   onDelete: (name: string) => void;
@@ -50,14 +51,21 @@ interface RRSW {
   };
 }
 
-function getStepContent({ step, sharesHeldList, selectedPF, onChange, onDelete, onAdd, onChangeSelectedPF }: stepContentProp) {
+function getStepContent({ step, sharesHeldList, modifiedStockList, selectedPF, onChange, onDelete, onAdd, onChangeSelectedPF }: stepContentProp) {
   switch (step) {
     case 0:
       return <StockChipGroup stockList={sharesHeldList} onChange={onChange} onDelete={onDelete} onAdd={onAdd} />;
     case 1:
-      return <SelectedPortfolio stockList={sharesHeldList} selectedPF={selectedPF} onChangeSelectedPF={onChangeSelectedPF} />;
+      return <ModifyPortfolio stockList={sharesHeldList} modifiedStockList={modifiedStockList} />;
     case 2:
-      return <ConfirmPortfolio stockList={sharesHeldList} selectedPF={selectedPF} />;
+      return (
+        <SelectedPortfolio
+          stockList={sharesHeldList}
+          modifiedStockList={modifiedStockList}
+          selectedPF={selectedPF}
+          onChangeSelectedPF={onChangeSelectedPF}
+        />
+      );
     default:
       return "Unknown step";
   }
@@ -81,14 +89,14 @@ export default function VerticalLinearStepper() {
   };
 
   const [sharesHeldList, setSharesHeldList] = React.useState<{ name: string; code: string; weight: number }[]>([
-    { name: "SK하이닉스", code: "003550", weight: 0 },
-    { name: "LG", code: "005380", weight: 0 },
-    { name: "현대차", code: "036570", weight: 0 },
-    { name: "삼성전자", code: "035720", weight: 0 },
-    { name: "한국전력", code: "000660", weight: 0 },
-    { name: "카카오", code: "015760", weight: 0 },
-    { name: "엔씨소프트", code: "005930", weight: 0 },
-    { name: "셀트리온", code: "068270", weight: 0 },
+    { name: "SK하이닉스", code: "003550", weight: 0.1 },
+    { name: "LG", code: "005380", weight: 0.1 },
+    { name: "현대차", code: "036570", weight: 0.1 },
+    { name: "삼성전자", code: "035720", weight: 0.1 },
+    { name: "한국전력", code: "000660", weight: 0.1 },
+    { name: "카카오", code: "015760", weight: 0.1 },
+    { name: "엔씨소프트", code: "005930", weight: 0.1 },
+    { name: "셀트리온", code: "068270", weight: 0.1 },
   ]);
 
   const onChange = (name: string, value: number) => {
@@ -127,6 +135,8 @@ export default function VerticalLinearStepper() {
     setSelectedPF(portfolio);
   };
 
+  const modifiedStockList = JSON.parse(JSON.stringify(sharesHeldList));
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -137,6 +147,7 @@ export default function VerticalLinearStepper() {
               {getStepContent({
                 step: index,
                 sharesHeldList,
+                modifiedStockList,
                 selectedPF,
                 onChange,
                 onDelete,

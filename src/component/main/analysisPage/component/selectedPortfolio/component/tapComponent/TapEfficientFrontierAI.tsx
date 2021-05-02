@@ -9,6 +9,7 @@ import PortfolioInfoCardWithBtn from "src/component/main/common/wiget/PortfolioI
 import ErrorIcon from "@material-ui/icons/Error";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
+import { PortfolioPerformance } from "src/service/getPortfolioPerformance";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,14 +57,13 @@ interface TapEfficientFrontierAIProp {
   handleSelectedPF: (portfolio: RRSW) => void;
   frontierData: FrontierData;
   stockList: { name: string; code: string; weight: number }[];
+  portfolioPerformance: PortfolioPerformance;
 }
 
-const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList }: TapEfficientFrontierAIProp) => {
+const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList, portfolioPerformance }: TapEfficientFrontierAIProp) => {
   const classes = useStyles();
 
   const [clickedPF, setClickedPF] = useState<RRSW>(frontierData.frontier[0]);
-  const [backTest, setBackTest] = useState<BackTestData>();
-  const [testFinish, setTestFinish] = useState<Boolean>(false);
 
   let frontierX: number[] = [];
   let frontierY: number[] = [];
@@ -80,17 +80,6 @@ const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList }: T
       specificY.push(frontierData.specific[key]!.returns);
     }
   }
-  useEffect(() => {
-    setTestFinish(false);
-    let codeList = clickedPF.weights.items.map((item) => {
-      return stockList.find((target) => (target.name === item ? target.code : ""))?.code || "";
-    });
-
-    getBackTest({ code: codeList, weight: clickedPF.weights.values }).then((res) => {
-      setBackTest(res);
-      setTestFinish(true);
-    });
-  }, [clickedPF, stockList]);
 
   return (
     <>
@@ -127,6 +116,22 @@ const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList }: T
                   marker: { size: 12, symbol: "star" },
                   hovertemplate: `<b>Return</b>: %{y:.5f}<br><b>Risk</b>: %{x:.5f}<br>`,
                 },
+                {
+                  x: [portfolioPerformance.performance.risk],
+                  y: [portfolioPerformance.performance.returns],
+                  mode: "markers",
+                  name: "Dr.폴리오 추천",
+                  marker: { size: 20, symbol: "star", color: "red" },
+                  hovertemplate: `<b>Return</b>: %{y:.5f}<br><b>Risk</b>: %{x:.5f}<br>`,
+                },
+                {
+                  x: [portfolioPerformance.enhance.risk],
+                  y: [portfolioPerformance.enhance.returns],
+                  mode: "markers",
+                  name: "Dr.폴리오 추천",
+                  marker: { size: 20, symbol: "star", color: "black" },
+                  hovertemplate: `<b>Return</b>: %{y:.5f}<br><b>Risk</b>: %{x:.5f}<br>`,
+                },
               ]}
               layout={{
                 margin: { t: 0, b: 10, r: 0, l: 10 },
@@ -147,57 +152,19 @@ const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList }: T
                 setClickedPF(frontierData.frontier[e.points[0].pointIndex]);
               }}
             />
+            <div className={classes.description}>
+              &nbsp;
+              <div>
+                <span style={{ color: "red", fontWeight: "bold" }}>★</span> : 기존 포트폴리오
+              </div>
+              <div>
+                <span style={{ color: "black", fontWeight: "bold" }}>★</span> : 개선 포트폴리오
+              </div>
+            </div>
           </Paper>
           <Paper className={classes.infoCard} elevation={0}>
-            <div>모델 실행 결과</div>
-            {testFinish && backTest !== undefined ? (
-              <>
-                <br />
-                <div style={{ fontSize: "1.0rem" }}> {backTest.days[0]} 시작 금액 : 1000만원</div>
-                <div style={{ fontSize: "1.0rem" }}>
-                  {backTest.days[backTest.days.length - 1]} 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원
-                </div>
-                <Plot
-                  data={[
-                    {
-                      x: backTest.days,
-                      y: backTest.values.map((item) => Math.round(item * 1000)),
-                      mode: "lines",
-                      line: { shape: "spline" },
-                      name: "Lines",
-                    },
-                  ]}
-                  layout={{
-                    margin: { t: 0, b: 30, r: 50, l: 0 },
-                    width: 300,
-                    height: 200,
-                    showlegend: false,
-                    xaxis: {
-                      tickformat: "%Y %b %d",
-                    },
-                    yaxis: {
-                      side: "right",
-                    },
-                  }}
-                  config={{ displayModeBar: false }}
-                />
-              </>
-            ) : (
-              <div>
-                <LoadingProgress width={300} height={300} description={"테스트 분석중..."} />
-              </div>
-            )}
+            <PortfolioInfoCardWithBtn title={"enhance Model"} info={portfolioPerformance.enhance} onPfClick={handleSelectedPF} />
           </Paper>
-          <div className={classes.description}>
-            &nbsp;
-            <div>
-              * 금융 포트폴리오 모델 <span style={{ color: "red", fontWeight: "bold" }}>Efficient frontier 활용</span>
-            </div>
-            <div>* Deep learning 모델을 통한 주가 변동성 예측</div>
-            <div>
-              * 과거 <span style={{ color: "red", fontWeight: "bold" }}>30 Days</span> 금융 정보 기반
-            </div>
-          </div>
         </div>
         <PortfolioInfoCardWithBtn title={"Clicked Model"} info={clickedPF} onPfClick={handleSelectedPF} />
       </div>

@@ -47,7 +47,7 @@ function Main({ history }: any) {
             }}
           >
             <img src={createPF} alt="Avatar" />
-            <div className="container">
+            <div className="container" style={{ paddingLeft: "30px" }}>
               <h2>Create PortFolio</h2>
               <p>유저가 원하는 비중의 포트폴리오를 생성</p>
             </div>
@@ -60,7 +60,7 @@ function Main({ history }: any) {
             }}
           >
             <img src={analysisPF} alt="Avatar" />
-            <div className="container">
+            <div className="container" style={{ paddingLeft: "30px" }}>
               <h2>Analysis PortFolio</h2>
               <p>다양한 모델을 통해 유저의 포트폴리오를 분석 및 평가</p>
             </div>

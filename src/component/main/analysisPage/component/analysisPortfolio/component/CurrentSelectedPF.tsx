@@ -36,6 +36,16 @@ const CurrentSelectedPF = ({ selectedPF }: CurrentSelectedPFProp) => {
               data={[
                 {
                   x: backTest.days,
+                  y: backTest.values.map((item) => Math.round(item * 1000) / 2),
+                  mode: "lines",
+                  line: { shape: "spline" },
+                  name: "Lines",
+                  marker: {
+                    color: "red",
+                  },
+                },
+                {
+                  x: backTest.days,
                   y: backTest.values.map((item) => Math.round(item * 1000)),
                   mode: "lines",
                   line: { shape: "spline" },

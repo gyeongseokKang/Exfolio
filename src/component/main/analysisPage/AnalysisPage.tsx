@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import StockChipGroup from "./component/stockChipGroup/StockChipGroup";
-import SelectedPortfolio from "./component/selectedPortfolio/AnalysisPortfolio";
+import SelectedPortfolio from "./component/analysisPortfolio/AnalysisPortfolio";
 import ModifyPortfolio from "./component/modifyPortfolio/ModifyPortfolio";
 
 const useStyles = makeStyles((theme: Theme) =>

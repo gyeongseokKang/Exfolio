@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface PortfolioInfoCardWithBtnProp {
   title: string;
   info: RRSW;
-  onPfClick: (info: RRSW) => void;
+  onPfClick?: (info: RRSW) => void;
 }
 
 export default function PortfolioInfoCardWithBtn({ title, info, onPfClick }: PortfolioInfoCardWithBtnProp) {
@@ -37,17 +37,19 @@ export default function PortfolioInfoCardWithBtn({ title, info, onPfClick }: Por
         returns={info.returns}
         sharpe={info.sharpe}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        className={classes.selectButton}
-        onClick={() => {
-          onPfClick(info);
-        }}
-      >
-        Select
-      </Button>
+      {onPfClick !== undefined ? (
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          className={classes.selectButton}
+          onClick={() => {
+            onPfClick(info);
+          }}
+        >
+          Select
+        </Button>
+      ) : undefined}
     </Paper>
   );
 }

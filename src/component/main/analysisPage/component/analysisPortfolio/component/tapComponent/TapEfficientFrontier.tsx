@@ -109,18 +109,10 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList, portf
                   hovertemplate: `<b>Return</b>: %{y:.5f}<br><b>Risk</b>: %{x:.5f}<br>`,
                 },
                 {
-                  x: specificX,
-                  y: specificY,
-                  mode: "markers",
-                  name: "Dr.폴리오 추천",
-                  marker: { size: 12, symbol: "star" },
-                  hovertemplate: `<b>Return</b>: %{y:.5f}<br><b>Risk</b>: %{x:.5f}<br>`,
-                },
-                {
                   x: [portfolioPerformance.performance.risk],
                   y: [portfolioPerformance.performance.returns],
                   mode: "markers",
-                  name: "Dr.폴리오 추천",
+                  name: "기존",
                   marker: { size: 20, symbol: "star", color: "red" },
                   hovertemplate: `<b>Return</b>: %{y:.5f}<br><b>Risk</b>: %{x:.5f}<br>`,
                 },
@@ -129,7 +121,7 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList, portf
                   y: [portfolioPerformance.enhance.returns],
                   mode: "markers",
                   name: "Dr.폴리오 추천",
-                  marker: { size: 20, symbol: "star", color: "black" },
+                  marker: { size: 20, symbol: "star", color: "orange" },
                   hovertemplate: `<b>Return</b>: %{y:.5f}<br><b>Risk</b>: %{x:.5f}<br>`,
                 },
               ]}
@@ -158,15 +150,13 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList, portf
                 <span style={{ color: "red", fontWeight: "bold" }}>★</span> : 기존 포트폴리오
               </div>
               <div>
-                <span style={{ color: "black", fontWeight: "bold" }}>★</span> : 개선 포트폴리오
+                <span style={{ color: "orange", fontWeight: "bold" }}>★</span> : 개선된 포트폴리오
               </div>
             </div>
           </Paper>
-          <Paper className={classes.infoCard} elevation={0}>
-            <PortfolioInfoCardWithBtn title={"enhance Model"} info={portfolioPerformance.enhance} onPfClick={handleSelectedPF} />
-          </Paper>
         </div>
-        <PortfolioInfoCardWithBtn title={"Clicked Model"} info={clickedPF} onPfClick={handleSelectedPF} />
+        <PortfolioInfoCardWithBtn title={"기존 포트폴리오"} info={portfolioPerformance.performance} />
+        <PortfolioInfoCardWithBtn title={"개선된 포트폴리오"} info={portfolioPerformance.enhance} onPfClick={handleSelectedPF} />
       </div>
     </>
   );

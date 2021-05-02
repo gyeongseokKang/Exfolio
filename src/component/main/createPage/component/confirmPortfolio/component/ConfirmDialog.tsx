@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Card, Dialog } from "@material-ui/core";
-import IndexGaugeCharts from "src/component/main/common/wiget/chart/IndexGaugeCharts";
+import { Dialog, Button } from "@material-ui/core";
 import Plot from "react-plotly.js";
 import { DiscreteAmount, getDiscreteAmount } from "src/service/getDiscreteAmount";
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
-import StockCount from "./StockCount";
 import StockTable from "./StockTable";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -17,14 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "500px",
       margin: "10px 100px 100px 100px",
       position: "relative",
-    },
-    stockSlider: {
-      float: "left",
-      paddingLeft: "80px",
-      paddingRight: "10px",
-      maxHeight: "300px",
-      overflowY: "scroll",
-      overflowX: "hidden",
     },
     button: {
       fontWeight: 500,
@@ -162,6 +152,14 @@ export default function ConfirmDialog({ stockList, open, finalWeightList, onClos
             )}
           </div>
         </div>
+        <Button
+          variant="contained"
+          color="primary"
+          size="medium"
+          style={{ position: "absolute", bottom: "10px", right: "10px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" }}
+        >
+          Buy
+        </Button>
       </div>
     </Dialog>
   );

@@ -2,7 +2,8 @@ import { Paper } from "@material-ui/core";
 import analysisPF from "./analysisPF.jpg";
 import createPF from "./createPF.png";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
+import React, { useState } from "react";
+import UserPropensity from "./userPropensity/UserPropensity";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -10,6 +11,10 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "left",
       flexWrap: "wrap",
+    },
+    userInfo: {
+      width: "100%",
+      backgroundColor: "white",
     },
     card: {
       boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
@@ -36,9 +41,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Main({ history }: any) {
   const classes = useStyles();
+  const [userInfo, setUserInfo] = useState<any>({ age: "20~39", period: "1년 미만", affordableRisk: "상관 없음" });
+  const handleUserInfo = (key: string, value: string) => {
+    const updatedInfo = { ...userInfo };
+    if (updatedInfo[key]) updatedInfo[key] = value;
+    console.log(key, value);
+    setUserInfo(updatedInfo);
+  };
   return (
     <>
       <div className={classes.root}>
+        <div className={classes.userInfo}>
+          <UserPropensity userInfo={userInfo} handleUserInfo={handleUserInfo} />
+        </div>
         <Paper elevation={0}>
           <div
             className={classes.card}

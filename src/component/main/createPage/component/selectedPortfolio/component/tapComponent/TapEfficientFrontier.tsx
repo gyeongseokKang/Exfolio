@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: "flex",
       flexWrap: "wrap",
-
       "& > *": {
         margin: "auto",
         fontSize: "1.2rem",
@@ -47,6 +46,12 @@ const useStyles = makeStyles((theme: Theme) =>
         cursor: "pointer",
         color: "black",
         transform: "rotate(20deg)",
+      },
+    },
+    backTestDescription: {
+      fontSize: "1.0rem",
+      "& > div": {
+        marginLeft: "10px",
       },
     },
   })
@@ -152,11 +157,6 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList }: Tap
             <div>모델 실행 결과</div>
             {testFinish && backTest !== undefined ? (
               <>
-                <br />
-                <div style={{ fontSize: "1.0rem" }}> {backTest.days[0]} 시작 금액 : 1000만원</div>
-                <div style={{ fontSize: "1.0rem" }}>
-                  {backTest.days[backTest.days.length - 1]} 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원
-                </div>
                 <Plot
                   data={[
                     {
@@ -181,6 +181,13 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList }: Tap
                   }}
                   config={{ displayModeBar: false }}
                 />
+                <br />
+                <div className={classes.backTestDescription}>
+                  <div> 투자 시작 : {backTest.days[0]} </div>
+                  <div> 투자 원금 : 1000만원</div>
+                  <div> 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원</div>
+                  <div> 수익율 : {Math.round(backTest.values[backTest.values.length - 1] * 100)}%</div>
+                </div>
               </>
             ) : (
               <div>
@@ -198,7 +205,7 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList }: Tap
             </div>
           </div>
         </div>
-        <PortfolioInfoCardWithBtn title={"Clicked Model"} info={clickedPF} onPfClick={handleSelectedPF} />
+        <PortfolioInfoCardWithBtn title={"해당 포트폴리오"} info={clickedPF} onPfClick={handleSelectedPF} />
       </div>
     </>
   );

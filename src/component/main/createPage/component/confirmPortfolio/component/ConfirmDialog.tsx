@@ -7,10 +7,11 @@ import { DiscreteAmount, getDiscreteAmount } from "src/service/getDiscreteAmount
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
 import StockCount from "./StockCount";
+import StockTable from "./StockTable";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: { width: "900px", height: "600px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" },
+    root: { width: "800px", height: "500px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" },
     card: {
       boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       height: "500px",
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
         outline: "1px solid #E6E6FF",
         borderRadius: "20px",
       },
+    },
+    backTestDescription: {
+      fontSize: "1.0rem",
     },
   })
 );
@@ -98,39 +102,11 @@ export default function ConfirmDialog({ stockList, open, finalWeightList, onClos
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} maxWidth={"md"}>
       <div className={classes.root}>
-        <h1 style={{ paddingLeft: "350px" }}>최종 투자 정보</h1>
-        <div style={{ float: "left", width: "50%" }}>
-          <div style={{ paddingLeft: "60px", paddingTop: "20px" }}>
-            {discreteAmount !== undefined ? (
-              <div>
-                <div style={{ width: "100px", float: "left" }}> 총 투자 금액 :</div>
-                <div> 1000만원</div>
-                <div style={{ width: "100px", float: "left" }}> 남은 금액 :</div>
-                <div> {Math.round(discreteAmount.remains / 10000)}만원</div>
-                <br />
-                <br />
-                <div style={{ width: "100px", float: "left" }}> 종목</div>
-                <div style={{ width: "100px", float: "left" }}> 기준가</div>
-                <div style={{ width: "100px", float: "left" }}> 수량</div>
-                {discreteAmount.amounts.map((item, index) => {
-                  return <StockCount name={item.name} price={item.price} count={item.amount} />;
-                })}
-              </div>
-            ) : (
-              <div>
-                <LoadingProgress width={300} height={200} description={"ETF 분석중..."} />
-              </div>
-            )}
-          </div>
-        </div>
+        <h1 style={{ paddingLeft: "300px" }}>최종 투자 정보</h1>
         <div style={{ float: "left", width: "50%" }}>
           {backTest !== undefined ? (
-            <>
-              <br />
-              <div> {backTest.days[0]} 시작 금액 : 1000만원</div>
-              <div>
-                {backTest.days[backTest.days.length - 1]} 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원
-              </div>
+            <div style={{ paddingLeft: "60px", paddingTop: "30px" }}>
+              <div style={{ fontSize: "1.2rem", paddingLeft: "100px" }}> 예상 투자 실적</div>
               <Plot
                 data={[
                   {
@@ -155,12 +131,36 @@ export default function ConfirmDialog({ stockList, open, finalWeightList, onClos
                 }}
                 config={{ displayModeBar: false }}
               />
-            </>
+              <div className={classes.backTestDescription}>
+                <div> 투자 시작 : {backTest.days[0]} </div>
+                <div> 투자 원금 : 1000만원</div>
+                <div> 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원</div>
+                <div> 예상 수익율 : {Math.round(backTest.values[backTest.values.length - 1] * 100)}%</div>
+              </div>
+            </div>
           ) : (
             <div>
               <LoadingProgress width={300} height={200} description={"ETF 분석중..."} />
             </div>
           )}
+        </div>
+        <div style={{ float: "left", width: "50%" }}>
+          <div style={{ paddingLeft: "60px", paddingTop: "20px" }}>
+            {discreteAmount !== undefined ? (
+              <div>
+                <div style={{ width: "100px", float: "left" }}> 총 투자 금액 :</div>
+                <div> 1000만원</div>
+                <div style={{ width: "100px", float: "left" }}> 남은 금액 :</div>
+                <div> {Math.round(discreteAmount.remains / 10000)}만원</div>
+                <br />
+                <StockTable amounts={discreteAmount.amounts} />
+              </div>
+            ) : (
+              <div>
+                <LoadingProgress width={300} height={200} description={"ETF 분석중..."} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Dialog>

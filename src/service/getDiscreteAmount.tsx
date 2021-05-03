@@ -1,4 +1,5 @@
 import axios from "axios";
+import { serviceOnOff, sleep } from "./serviceSetting";
 
 export interface DiscreteAmount {
   amounts: DiscreteAmountItem[];
@@ -18,6 +19,10 @@ interface StockList {
 
 export async function getDiscreteAmount(stockList: StockList, cash: number = 10000000): Promise<DiscreteAmount | undefined> {
   let result: DiscreteAmount | undefined = undefined;
+  if (serviceOnOff === false) {
+    result = testAmount;
+    await sleep(2000);
+  }
 
   await axios({
     method: "post",
@@ -37,13 +42,8 @@ export async function getDiscreteAmount(stockList: StockList, cash: number = 100
     .catch(function (error) {
       console.log(error);
     });
-  //result = testAmount;
-  //await sleep(2000);
-  return result;
-}
 
-export function sleep(m: number) {
-  return new Promise((r) => setTimeout(r, m));
+  return result;
 }
 
 let testAmount = {

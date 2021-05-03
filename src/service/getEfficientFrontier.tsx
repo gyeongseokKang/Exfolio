@@ -1,4 +1,5 @@
 import axios from "axios";
+import { serviceOnOff, sleep } from "./serviceSetting";
 
 export interface RRSW {
   returns: number;
@@ -26,36 +27,36 @@ interface stockInfo {
 
 export async function getEfficientFrontier(stockList: stockInfo[], mode: string): Promise<FrontierData | undefined> {
   let result: FrontierData | undefined = undefined;
-  // await axios({
-  //   method: "post",
-  //   url: "http://192.168.175.140:5000/frontier",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   data: JSON.stringify({
-  //     mode: "original",
-  //     codes: stockList.map((item: stockInfo) => item.code),
-  //   }),
-  // })
-  //   .then(function (response) {
-  //     result = response.data;
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  if (mode === "semi_variance") {
-    result = testSpecific;
-  }
-  if (mode === "semi_absolute") {
-    result = testAI;
+
+  if (serviceOnOff === false) {
+    if (mode === "semi_variance") {
+      result = testSpecific;
+    }
+    if (mode === "semi_absolute") {
+      result = testAI;
+    }
+    await sleep(2000);
   }
 
-  //await sleep(2000);
+  await axios({
+    method: "post",
+    url: "http://192.168.175.140:5000/frontier",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      mode: "original",
+      codes: stockList.map((item: stockInfo) => item.code),
+    }),
+  })
+    .then(function (response) {
+      result = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
   return result;
-}
-
-export function sleep(m: number) {
-  return new Promise((r) => setTimeout(r, m));
 }
 
 //["003550","005380","036570","035720","000660","015760","005930","068270"]

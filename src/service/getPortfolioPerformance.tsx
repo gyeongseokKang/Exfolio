@@ -1,4 +1,5 @@
 import axios from "axios";
+import { serviceOnOff, sleep } from "./serviceSetting";
 
 export interface PortfolioPerformance {
   enhance: RRSW;
@@ -23,32 +24,31 @@ interface stockInfo {
 
 export async function getPortfolioPerformance(stockList: stockInfo[]): Promise<PortfolioPerformance | undefined> {
   let result: PortfolioPerformance | undefined = undefined;
-  console.log(stockList);
-  // await axios({
-  //   method: "post",
-  //   url: "http://192.168.175.140:5000/discrete",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   data: JSON.stringify({
-  //     codes: stockList.code,
-  //     weights: stockList.weight,
-  //     cash: cash,
-  //   }),
-  // })
-  //   .then(function (response) {
-  //     result = response.data;
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  result = testAmount;
-  //await sleep(2000);
-  return result;
-}
 
-export function sleep(m: number) {
-  return new Promise((r) => setTimeout(r, m));
+  if (serviceOnOff === false) {
+    result = testAmount;
+    await sleep(2000);
+  }
+
+  await axios({
+    method: "post",
+    url: "http://192.168.175.140:5000/portfolio",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      codes: stockList.map((item) => item.code),
+      weights: stockList.map((item) => item.weight),
+    }),
+  })
+    .then(function (response) {
+      result = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  return result;
 }
 
 let testAmount = {

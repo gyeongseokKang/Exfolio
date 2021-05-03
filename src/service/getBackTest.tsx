@@ -1,4 +1,5 @@
 import axios from "axios";
+import { serviceOnOff, sleep } from "./serviceSetting";
 
 export interface BackTestData {
   days: string[];
@@ -10,6 +11,10 @@ interface StockList {
 }
 export async function getBackTest(stockList: StockList): Promise<BackTestData | undefined> {
   let result: BackTestData | undefined = undefined;
+  if (serviceOnOff === false) {
+    result = testBack;
+    await sleep(2000);
+  }
 
   let weightTotal: number = stockList.weight.reduce((acc, curr) => acc + curr, 0);
   if (weightTotal > 1) {
@@ -34,15 +39,10 @@ export async function getBackTest(stockList: StockList): Promise<BackTestData | 
     .catch(function (error) {
       console.log(error);
     });
-  //result = testBack;
 
-  //await sleep(2000);
   return result;
 }
 
-export function sleep(m: number) {
-  return new Promise((r) => setTimeout(r, m));
-}
 let testBack = {
   days: [
     "2011-01-03",

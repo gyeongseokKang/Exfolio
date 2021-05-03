@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import StockChipGroup from "./component/stockChipGroup/StockChipGroup";
 import SelectedPortfolio from "./component/selectedPortfolio/SelectedPortfolio";
 import ConfirmPortfolio from "./component/confirmPortfolio/ConfirmPortfolio";
+import { RRSW } from "src/service/getEfficientFrontier";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,21 +34,11 @@ const useStyles = makeStyles((theme: Theme) =>
 interface stepContentProp {
   step: number;
   sharesHeldList: any;
-  selectedPF: RRSW;
+  selectedPF: RRSW | undefined;
   onChange: (name: string, value: number) => void;
   onDelete: (name: string) => void;
   onAdd: (name: string, code: string) => void;
   onChangeSelectedPF: (PF: RRSW) => void;
-}
-
-interface RRSW {
-  returns: number;
-  risk: number;
-  sharpe: number;
-  weights: {
-    items: string[];
-    values: number[];
-  };
 }
 
 function getStepContent({ step, sharesHeldList, selectedPF, onChange, onDelete, onAdd, onChangeSelectedPF }: stepContentProp) {
@@ -79,8 +70,7 @@ export default function VerticalLinearStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
-
-  const [sharesHeldList, setSharesHeldList] = React.useState<{ name: string; code: string; weight: number }[]>([
+  const testsHeldList = [
     { name: "SK하이닉스", code: "003550", weight: 0 },
     { name: "LG", code: "005380", weight: 0 },
     { name: "현대차", code: "036570", weight: 0 },
@@ -89,7 +79,8 @@ export default function VerticalLinearStepper() {
     { name: "카카오", code: "015760", weight: 0 },
     { name: "엔씨소프트", code: "005930", weight: 0 },
     { name: "셀트리온", code: "068270", weight: 0 },
-  ]);
+  ];
+  const [sharesHeldList, setSharesHeldList] = React.useState<{ name: string; code: string; weight: number }[]>(testsHeldList);
 
   const onChange = (name: string, value: number) => {
     let updateList = [...sharesHeldList];
@@ -114,19 +105,12 @@ export default function VerticalLinearStepper() {
     setSharesHeldList(updateList);
   };
 
-  const [selectedPF, setSelectedPF] = React.useState<RRSW>({
-    returns: 0.17909763448675378,
-    risk: 0.18606897117477664,
-    sharpe: 0.8550465640899988,
-    weights: {
-      items: ["현대차", "삼성전자", "SK텔레콤"],
-      values: [0.3, 0.4, 0.3],
-    },
-  });
+  const [selectedPF, setSelectedPF] = React.useState<RRSW>();
   const onChangeSelectedPF = (portfolio: RRSW) => {
     setSelectedPF(portfolio);
   };
 
+  console.log("ddd");
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">

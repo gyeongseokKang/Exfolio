@@ -7,6 +7,7 @@ import CurrentSelectedPF from "./component/CurrentSelectedPF";
 import PortfolioTabLayout from "./component/PortfolioTabLayout";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ETFData, getSimilarETF } from "src/service/getSimilarETF";
+import { convertToObject } from "typescript";
 
 interface stockInfo {
   name: string;
@@ -16,7 +17,7 @@ interface stockInfo {
 
 interface SelectedPortfolioProp {
   stockList: stockInfo[];
-  selectedPF: RRSW;
+  selectedPF: RRSW | undefined;
   onChangeSelectedPF: (PF: RRSW) => void;
 }
 
@@ -27,6 +28,7 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
   const [loading, setLoading] = React.useState(false);
   const timer = React.useRef<number>();
 
+  console.log(stockList);
   const handleSelectedPF = (portfolio: RRSW) => {
     setLoading(true);
     onChangeSelectedPF(portfolio);
@@ -61,7 +63,7 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
         <DoubleArrowIcon style={{ fontSize: "5rem", margin: "auto", marginLeft: "10px", marginRight: "10px" }} />
         <div>
           <Card style={{ textAlign: "center", marginTop: "73px" }}>
-            {!loading ? (
+            {!loading && selectedPF !== undefined ? (
               <CurrentSelectedPF selectedPF={selectedPF} />
             ) : (
               <Card

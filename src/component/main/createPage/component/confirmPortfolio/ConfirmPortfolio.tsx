@@ -5,6 +5,7 @@ import Plot from "react-plotly.js";
 import WeightSlider from "./component/WeightSlider";
 import ConfirmDialog from "./component/ConfirmDialog";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import { RRSW } from "src/service/getEfficientFrontier";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ConfirmPortfolioProp {
-  selectedPF: RRSW;
+  selectedPF: RRSW | undefined;
   stockList: stockInfo[];
 }
 
@@ -65,20 +66,25 @@ interface stockInfo {
   code: string;
   weight: number;
 }
-interface RRSW {
-  returns: number;
-  risk: number;
-  sharpe: number;
-  weights: {
-    items: string[];
-    values: number[];
-  };
-}
 
 const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
   const classes = useStyles();
+
+  if (selectedPF === undefined) {
+    selectedPF = {
+      returns: 0,
+      risk: 0,
+      sharpe: 0,
+      weights: {
+        items: ["none"],
+        values: [1],
+      },
+    };
+  }
+
   const originalWeight: number[] = [...selectedPF.weights.values];
   const [weightList, setWeightList] = useState({ items: [...selectedPF.weights.items], values: [...selectedPF.weights.values] });
+
   const onChange = (name: string, value: number) => {
     let changed = { items: [...weightList.items], values: [...weightList.values] };
     changed.values[changed.items.indexOf(name)] = value;

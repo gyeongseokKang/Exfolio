@@ -1,4 +1,5 @@
 import axios from "axios";
+import { serviceOnOff, sleep } from "./serviceSetting";
 
 export interface ETFData {
   code: string;
@@ -24,29 +25,30 @@ interface stockInfo {
 
 export async function getSimilarETF(stockList: stockInfo[]): Promise<ETFData[] | undefined> {
   let result: ETFData[] | undefined = undefined;
-  // await axios({
-  //   method: "post",
-  //   url: "http://192.168.175.140:5000/etf",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   data: JSON.stringify({
-  //     codes: stockList.map((item: stockInfo) => item.code),
-  //   }),
-  // })
-  //   .then(function (response) {
-  //     result = response.data;
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  result = testSpecific;
-  //await sleep(2000);
-  return result;
-}
 
-export function sleep(m: number) {
-  return new Promise((r) => setTimeout(r, m));
+  if (serviceOnOff === false) {
+    result = testSpecific;
+    await sleep(2000);
+  }
+
+  await axios({
+    method: "post",
+    url: "http://192.168.175.140:5000/etf",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      codes: stockList.map((item: stockInfo) => item.code),
+    }),
+  })
+    .then(function (response) {
+      result = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  return result;
 }
 
 let testSpecific = [

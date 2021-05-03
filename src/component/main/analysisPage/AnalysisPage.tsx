@@ -90,10 +90,10 @@ export default function VerticalLinearStepper() {
 
   const [sharesHeldList, setSharesHeldList] = React.useState<{ name: string; code: string; weight: number }[]>([
     { name: "SK하이닉스", code: "003550", weight: 0.1 },
-    { name: "LG", code: "005380", weight: 0.1 },
+    { name: "LG", code: "005380", weight: 0.2 },
     { name: "현대차", code: "036570", weight: 0.1 },
     { name: "삼성전자", code: "035720", weight: 0.1 },
-    { name: "한국전력", code: "000660", weight: 0.1 },
+    { name: "한국전력", code: "000660", weight: 0.2 },
     { name: "카카오", code: "015760", weight: 0.1 },
     { name: "엔씨소프트", code: "005930", weight: 0.1 },
     { name: "셀트리온", code: "068270", weight: 0.1 },

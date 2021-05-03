@@ -41,7 +41,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Main({ history }: any) {
   const classes = useStyles();
-  const [userInfo, setUserInfo] = useState<any>({ age: "20~39", period: "1년 미만", affordableRisk: "상관 없음" });
+  const [userInfo, setUserInfo] = useState<any>({
+    age: "20~39",
+    period: "1년 미만",
+    affordableRisk: "상관 없음",
+    annualReturn: "10%~30%",
+    financialWeight: "50% 이하",
+  });
   const handleUserInfo = (key: string, value: string) => {
     const updatedInfo = { ...userInfo };
     if (updatedInfo[key]) updatedInfo[key] = value;

@@ -8,6 +8,7 @@ import PortfolioTabLayout from "./component/PortfolioTabLayout";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ETFData, getSimilarETF } from "src/service/getSimilarETF";
 import { getPortfolioPerformance, PortfolioPerformance } from "src/service/getPortfolioPerformance";
+import { BackTestData, getBackTest } from "src/service/getBackTest";
 
 interface stockInfo {
   name: string;
@@ -27,6 +28,7 @@ const SelectedPortfolio = ({ stockList, selectedPF, modifiedStockList, onChangeS
   const [frontierAIData, setFrontierAIData] = useState<FrontierData>();
   const [similarETFData, setSimilarETFData] = useState<ETFData[]>();
   const [portfolioPerformance, setPortfolioPerformance] = useState<PortfolioPerformance>();
+  const [backTest, setBackTest] = useState<BackTestData>();
   const [loading, setLoading] = React.useState(false);
   const timer = React.useRef<number>();
 
@@ -50,7 +52,18 @@ const SelectedPortfolio = ({ stockList, selectedPF, modifiedStockList, onChangeS
     getPortfolioPerformance(modifiedStockList).then((res) => {
       setPortfolioPerformance(res);
     });
-  }, [modifiedStockList]);
+
+    getBackTest({
+      code: modifiedStockList.map((item) => {
+        return item.code;
+      }),
+      weight: modifiedStockList.map((item) => {
+        return item.weight;
+      }),
+    }).then((res) => {
+      setBackTest(res);
+    });
+  }, [modifiedStockList, stockList]);
 
   return (
     <>
@@ -68,8 +81,8 @@ const SelectedPortfolio = ({ stockList, selectedPF, modifiedStockList, onChangeS
         <DoubleArrowIcon style={{ fontSize: "5rem", margin: "auto", marginLeft: "10px", marginRight: "10px" }} />
         <div>
           <Card style={{ textAlign: "center", marginTop: "73px" }}>
-            {!loading ? (
-              <CurrentSelectedPF selectedPF={selectedPF} />
+            {!loading && backTest !== undefined ? (
+              <CurrentSelectedPF selectedPF={selectedPF} stockList={stockList} previousBackTest={backTest} />
             ) : (
               <Card
                 style={{

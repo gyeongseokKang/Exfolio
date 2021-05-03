@@ -17,24 +17,24 @@ export async function getBackTest(stockList: StockList): Promise<BackTestData | 
       return item / weightTotal;
     });
   }
-  // await axios({
-  //   method: "post",
-  //   url: "http://192.168.175.140:5000/backtest",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   data: JSON.stringify({
-  //     codes: stockList.code,
-  //     weights: stockList.weight,
-  //   }),
-  // })
-  //   .then(function (response) {
-  //     result = response.data;
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  result = testBack;
+  await axios({
+    method: "post",
+    url: "http://192.168.175.140:5000/backtest",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      codes: stockList.code,
+      weights: stockList.weight,
+    }),
+  })
+    .then(function (response) {
+      result = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  //result = testBack;
 
   //await sleep(2000);
   return result;

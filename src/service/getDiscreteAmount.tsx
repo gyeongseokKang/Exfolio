@@ -19,25 +19,25 @@ interface StockList {
 export async function getDiscreteAmount(stockList: StockList, cash: number = 10000000): Promise<DiscreteAmount | undefined> {
   let result: DiscreteAmount | undefined = undefined;
 
-  // await axios({
-  //   method: "post",
-  //   url: "http://192.168.175.140:5000/discrete",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   data: JSON.stringify({
-  //     codes: stockList.code,
-  //     weights: stockList.weight,
-  //     cash: cash,
-  //   }),
-  // })
-  //   .then(function (response) {
-  //     result = response.data;
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  result = testAmount;
+  await axios({
+    method: "post",
+    url: "http://192.168.175.140:5000/discrete",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      codes: stockList.code,
+      weights: stockList.weight,
+      cash: cash,
+    }),
+  })
+    .then(function (response) {
+      result = response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  //result = testAmount;
   //await sleep(2000);
   return result;
 }

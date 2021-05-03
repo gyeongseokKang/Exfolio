@@ -76,11 +76,11 @@ export default function ConfirmDialog({ stockList, open, finalWeightList, onClos
 
   useEffect(() => {
     if (!open) return;
-    getDiscreteAmount({ code: finalWeightList.items, weight: finalWeightList.values }).then((res) => {
-      setDiscreteAmount(res);
-    });
     let codeList = finalWeightList.items.map((item) => {
       return stockList.find((target) => (target.name === item ? target.code : ""))?.code || "";
+    });
+    getDiscreteAmount({ code: codeList, weight: finalWeightList.values }).then((res) => {
+      setDiscreteAmount(res);
     });
 
     getBackTest({ code: codeList, weight: finalWeightList.values }).then((res) => {
@@ -122,10 +122,23 @@ export default function ConfirmDialog({ stockList, open, finalWeightList, onClos
                 config={{ displayModeBar: false }}
               />
               <div className={classes.backTestDescription}>
-                <div> 투자 시작 : {backTest.days[0]} </div>
-                <div> 투자 원금 : 1000만원</div>
-                <div> 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원</div>
-                <div> 예상 수익율 : {Math.round(backTest.values[backTest.values.length - 1] * 100)}%</div>
+                <div> 1000만원 투자시</div>
+                <div>
+                  예상 평가액 :
+                  <span style={{ color: "black", fontWeight: "bold", fontSize: "1.2rem" }}>
+                    {" "}
+                    {Math.round(backTest.values[backTest.values.length - 1] * 1000)}
+                  </span>
+                  만원
+                </div>
+                <div>
+                  예상 수익율 :
+                  <span style={{ color: "black", fontWeight: "bold", fontSize: "1.2rem" }}>
+                    {" "}
+                    {Math.round(backTest.values[backTest.values.length - 1] * 100)}
+                  </span>
+                  %
+                </div>
               </div>
             </div>
           ) : (

@@ -7,19 +7,31 @@ import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
 import Plot from "react-plotly.js";
 
-interface CurrentSelectedPFProp {
-  selectedPF: RRSW;
+interface stockInfo {
+  name: string;
+  code: string;
+  weight: number;
 }
 
-const CurrentSelectedPF = ({ selectedPF }: CurrentSelectedPFProp) => {
+interface CurrentSelectedPFProp {
+  stockList: stockInfo[];
+  selectedPF: RRSW;
+  previousBackTest: BackTestData;
+}
+
+const CurrentSelectedPF = ({ selectedPF, stockList, previousBackTest }: CurrentSelectedPFProp) => {
   const [backTest, setBackTest] = useState<BackTestData>();
   const [testFinish, setTestFinish] = useState<Boolean>(false);
   useEffect(() => {
-    getBackTest({ code: selectedPF.weights.items, weight: selectedPF.weights.values }).then((res) => {
+    let codeList = selectedPF.weights.items.map((item) => {
+      return stockList.find((target) => (target.name === item ? target.code : ""))?.code || "";
+    });
+
+    getBackTest({ code: codeList, weight: selectedPF.weights.values }).then((res) => {
       setBackTest(res);
       setTestFinish(true);
     });
-  }, [selectedPF]);
+  }, [selectedPF, stockList]);
 
   return (
     <>
@@ -28,15 +40,37 @@ const CurrentSelectedPF = ({ selectedPF }: CurrentSelectedPFProp) => {
         {testFinish && backTest !== undefined ? (
           <>
             <br />
-            <div style={{ fontSize: "1.0rem" }}> {backTest.days[0]} 시작 금액 : 1000만원</div>
-            <div style={{ fontSize: "1.0rem" }}>
-              {backTest.days[backTest.days.length - 1]} 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원
+            <div> 1000만원 투자시</div>
+            <div>
+              기존 평가액 :
+              <span style={{ color: "red", fontWeight: "bold", fontSize: "1rem" }}>
+                {" "}
+                {Math.round(previousBackTest.values[backTest.values.length - 1] * 1000)}
+              </span>
+              만원
             </div>
+            <div>
+              개선 평가액 :
+              <span style={{ color: "black", fontWeight: "bold", fontSize: "1.2rem" }}>
+                {" "}
+                {Math.round(backTest.values[backTest.values.length - 1] * 1000)}
+              </span>
+              만원
+            </div>
+            <div>
+              예상 수익율 :
+              <span style={{ color: "black", fontWeight: "bold", fontSize: "1.2rem" }}>
+                {" "}
+                {Math.round(backTest.values[backTest.values.length - 1] * 100)}
+              </span>
+              %
+            </div>
+
             <Plot
               data={[
                 {
                   x: backTest.days,
-                  y: backTest.values.map((item) => Math.round(item * 1000) / 2),
+                  y: previousBackTest.values.map((item) => Math.round(item * 1000)),
                   mode: "lines",
                   line: { shape: "spline" },
                   name: "Lines",
@@ -50,6 +84,9 @@ const CurrentSelectedPF = ({ selectedPF }: CurrentSelectedPFProp) => {
                   mode: "lines",
                   line: { shape: "spline" },
                   name: "Lines",
+                  marker: {
+                    color: "black",
+                  },
                 },
               ]}
               layout={{

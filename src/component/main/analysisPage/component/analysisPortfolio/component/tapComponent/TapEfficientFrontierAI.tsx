@@ -121,7 +121,7 @@ const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList, por
                   y: [portfolioPerformance.enhance.returns],
                   mode: "markers",
                   name: "Dr.폴리오 추천",
-                  marker: { size: 20, symbol: "star", color: "orange" },
+                  marker: { size: 20, symbol: "star", color: "black" },
                   hovertemplate: `<b>Return</b>: %{y:.5f}<br><b>Risk</b>: %{x:.5f}<br>`,
                 },
               ]}
@@ -150,7 +150,7 @@ const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList, por
                 <span style={{ color: "red", fontWeight: "bold" }}>★</span> : 기존 포트폴리오
               </div>
               <div>
-                <span style={{ color: "orange", fontWeight: "bold" }}>★</span> : 개선된 포트폴리오
+                <span style={{ color: "black", fontWeight: "bold" }}>★</span> : 개선된 포트폴리오
               </div>
             </div>
           </Paper>

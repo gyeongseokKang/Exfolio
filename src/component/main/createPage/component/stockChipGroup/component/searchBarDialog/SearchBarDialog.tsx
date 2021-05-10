@@ -53,7 +53,6 @@ interface searchBarDialogProp {
 
 const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, checkedList }: searchBarDialogProp) => {
   const classes = useStyles();
-
   const [searchQuery, setSearchQuery] = useState("");
   const matchedStocks = matchStock(StockData.stockList, searchQuery, checkedList);
   const handleClose = () => {

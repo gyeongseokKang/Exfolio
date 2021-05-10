@@ -2,7 +2,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
+import React, { useCallback, useRef, useLayoutEffect } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,34 +41,44 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface searchBarProp {
   searchQuery: string;
-  setSearchQuery: any;
+  setSearchQuery: (query: string) => void;
 }
 
 const SearchBarInput = ({ searchQuery, setSearchQuery }: searchBarProp) => {
   const classes = useStyles();
+  const inputRef = useRef<HTMLInputElement>(null);
+  useLayoutEffect(() => {
+    if (inputRef.current !== null) inputRef.current.focus();
+  });
+
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(e.target.value);
+    },
+    [setSearchQuery]
+  );
+
+  const inputClear = useCallback(() => {
+    setSearchQuery("");
+  }, [setSearchQuery]);
   return (
     <>
       <div className={classes.root}>
         <SearchIcon fontSize={"small"} style={{ marginTop: "2px", zIndex: 11 }} />
         <form action="/" method="get">
           <input
+            ref={inputRef}
             autoComplete="off"
             className={classes.input}
             value={searchQuery}
-            onInput={(e: any) => setSearchQuery(e.target.value)}
+            onInput={onChange}
             type="text"
             id="header-search"
             placeholder="삼성전자 or 005930"
             name=""
           />
         </form>
-        <HighlightOffIcon
-          className={classes.closeIcon}
-          fontSize={"small"}
-          onClick={() => {
-            setSearchQuery("");
-          }}
-        />
+        <HighlightOffIcon className={classes.closeIcon} fontSize={"small"} onClick={inputClear} />
       </div>
     </>
   );

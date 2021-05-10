@@ -3,7 +3,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import axios from "axios";
 import SearchBarDialog from "./component/searchBarDialog/SearchBarDialog";
 import { Avatar, Button } from "@material-ui/core";
 

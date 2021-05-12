@@ -36,6 +36,7 @@ export async function getEfficientFrontier(stockList: stockInfo[], mode: string)
       result = testAI;
     }
     await sleep(2000);
+    return result;
   }
 
   await axios({

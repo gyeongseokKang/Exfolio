@@ -22,6 +22,7 @@ export async function getDiscreteAmount(stockList: StockList, cash: number = 100
   if (serviceOnOff === false) {
     result = testAmount;
     await sleep(2000);
+    return result;
   }
 
   await axios({

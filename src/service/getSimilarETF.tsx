@@ -29,6 +29,7 @@ export async function getSimilarETF(stockList: stockInfo[]): Promise<ETFData[] |
   if (serviceOnOff === false) {
     result = testSpecific;
     await sleep(2000);
+    return result;
   }
 
   await axios({

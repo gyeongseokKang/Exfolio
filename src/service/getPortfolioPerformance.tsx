@@ -28,6 +28,7 @@ export async function getPortfolioPerformance(stockList: stockInfo[]): Promise<P
   if (serviceOnOff === false) {
     result = testAmount;
     await sleep(2000);
+    return result;
   }
 
   await axios({

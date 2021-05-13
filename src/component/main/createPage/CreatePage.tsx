@@ -110,7 +110,6 @@ export default function VerticalLinearStepper() {
     setSelectedPF(portfolio);
   };
 
-  console.log("ddd");
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">

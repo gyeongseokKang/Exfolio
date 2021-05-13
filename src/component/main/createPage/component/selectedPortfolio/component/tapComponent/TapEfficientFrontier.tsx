@@ -9,6 +9,7 @@ import PortfolioInfoCardWithBtn from "src/component/main/common/wiget/PortfolioI
 import ErrorIcon from "@material-ui/icons/Error";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
+import PriceScroller from "./PriceScroller";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,6 +55,40 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: "10px",
       },
     },
+    test: {
+      "&:hover": {
+        "& $number": {
+          backgroundColor: "red",
+        },
+      },
+    },
+    number: {
+      animation: `$myEffect 1000ms ${theme.transitions.easing.easeInOut}`,
+    },
+    numberDown: {
+      animation: `$myEffectExit 1000ms ${theme.transitions.easing.easeInOut}`,
+      transform: "translateY(-200%)",
+    },
+    "@keyframes myEffect": {
+      "0%": {
+        opacity: 0.5,
+        transform: "translateY(-200%)",
+      },
+      "100%": {
+        opacity: 1,
+        transform: "translateY(0)",
+      },
+    },
+    "@keyframes myEffectExit": {
+      "0%": {
+        opacity: 0.5,
+        transform: "translateY(0)",
+      },
+      "100%": {
+        opacity: 1,
+        transform: "translateY(-200%)",
+      },
+    },
   })
 );
 
@@ -69,6 +104,8 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList }: Tap
   const [clickedPF, setClickedPF] = useState<RRSW>(frontierData.frontier[0]);
   const [backTest, setBackTest] = useState<BackTestData>();
   const [testFinish, setTestFinish] = useState<Boolean>(false);
+  const [hoverPrice, setHoverPrice] = useState<string>("1000");
+  //let hoverPrice = "0";
 
   let frontierX: number[] = [];
   let frontierY: number[] = [];
@@ -76,6 +113,7 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList }: Tap
   let specificY: number[] = [];
 
   frontierData.frontier.forEach((item) => {
+    console.log("frontierData render");
     frontierX.push(item.risk);
     frontierY.push(item.returns);
   });
@@ -97,6 +135,7 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList }: Tap
       setTestFinish(true);
     });
   }, [clickedPF, stockList]);
+
   return (
     <>
       <div className={classes.root}>
@@ -153,11 +192,13 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList }: Tap
               }}
             />
           </Paper>
+
           <Paper className={classes.infoCard} elevation={0}>
             <div>모델 실행 결과</div>
             {testFinish && backTest !== undefined ? (
               <>
                 <Plot
+                  className={classes.test}
                   data={[
                     {
                       x: backTest.days,
@@ -180,22 +221,26 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList }: Tap
                     },
                   }}
                   config={{ displayModeBar: false }}
+                  onHover={(event) => {
+                    if (event.points[0].y) {
+                      setHoverPrice(String(event.points[0].y));
+                    }
+                  }}
                 />
                 <br />
                 <div className={classes.backTestDescription}>
+                  {/* <PriceScroller numberLength={hoverPrice.length} currentNumber={hoverPrice} suffix={"만"} /> */}
                   <div> 1000만원 투자시</div>
                   <div>
-                    예상 평가액 :
+                    최종 평가액 :
                     <span style={{ color: "black", fontWeight: "bold", fontSize: "1.2rem" }}>
-                      {" "}
                       {Math.round(backTest.values[backTest.values.length - 1] * 1000)}
                     </span>
                     만원
                   </div>
                   <div>
-                    예상 수익율 :
+                    최종 수익율 :
                     <span style={{ color: "black", fontWeight: "bold", fontSize: "1.2rem" }}>
-                      {" "}
                       {Math.round(backTest.values[backTest.values.length - 1] * 100)}
                     </span>
                     %

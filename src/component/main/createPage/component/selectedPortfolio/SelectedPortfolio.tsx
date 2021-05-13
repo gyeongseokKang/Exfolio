@@ -28,7 +28,7 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
   const [loading, setLoading] = React.useState(false);
   const timer = React.useRef<number>();
 
-  console.log(stockList);
+  //console.log(stockList);
   const handleSelectedPF = (portfolio: RRSW) => {
     setLoading(true);
     onChangeSelectedPF(portfolio);

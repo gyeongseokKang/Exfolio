@@ -2,9 +2,8 @@ import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import SearchBarDialog from "./component/searchBarDialog/SearchBarDialog";
 import { Avatar, Button } from "@material-ui/core";
+import AddStock from "src/component/main/common/addStock/AddStock";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -85,14 +84,6 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
     prop.onDelete(name);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const open = Boolean(anchorEl);
-
   return (
     <>
       <div>
@@ -105,18 +96,7 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
               </li>
             ))}
           </Paper>
-          <Button className={classes.button} variant="contained" size="small" onClick={handleClick}>
-            <AddCircleIcon />
-            주식 추가
-          </Button>
-          <SearchBarDialog
-            onOpen={open}
-            anchorEl={anchorEl}
-            setAnchorEl={setAnchorEl}
-            onAdd={prop.onAdd}
-            onDelete={prop.onDelete}
-            checkedList={prop.stockList}
-          />
+          <AddStock stockList={prop.stockList} onAdd={prop.onAdd} onChange={prop.onChange} onDelete={prop.onDelete} />
         </Paper>
       </div>
     </>

@@ -38,7 +38,7 @@ const matchStock = (stockList: { code: string; name: string }[], query: string, 
     });
 };
 
-interface searchBarDialogProp {
+interface addStockDialogProp {
   onOpen: boolean;
   anchorEl: HTMLButtonElement | null;
   setAnchorEl: (anchorEl: HTMLButtonElement | null) => void;
@@ -51,8 +51,9 @@ interface searchBarDialogProp {
   }[];
 }
 
-const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, checkedList }: searchBarDialogProp) => {
+const AddStockDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, checkedList }: addStockDialogProp) => {
   const classes = useStyles();
+
   const [searchQuery, setSearchQuery] = useState("");
   const matchedStocks = matchStock(StockData.stockList, searchQuery, checkedList);
   const handleClose = () => {
@@ -94,4 +95,4 @@ const SearchBarDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, check
   );
 };
 
-export default SearchBarDialog;
+export default AddStockDialog;

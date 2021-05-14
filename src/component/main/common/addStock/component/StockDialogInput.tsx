@@ -39,12 +39,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface searchBarProp {
+interface StockDialogProp {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 }
 
-const SearchBarInput = ({ searchQuery, setSearchQuery }: searchBarProp) => {
+const StockDialogInput = ({ searchQuery, setSearchQuery }: StockDialogProp) => {
   const classes = useStyles();
   const inputRef = useRef<HTMLInputElement>(null);
   useLayoutEffect(() => {
@@ -84,4 +84,4 @@ const SearchBarInput = ({ searchQuery, setSearchQuery }: searchBarProp) => {
   );
 };
 
-export default SearchBarInput;
+export default StockDialogInput;

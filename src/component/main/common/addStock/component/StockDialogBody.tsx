@@ -63,7 +63,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface SearchBarBodyProp {
+interface StockDialogBodyProp {
+  searchQuery: string;
   onAdd(name: string, code: string): void;
   onDelete(name: string): void;
   matchedStocks: {
@@ -73,7 +74,7 @@ interface SearchBarBodyProp {
   }[];
 }
 
-const SearchBarBody = ({ onAdd, onDelete, matchedStocks }: SearchBarBodyProp) => {
+const StockDialogBody = ({ searchQuery, onAdd, onDelete, matchedStocks }: StockDialogBodyProp) => {
   const classes = useStyles();
   return (
     <>
@@ -98,10 +99,26 @@ const SearchBarBody = ({ onAdd, onDelete, matchedStocks }: SearchBarBodyProp) =>
               }}
             >
               <div className={classes.stockCode} id={`${StockData.code}_code`}>
-                {StockData.code}
+                {StockData.code.includes(searchQuery) ? (
+                  <>
+                    {StockData.code.split(searchQuery)[0]}
+                    <span style={{ color: "#3F51B5" }}>{searchQuery}</span>
+                    {StockData.code.split(searchQuery)[1]}
+                  </>
+                ) : (
+                  StockData.code
+                )}
               </div>
               <div className={classes.stockName} id={`${StockData.name}_name`}>
-                {StockData.name}
+                {StockData.name.includes(searchQuery) ? (
+                  <>
+                    {StockData.name.split(searchQuery)[0]}
+                    <span style={{ color: "#3F51B5" }}>{searchQuery}</span>
+                    {StockData.name.split(searchQuery)[1]}
+                  </>
+                ) : (
+                  StockData.name
+                )}
               </div>
               <Checkbox
                 id={`${StockData.code}_checkbox`}
@@ -126,4 +143,4 @@ const SearchBarBody = ({ onAdd, onDelete, matchedStocks }: SearchBarBodyProp) =>
   );
 };
 
-export default SearchBarBody;
+export default StockDialogBody;

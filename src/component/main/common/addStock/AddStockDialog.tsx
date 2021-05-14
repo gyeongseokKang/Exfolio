@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button, Popover } from "@material-ui/core";
-import SearchBarInput from "./component/SearchBarInput";
+import StockDialogInput from "./component/StockDialogInput";
+import StockDialogBody from "./component/StockDialogBody";
 import StockData from "./stockList.json";
-import SearchBarBody from "./component/SearchBarBody";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,17 +78,11 @@ const AddStockDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, checke
           style: { maxHeight: "610px", width: "320px" },
         }}
       >
-        <SearchBarInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <Button
-          className={classes.closeBtn}
-          onClick={() => {
-            handleClose();
-          }}
-        >
+        <StockDialogInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <Button className={classes.closeBtn} onClick={() => handleClose()}>
           닫기
         </Button>
-
-        <SearchBarBody onAdd={onAdd} onDelete={onDelete} matchedStocks={matchedStocks} />
+        <StockDialogBody searchQuery={searchQuery} onAdd={onAdd} onDelete={onDelete} matchedStocks={matchedStocks} />
       </Popover>
     </>
   );

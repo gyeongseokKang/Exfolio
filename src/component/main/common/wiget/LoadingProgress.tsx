@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface LoadingProgressProp {
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   description?: string;
 }
 const LoadingProgress = ({ width, height, description = "..." }: LoadingProgressProp) => {

@@ -106,7 +106,7 @@ const CurrentSelectedPF = ({ selectedPF, stockList, previousBackTest }: CurrentS
           </>
         ) : (
           <div>
-            <LoadingProgress width={300} height={300} description={"테스트 분석중..."} />
+            <LoadingProgress width={300} height={300} description={"백테스팅 진행중..."} />
           </div>
         )}
       </Paper>

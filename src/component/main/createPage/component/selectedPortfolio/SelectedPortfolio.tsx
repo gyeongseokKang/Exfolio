@@ -7,7 +7,8 @@ import CurrentSelectedPF from "./component/CurrentSelectedPF";
 import PortfolioTabLayout from "./component/PortfolioTabLayout";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ETFData, getSimilarETF } from "src/service/getSimilarETF";
-import { convertToObject } from "typescript";
+import Skeleton from "@material-ui/lab/Skeleton";
+import SelectedPFSkeleton from "src/component/main/common/wiget/SelectedPFSkeleton";
 
 interface stockInfo {
   name: string;
@@ -62,8 +63,10 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
         </div>
         <DoubleArrowIcon style={{ fontSize: "5rem", margin: "auto", marginLeft: "10px", marginRight: "10px" }} />
         <div>
-          <Card style={{ textAlign: "center", marginTop: "73px" }}>
-            {!loading && selectedPF !== undefined ? (
+          <Card style={{ width: "17.5rem", height: "28rem", textAlign: "center", marginTop: "73px" }}>
+            {selectedPF === undefined ? (
+              <SelectedPFSkeleton />
+            ) : !loading ? (
               <CurrentSelectedPF selectedPF={selectedPF} />
             ) : (
               <Card
@@ -74,7 +77,7 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
                   height: "450px",
                 }}
               >
-                <LoadingProgress height={350} description={"포트폴리오 적용중..."} />
+                <LoadingProgress height={"30rem"} description={"포트폴리오 적용중..."} />
               </Card>
             )}
           </Card>

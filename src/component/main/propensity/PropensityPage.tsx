@@ -1,35 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import TreeView from "@material-ui/lab/TreeView";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import TreeItem from "@material-ui/lab/TreeItem";
-
 import AnswerGroup from "./component/AnswerGroup";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    fontSize: "1rem",
-    fontWeight: 500,
-    fontFamily: "Noto Sans CJK KR",
+    width: "100%",
   },
-  "& > *": {
+  "& *": {
     fontWeight: 500,
     fontFamily: "Noto Sans CJK KR",
   },
 }));
 
-interface UserPropensityProp {
-  userInfo: any;
-  handleUserInfo: (key: string, value: string) => void;
-}
-
-const UserPropensity = ({ userInfo, handleUserInfo }: UserPropensityProp) => {
+const PropensityPage = () => {
   const classes = useStyles();
+  const [userInfo, setUserInfo] = useState<any>({
+    age: "20~39",
+    period: "1년 미만",
+    affordableRisk: "상관 없음",
+    annualReturn: "10%~30%",
+    financialWeight: "50% 이하",
+  });
+  const handleUserInfo = (key: string, value: string) => {
+    const updatedInfo = { ...userInfo };
+    if (updatedInfo[key]) updatedInfo[key] = value;
+    setUserInfo(updatedInfo);
+  };
   return (
     <>
-      <TreeView className={classes.root} defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
-        <TreeItem nodeId="1" label="성향">
+      <div className={classes.root}>
+        <div>
           <AnswerGroup
             question={"연령대"}
             userInfo={userInfo.age}
@@ -65,10 +65,9 @@ const UserPropensity = ({ userInfo, handleUserInfo }: UserPropensityProp) => {
             answers={["10% 이하", "30% 이하", "50% 이하", "70% 이하", "70% 초과"]}
             handleUserInfo={handleUserInfo}
           />
-        </TreeItem>
-      </TreeView>
+        </div>
+      </div>
     </>
   );
 };
-
-export default UserPropensity;
+export default PropensityPage;

@@ -24,9 +24,7 @@ export default function AnswerGroup({ question, userInfo, type, answers, handleU
 
   return (
     <FormControl component="fieldset" style={{ paddingRight: "50px" }}>
-      <FormLabel component="legend" style={{ fontWeight: 500, fontFamily: "Noto Sans CJK KR" }}>
-        {question}
-      </FormLabel>
+      <FormLabel component="legend">{question}</FormLabel>
       <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
         {answers.map((item) => {
           return <FormControlLabel value={item} control={<Radio color="primary" />} label={item} />;

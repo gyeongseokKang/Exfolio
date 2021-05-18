@@ -14,10 +14,6 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100vh",
       float: "left",
       borderRadius: "0px 20px 20px 0px / 0px 20px 20px 0px",
-      "& img": {
-        width: "50px",
-        height: "50px",
-      },
     },
   })
 );

@@ -13,12 +13,23 @@ const useStyles = makeStyles((theme: Theme) =>
     header: {
       borderBottom: "1px solid lavender",
     },
+    stockBody: {
+      overflowY: "scroll",
+      overflowX: "hidden",
+      maxHeight: "500px",
+    },
     stockItem: {
-      marginBottom: "1px",
-      marginRight: "2px",
+      display: "flex",
+      alignItems: "center",
       "&:hover": {
         backgroundColor: "lavender",
         cursor: "pointer",
+      },
+      "&:nth-child(even)": {
+        backgroundColor: "#F5F5F5",
+        "&:hover": {
+          backgroundColor: "lavender",
+        },
       },
     },
     stockCode: {
@@ -26,26 +37,19 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "80px",
       fontSize: "0.8rem",
       color: "gray",
-      paddingTop: "15px",
     },
     stockName: {
       float: "left",
-      width: "140px",
-      paddingTop: "12px",
+      width: "160px",
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       overflow: "hidden",
     },
     noMatchedText: {
+      display: "flex",
+      justifyContent: "center",
       fontSize: "0.8rem",
       color: "gray",
-      paddingLeft: "80px",
-      paddingTop: "10px",
-    },
-    upScroll: {
-      position: "sticky",
-      bottom: "0",
-      marginLeft: "270px",
     },
     "@global": {
       "*::-webkit-scrollbar": {
@@ -76,19 +80,29 @@ interface StockDialogBodyProp {
 
 const StockDialogBody = ({ searchQuery, onAdd, onDelete, matchedStocks }: StockDialogBodyProp) => {
   const classes = useStyles();
+
   return (
     <>
       <div className={classes.root}>
         <div className={classes.header}>
-          <div style={{ float: "left", width: "80px" }}>코드</div>
+          <div style={{ float: "left", width: "100px" }}>코드</div>
           <div style={{ float: "left", width: "145px" }}>주식명</div>
           <div>선택</div>
         </div>
-        <div style={{ overflowY: "scroll", overflowX: "hidden", maxHeight: "500px" }}>
-          {matchedStocks.map((StockData: { code: string; name: string; checked: boolean }) => (
-            <BodyItem StockData={StockData} searchQuery={searchQuery} onAdd={onAdd} onDelete={onDelete} matchedStocks={matchedStocks} />
-          ))}
+        <div className={classes.stockBody}>
+          {matchedStocks
+            .map((StockData: { code: string; name: string; checked: boolean }) => (
+              <BodyItem StockData={StockData} searchQuery={searchQuery} onAdd={onAdd} onDelete={onDelete} matchedStocks={matchedStocks} />
+            ))
+            .slice(0, 100)}
           {matchedStocks.length === 0 ? <div className={classes.noMatchedText}>검색된 결과가 없습니다.</div> : undefined}
+          {matchedStocks.length > 100 ? (
+            <div className={classes.noMatchedText}>
+              검색된 100개를 초과했습니다.
+              <br />
+              구체적인 정보를 입력해주세요
+            </div>
+          ) : undefined}
         </div>
       </div>
     </>

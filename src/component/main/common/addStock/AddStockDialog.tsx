@@ -65,11 +65,11 @@ const AddStockDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, checke
         onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center",
+          horizontal: "left",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "center",
+          horizontal: "left",
         }}
         PaperProps={{
           style: { maxHeight: "610px", width: "320px" },

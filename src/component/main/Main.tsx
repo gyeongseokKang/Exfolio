@@ -1,8 +1,8 @@
+import React from "react";
 import { Paper } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import analysisPF from "./analysisPF.jpg";
 import createPF from "./createPF.png";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React, { useState } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

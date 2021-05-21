@@ -3,7 +3,6 @@ import { Button, Card } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Plot from "react-plotly.js";
 import WeightSlider from "./component/WeightSlider";
-import ConfirmDialog from "./component/ConfirmDialog";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 const useStyles = makeStyles((theme: Theme) =>

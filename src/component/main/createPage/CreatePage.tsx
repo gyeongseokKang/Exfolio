@@ -90,26 +90,18 @@ export default function VerticalLinearStepper() {
   const [holdings, setHoldings] = React.useState<Holding[]>(testHoldings);
 
   const onChange = (name: string, value: number) => {
-    let updateList = [...holdings];
-    updateList = updateList.map((item) => {
-      return item.name !== name ? item : { name: item.name, code: item.code, weight: value };
-    });
-    setHoldings(updateList);
+    setHoldings((holdings) =>
+      holdings.map((holding) => (holding.name !== name ? holding : { name: holding.name, code: holding.code, weight: value }))
+    );
   };
 
   const onAdd = (name: string, code: string) => {
     if (holdings.find((item: Holding) => item.name === name || item.code === code)) return;
-    let updateList = [...holdings];
-    updateList.push({ name: name, code: code });
-    setHoldings(updateList);
+    setHoldings((holdings) => holdings.concat({ name: name, code: code }));
   };
 
   const onDelete = (name: string) => {
-    let updateList = [...holdings];
-    updateList = updateList.filter((item) => {
-      return item.name !== name;
-    });
-    setHoldings(updateList);
+    setHoldings((holdings) => holdings.filter((holding) => holding.name !== name));
   };
 
   const [selectedPF, setSelectedPF] = React.useState<RRSW>();

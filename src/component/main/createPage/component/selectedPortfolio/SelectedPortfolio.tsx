@@ -9,27 +9,28 @@ import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ETFData, getSimilarETF } from "src/service/getSimilarETF";
 import Skeleton from "@material-ui/lab/Skeleton";
 import SelectedPFSkeleton from "src/component/main/common/wiget/SelectedPFSkeleton";
+import { Holding } from "../../CreatePage";
 
-interface stockInfo {
-  name: string;
-  code: string;
+interface HoldingsWeight {
+  name?: string;
+  code?: string;
   weight: number;
 }
 
 interface SelectedPortfolioProp {
-  stockList: stockInfo[];
+  holdings: Holding[];
   selectedPF: RRSW | undefined;
   onChangeSelectedPF: (PF: RRSW) => void;
 }
 
-const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
+const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
   const [frontierData, setFrontierData] = useState<FrontierData>();
   const [frontierAIData, setFrontierAIData] = useState<FrontierData>();
   const [similarETFData, setSimilarETFData] = useState<ETFData[]>();
   const [loading, setLoading] = React.useState(false);
+  const [holdingsWeights, setHoldingsWeights] = useState<HoldingsWeight[]>();
   const timer = React.useRef<number>();
 
-  //console.log(stockList);
   const handleSelectedPF = (portfolio: RRSW) => {
     setLoading(true);
     onChangeSelectedPF(portfolio);
@@ -38,16 +39,27 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
     }, 500);
   };
   useEffect(() => {
-    getEfficientFrontier(stockList, "semi_variance").then((res) => {
+    let targetHoldings = holdings.map((holding) => {
+      return {
+        name: holding.name,
+        code: holding.code,
+        weight:
+          holdingsWeights?.find((item) => {
+            return item.code === holding.code || item.name === holding.name;
+          })?.weight || 0,
+      };
+    });
+
+    getEfficientFrontier(targetHoldings, "semi_variance").then((res) => {
       setFrontierData(res);
     });
-    getEfficientFrontier(stockList, "semi_absolute").then((res) => {
+    getEfficientFrontier(targetHoldings, "semi_absolute").then((res) => {
       setFrontierAIData(res);
     });
-    getSimilarETF(stockList).then((res) => {
+    getSimilarETF(targetHoldings).then((res) => {
       setSimilarETFData(res);
     });
-  }, [stockList]);
+  }, [holdings, holdingsWeights]);
 
   return (
     <>
@@ -55,7 +67,7 @@ const SelectedPortfolio = ({ stockList, selectedPF, onChangeSelectedPF }: Select
         <div style={{ paddingRight: "20px" }}>
           <PortfolioTabLayout
             handleSelectedPF={handleSelectedPF}
-            stockList={stockList}
+            holdings={holdings}
             frontierData={frontierData}
             frontierAIData={frontierAIData}
             similarETFData={similarETFData}

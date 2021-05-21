@@ -19,13 +19,13 @@ export interface FrontierData {
     min_risk: RRSW;
   };
 }
-interface stockInfo {
+export interface QueryStockInfo {
   name: string;
   code: string;
   weight: number;
 }
 
-export async function getEfficientFrontier(stockList: stockInfo[], mode: string): Promise<FrontierData | undefined> {
+export async function getEfficientFrontier(stockList: QueryStockInfo[], mode: string): Promise<FrontierData | undefined> {
   let result: FrontierData | undefined = undefined;
 
   if (serviceOnOff === false) {
@@ -47,7 +47,7 @@ export async function getEfficientFrontier(stockList: stockInfo[], mode: string)
     },
     data: JSON.stringify({
       mode: "original",
-      codes: stockList.map((item: stockInfo) => item.code),
+      codes: stockList.map((item: QueryStockInfo) => item.code),
     }),
   })
     .then(function (response) {

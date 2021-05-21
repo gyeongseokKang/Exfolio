@@ -6,6 +6,7 @@ import WeightSlider from "./component/WeightSlider";
 import ConfirmDialog from "./component/ConfirmDialog";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { RRSW } from "src/service/getEfficientFrontier";
+import { Holding } from "../../CreatePage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,18 +59,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ConfirmPortfolioProp {
   selectedPF: RRSW | undefined;
-  stockList: stockInfo[];
+  holdings: Holding[];
 }
 
-interface stockInfo {
-  name: string;
-  code: string;
-  weight: number;
-}
-
-const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
+const ConfirmPortfolio = ({ holdings, selectedPF }: ConfirmPortfolioProp) => {
   const classes = useStyles();
-
   if (selectedPF === undefined) {
     selectedPF = {
       returns: 0,
@@ -153,7 +147,7 @@ const ConfirmPortfolio = ({ stockList, selectedPF }: ConfirmPortfolioProp) => {
             >
               confirm
             </Button>
-            <ConfirmDialog stockList={stockList} finalWeightList={weightList} open={open} onClose={handleClose} />
+            <ConfirmDialog holdings={holdings} finalWeightList={weightList} open={open} onClose={handleClose} />
           </div>
         </Card>
       </div>

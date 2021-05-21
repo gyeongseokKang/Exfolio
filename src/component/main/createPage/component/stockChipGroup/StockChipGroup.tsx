@@ -4,6 +4,7 @@ import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 import { Avatar, Button } from "@material-ui/core";
 import AddStock from "src/component/main/common/addStock/AddStock";
+import { Holding } from "../../CreatePage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,24 +65,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface stockInfo {
-  name: string;
-  code: string;
-  weight: number;
-}
-
 interface StockListLayoutProp {
-  stockList: stockInfo[];
+  holdings: Holding[];
   onChange(name: string, value: number): void;
   onDelete(name: string): void;
   onAdd(name: string, code: string): void;
 }
 
-export default function StockChipGroup(prop: StockListLayoutProp) {
+export default function StockChipGroup({ holdings, onChange, onDelete, onAdd }: StockListLayoutProp) {
   const classes = useStyles();
 
   const handleDelete = (name: string) => () => {
-    prop.onDelete(name);
+    onDelete(name);
   };
 
   return (
@@ -89,14 +84,14 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
       <div>
         <Paper elevation={0} style={{ display: "flex" }}>
           <Paper component="ul" className={classes.root}>
-            {prop.stockList.length === 0 ? <div className={classes.placeHolderText}>주식 추가 버튼을 클릭하여 주식을 추가하세요</div> : undefined}
-            {prop.stockList.map((item) => (
+            {holdings.length === 0 ? <div className={classes.placeHolderText}>주식 추가 버튼을 클릭하여 주식을 추가하세요</div> : undefined}
+            {holdings.map((item) => (
               <li key={item.name}>
                 <Chip avatar={<Avatar>S</Avatar>} label={item.name} onDelete={handleDelete(item.name)} className={classes.chip} />
               </li>
             ))}
           </Paper>
-          <AddStock stockList={prop.stockList} onAdd={prop.onAdd} onChange={prop.onChange} onDelete={prop.onDelete} />
+          <AddStock stockList={holdings} onAdd={onAdd} onChange={onChange} onDelete={onDelete} />
         </Paper>
       </div>
     </>

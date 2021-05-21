@@ -39,12 +39,12 @@ interface RRSW {
 }
 
 interface TapSimilarETFProp {
-  stockList: { name: string; code: string; weight: number }[];
+  holdings: { name: string; code: string }[];
   similarETFData: ETFData[];
   handleSelectedPF: (portfolio: RRSW) => void;
 }
 
-const TapSimilarETF = ({ handleSelectedPF, stockList, similarETFData }: TapSimilarETFProp) => {
+const TapSimilarETF = ({ handleSelectedPF, holdings, similarETFData }: TapSimilarETFProp) => {
   const classes = useStyles();
   let similarETF: ETFData[] = similarETFData;
   return (
@@ -66,7 +66,7 @@ const TapSimilarETF = ({ handleSelectedPF, stockList, similarETFData }: TapSimil
               },
             };
             // 포함하고 있는 주식만 구하는 로직
-            // let matchedList = stockList.filter((item) => {
+            // let matchedList = holdings.filter((item) => {
             //   return info.weights.items.includes(item.name);
             // });
             return (

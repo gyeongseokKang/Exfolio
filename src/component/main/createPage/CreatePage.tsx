@@ -31,9 +31,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+export interface Holding {
+  name: string;
+  code: string;
+  weight?: number;
+}
+
 interface stepContentProp {
   step: number;
-  sharesHeldList: any;
+  holdings: Holding[];
   selectedPF: RRSW | undefined;
   onChange: (name: string, value: number) => void;
   onDelete: (name: string) => void;
@@ -41,14 +47,14 @@ interface stepContentProp {
   onChangeSelectedPF: (PF: RRSW) => void;
 }
 
-function getStepContent({ step, sharesHeldList, selectedPF, onChange, onDelete, onAdd, onChangeSelectedPF }: stepContentProp) {
+function getStepContent({ step, holdings, selectedPF, onChange, onDelete, onAdd, onChangeSelectedPF }: stepContentProp) {
   switch (step) {
     case 0:
-      return <StockChipGroup stockList={sharesHeldList} onChange={onChange} onDelete={onDelete} onAdd={onAdd} />;
+      return <StockChipGroup holdings={holdings} onChange={onChange} onDelete={onDelete} onAdd={onAdd} />;
     case 1:
-      return <SelectedPortfolio stockList={sharesHeldList} selectedPF={selectedPF} onChangeSelectedPF={onChangeSelectedPF} />;
+      return <SelectedPortfolio holdings={holdings} selectedPF={selectedPF} onChangeSelectedPF={onChangeSelectedPF} />;
     case 2:
-      return <ConfirmPortfolio stockList={sharesHeldList} selectedPF={selectedPF} />;
+      return <ConfirmPortfolio holdings={holdings} selectedPF={selectedPF} />;
     default:
       return "Unknown step";
   }
@@ -70,39 +76,40 @@ export default function VerticalLinearStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
-  const testsHeldList = [
-    { name: "SK하이닉스", code: "003550", weight: 0 },
-    { name: "LG", code: "005380", weight: 0 },
-    { name: "현대차", code: "036570", weight: 0 },
-    { name: "삼성전자", code: "035720", weight: 0 },
-    { name: "한국전력", code: "000660", weight: 0 },
-    { name: "카카오", code: "015760", weight: 0 },
-    { name: "엔씨소프트", code: "005930", weight: 0 },
-    { name: "셀트리온", code: "068270", weight: 0 },
+
+  const testHoldings = [
+    { name: "SK하이닉스", code: "003550" },
+    { name: "LG", code: "005380" },
+    { name: "현대차", code: "036570" },
+    { name: "삼성전자", code: "035720" },
+    { name: "한국전력", code: "000660" },
+    { name: "카카오", code: "015760" },
+    { name: "엔씨소프트", code: "005930" },
+    { name: "셀트리온", code: "068270" },
   ];
-  const [sharesHeldList, setSharesHeldList] = React.useState<{ name: string; code: string; weight: number }[]>(testsHeldList);
+  const [holdings, setHoldings] = React.useState<Holding[]>(testHoldings);
 
   const onChange = (name: string, value: number) => {
-    let updateList = [...sharesHeldList];
+    let updateList = [...holdings];
     updateList = updateList.map((item) => {
       return item.name !== name ? item : { name: item.name, code: item.code, weight: value };
     });
-    setSharesHeldList(updateList);
+    setHoldings(updateList);
   };
 
   const onAdd = (name: string, code: string) => {
-    if (sharesHeldList.find((item: { name: string; code: string }) => item.name === name || item.code === code)) return;
-    let updateList = [...sharesHeldList];
-    updateList.push({ name: name, code: code, weight: 0 });
-    setSharesHeldList(updateList);
+    if (holdings.find((item: Holding) => item.name === name || item.code === code)) return;
+    let updateList = [...holdings];
+    updateList.push({ name: name, code: code });
+    setHoldings(updateList);
   };
 
   const onDelete = (name: string) => {
-    let updateList = [...sharesHeldList];
+    let updateList = [...holdings];
     updateList = updateList.filter((item) => {
       return item.name !== name;
     });
-    setSharesHeldList(updateList);
+    setHoldings(updateList);
   };
 
   const [selectedPF, setSelectedPF] = React.useState<RRSW>();
@@ -119,12 +126,12 @@ export default function VerticalLinearStepper() {
             <StepContent>
               {getStepContent({
                 step: index,
-                sharesHeldList,
+                holdings,
                 selectedPF,
-                onChange,
-                onDelete,
                 onAdd,
+                onChange,
                 onChangeSelectedPF,
+                onDelete,
               })}
               <div className={classes.actionsContainer}>
                 <div>

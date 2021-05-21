@@ -4,6 +4,7 @@ import { Button, Popover } from "@material-ui/core";
 import StockDialogInput from "./component/StockDialogInput";
 import StockDialogBody from "./component/StockDialogBody";
 import StockData from "./stockList.json";
+import { Holdings } from "./AddStock";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const matchStock = (stockList: { code: string; name: string }[], query: string, checkedList: { name: string; code: string; weight: number }[]) => {
+const matchStock = (stockList: Holdings[], query: string, checkedList: Holdings[]) => {
   if (!query) {
     return [];
   }
@@ -28,10 +29,10 @@ const matchStock = (stockList: { code: string; name: string }[], query: string, 
   }
 
   return stockList
-    .filter((stock: { code: string; name: string }) => {
+    .filter((stock: Holdings) => {
       return stock.code.includes(query) || stock.name.toLowerCase().includes(query);
     })
-    .map((stock: { code: string; name: string }) => {
+    .map((stock: Holdings) => {
       let checked = checkedList.some((item) => item.name === stock.name);
       return { ...stock, checked: checked };
     });
@@ -43,11 +44,7 @@ interface addStockDialogProp {
   setAnchorEl: (anchorEl: HTMLButtonElement | null) => void;
   onAdd(name: string, code: string): void;
   onDelete(name: string): void;
-  checkedList: {
-    name: string;
-    code: string;
-    weight: number;
-  }[];
+  checkedList: Holdings[];
 }
 
 const AddStockDialog = ({ onOpen, anchorEl, setAnchorEl, onAdd, onDelete, checkedList }: addStockDialogProp) => {

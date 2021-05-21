@@ -6,6 +6,7 @@ import { DiscreteAmount, getDiscreteAmount } from "src/service/getDiscreteAmount
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
 import StockTable from "./StockTable";
+import { Holding } from "../../../CreatePage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,16 +58,10 @@ interface ConfirmDialogProp {
     values: number[];
   };
   onClose: () => void;
-  stockList: stockInfo[];
+  holdings: Holding[];
 }
 
-interface stockInfo {
-  name: string;
-  code: string;
-  weight: number;
-}
-
-export default function ConfirmDialog({ stockList, open, finalWeightList, onClose }: ConfirmDialogProp) {
+export default function ConfirmDialog({ holdings, open, finalWeightList, onClose }: ConfirmDialogProp) {
   const classes = useStyles();
   const [discreteAmount, setDiscreteAmount] = useState<DiscreteAmount>();
   const [backTest, setBackTest] = useState<BackTestData>();
@@ -77,7 +72,7 @@ export default function ConfirmDialog({ stockList, open, finalWeightList, onClos
   useEffect(() => {
     if (!open) return;
     let codeList = finalWeightList.items.map((item) => {
-      return stockList.find((target) => (target.name === item ? target.code : ""))?.code || "";
+      return holdings.find((target) => (target.name === item ? target.code : ""))?.code || "";
     });
     getDiscreteAmount({ code: codeList, weight: finalWeightList.values }).then((res) => {
       setDiscreteAmount(res);
@@ -86,9 +81,8 @@ export default function ConfirmDialog({ stockList, open, finalWeightList, onClos
     getBackTest({ code: codeList, weight: finalWeightList.values }).then((res) => {
       setBackTest(res);
     });
-  }, [finalWeightList, open, stockList]);
-  console.log(finalWeightList.items);
-  console.log(backTest);
+  }, [finalWeightList, open, holdings]);
+
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} maxWidth={"md"}>
       <div className={classes.root}>

@@ -2,14 +2,13 @@ import React from "react";
 import AddStockButton from "./AddStockButton";
 import AddStockDialog from "./AddStockDialog";
 
-interface stockInfo {
+export interface Holdings {
   name: string;
   code: string;
-  weight: number;
 }
 
 interface AddStockProp {
-  stockList: stockInfo[];
+  stockList: Holdings[];
   onChange(name: string, value: number): void;
   onDelete(name: string): void;
   onAdd(name: string, code: string): void;

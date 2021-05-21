@@ -61,10 +61,10 @@ const useStyles = makeStyles((theme: Theme) =>
 interface TapEfficientFrontierAIProp {
   handleSelectedPF: (portfolio: RRSW) => void;
   frontierData: FrontierData;
-  stockList: { name: string; code: string; weight: number }[];
+  holdings: { name: string; code: string }[];
 }
 
-const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList }: TapEfficientFrontierAIProp) => {
+const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, holdings }: TapEfficientFrontierAIProp) => {
   const classes = useStyles();
 
   const [clickedPF, setClickedPF] = useState<RRSW>(frontierData.frontier[0]);
@@ -89,14 +89,14 @@ const TapEfficientFrontierAI = ({ handleSelectedPF, frontierData, stockList }: T
   useEffect(() => {
     setTestFinish(false);
     let codeList = clickedPF.weights.items.map((item) => {
-      return stockList.find((target) => (target.name === item ? target.code : ""))?.code || "";
+      return holdings.find((target) => (target.name === item ? target.code : ""))?.code || "";
     });
 
     getBackTest({ code: codeList, weight: clickedPF.weights.values }).then((res) => {
       setBackTest(res);
       setTestFinish(true);
     });
-  }, [clickedPF, stockList]);
+  }, [clickedPF, holdings]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Main from "./component/main/Main";
 import LNB from "./component/lnb/LNB";
 import CreatePage from "./component/main/createPage/CreatePage";
@@ -8,7 +8,7 @@ import PropensityPage from "./component/main/propensity/PropensityPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <LNB />
       <Switch>
         <Route exact path="/" component={Main}></Route>
@@ -16,8 +16,15 @@ function App() {
         <Route path="/analysis" component={AnalysisPage}></Route>
         <Route path="/propensity" component={PropensityPage}></Route>
       </Switch>
-    </BrowserRouter>
+    </>
   );
 }
 
 export default App;
+
+<Switch>
+  <Route exact path="/" component={Main}></Route>
+  <Route path="/create" component={CreatePage}></Route>
+  <Route path="/analysis" component={AnalysisPage}></Route>
+  <Route path="/propensity" component={PropensityPage}></Route>
+</Switch>;

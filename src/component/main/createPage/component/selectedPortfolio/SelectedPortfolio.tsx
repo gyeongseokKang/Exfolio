@@ -7,9 +7,9 @@ import CurrentSelectedPF from "./component/CurrentSelectedPF";
 import PortfolioTabLayout from "./component/PortfolioTabLayout";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { ETFData, getSimilarETF } from "src/service/getSimilarETF";
-import Skeleton from "@material-ui/lab/Skeleton";
 import SelectedPFSkeleton from "src/component/main/common/wiget/SelectedPFSkeleton";
 import { Holding } from "../../CreatePage";
+import WithLoading from "src/component/main/common/hoc/WithLoading";
 
 interface HoldingsWeight {
   name?: string;
@@ -22,6 +22,7 @@ interface SelectedPortfolioProp {
   selectedPF: RRSW | undefined;
   onChangeSelectedPF: (PF: RRSW) => void;
 }
+const CurrentSelectedPFWithLoading = WithLoading(CurrentSelectedPF);
 
 const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
   const [frontierData, setFrontierData] = useState<FrontierData>();
@@ -38,13 +39,14 @@ const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: Selecte
       setLoading(false);
     }, 500);
   };
+
   useEffect(() => {
     let targetHoldings = holdings.map((holding) => {
       return {
         name: holding.name,
         code: holding.code,
         weight:
-          holdingsWeights?.find((item) => {
+          holdingsWeights?.find((item: any) => {
             return item.code === holding.code || item.name === holding.name;
           })?.weight || 0,
       };
@@ -78,19 +80,8 @@ const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: Selecte
           <Card style={{ width: "17.5rem", height: "28rem", textAlign: "center", marginTop: "73px" }}>
             {selectedPF === undefined ? (
               <SelectedPFSkeleton />
-            ) : !loading ? (
-              <CurrentSelectedPF selectedPF={selectedPF} />
             ) : (
-              <Card
-                style={{
-                  textAlign: "center",
-                  backgroundColor: "#F5F5F5",
-                  width: "280px",
-                  height: "450px",
-                }}
-              >
-                <LoadingProgress height={"30rem"} description={"포트폴리오 적용중..."} />
-              </Card>
+              <CurrentSelectedPFWithLoading loading={loading} text={"포트폴리오 적용중..."} selectedPF={selectedPF} />
             )}
           </Card>
         </div>

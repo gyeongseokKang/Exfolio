@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import React from "react";
 import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
 import { RRSW } from "src/service/getEfficientFrontier";
-import React from "react";
 
 interface CurrentSelectedPFProp {
   selectedPF: RRSW;

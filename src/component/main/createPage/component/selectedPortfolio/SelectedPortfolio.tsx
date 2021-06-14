@@ -22,7 +22,7 @@ interface SelectedPortfolioProp {
   selectedPF: RRSW | undefined;
   onChangeSelectedPF: (PF: RRSW) => void;
 }
-const CurrentSelectedPFWithLoading = WithLoading(CurrentSelectedPF);
+const CurrentSelectedPFWithLoading = WithLoading()(CurrentSelectedPF);
 
 const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
   const [frontierData, setFrontierData] = useState<FrontierData>();
@@ -78,11 +78,7 @@ const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: Selecte
         <DoubleArrowIcon style={{ fontSize: "5rem", margin: "auto", marginLeft: "10px", marginRight: "10px" }} />
         <div>
           <Card style={{ width: "17.5rem", height: "28rem", textAlign: "center", marginTop: "73px" }}>
-            {selectedPF === undefined ? (
-              <SelectedPFSkeleton />
-            ) : (
-              <CurrentSelectedPFWithLoading loading={loading} text={"포트폴리오 적용중..."} selectedPF={selectedPF} />
-            )}
+            {selectedPF === undefined ? <SelectedPFSkeleton /> : <CurrentSelectedPFWithLoading loading={loading} selectedPF={selectedPF} />}
           </Card>
         </div>
       </div>

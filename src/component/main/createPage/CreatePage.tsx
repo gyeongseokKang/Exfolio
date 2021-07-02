@@ -12,6 +12,7 @@ import StockChipGroup from "./component/stockChipGroup/StockChipGroup";
 import SelectedPortfolio from "./component/selectedPortfolio/SelectedPortfolio";
 import ConfirmPortfolio from "./component/confirmPortfolio/ConfirmPortfolio";
 import { RRSW } from "src/service/getEfficientFrontier";
+import { SelectedPortFolioProvider } from "src/contexts/SelectedPortFolioContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,21 +41,19 @@ export interface Holding {
 interface stepContentProp {
   step: number;
   holdings: Holding[];
-  selectedPF: RRSW | undefined;
   onChange: (name: string, value: number) => void;
   onDelete: (name: string) => void;
   onAdd: (name: string, code: string) => void;
-  onChangeSelectedPF: (PF: RRSW) => void;
 }
 
-function getStepContent({ step, holdings, selectedPF, onChange, onDelete, onAdd, onChangeSelectedPF }: stepContentProp) {
+function getStepContent({ step, holdings, onChange, onDelete, onAdd }: stepContentProp) {
   switch (step) {
     case 0:
       return <StockChipGroup holdings={holdings} onChange={onChange} onDelete={onDelete} onAdd={onAdd} />;
     case 1:
-      return <SelectedPortfolio holdings={holdings} selectedPF={selectedPF} onChangeSelectedPF={onChangeSelectedPF} />;
+      return <SelectedPortfolio holdings={holdings} />;
     case 2:
-      return <ConfirmPortfolio holdings={holdings} selectedPF={selectedPF} />;
+      return <ConfirmPortfolio holdings={holdings} />;
     default:
       return "Unknown step";
   }
@@ -91,7 +90,9 @@ export default function VerticalLinearStepper() {
 
   const onChange = (name: string, value: number) => {
     setHoldings((holdings) =>
-      holdings.map((holding) => (holding.name !== name ? holding : { name: holding.name, code: holding.code, weight: value }))
+      holdings.map((holding) =>
+        holding.name !== name ? holding : { name: holding.name, code: holding.code, weight: value }
+      )
     );
   };
 
@@ -104,41 +105,37 @@ export default function VerticalLinearStepper() {
     setHoldings((holdings) => holdings.filter((holding) => holding.name !== name));
   };
 
-  const [selectedPF, setSelectedPF] = React.useState<RRSW>();
-  const onChangeSelectedPF = (portfolio: RRSW) => {
-    setSelectedPF(portfolio);
-  };
-
   return (
     <div className={classes.root}>
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-            <StepContent>
-              {getStepContent({
-                step: index,
-                holdings,
-                selectedPF,
-                onAdd,
-                onChange,
-                onChangeSelectedPF,
-                onDelete,
-              })}
-              <div className={classes.actionsContainer}>
-                <div>
-                  <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                    Back
-                  </Button>
-                  <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
-                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                  </Button>
+      <SelectedPortFolioProvider>
+        <Stepper activeStep={activeStep} orientation="vertical">
+          {steps.map((label, index) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+              <StepContent>
+                {getStepContent({
+                  step: index,
+                  holdings,
+                  onAdd,
+                  onChange,
+                  onDelete,
+                })}
+
+                <div className={classes.actionsContainer}>
+                  <div>
+                    <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                      Back
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
+                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+      </SelectedPortFolioProvider>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography>All steps completed - you&apos;re finished</Typography>

@@ -10,6 +10,8 @@ import { ETFData, getSimilarETF } from "src/service/getSimilarETF";
 import SelectedPFSkeleton from "src/component/main/common/wiget/SelectedPFSkeleton";
 import { Holding } from "../../CreatePage";
 import WithLoading from "src/component/main/common/hoc/WithLoading";
+import { useContext } from "react";
+import { SelectedPortFolioContext } from "src/contexts/SelectedPortFolioContext";
 
 interface HoldingsWeight {
   name?: string;
@@ -19,12 +21,12 @@ interface HoldingsWeight {
 
 interface SelectedPortfolioProp {
   holdings: Holding[];
-  selectedPF: RRSW | undefined;
-  onChangeSelectedPF: (PF: RRSW) => void;
+  // selectedPF: RRSW | undefined;
+  // onChangeSelectedPF: (PF: RRSW) => void;
 }
 const CurrentSelectedPFWithLoading = WithLoading()(CurrentSelectedPF);
 
-const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: SelectedPortfolioProp) => {
+const SelectedPortfolio = ({ holdings }: SelectedPortfolioProp) => {
   const [frontierData, setFrontierData] = useState<FrontierData>();
   const [frontierAIData, setFrontierAIData] = useState<FrontierData>();
   const [similarETFData, setSimilarETFData] = useState<ETFData[]>();
@@ -32,9 +34,11 @@ const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: Selecte
   const [holdingsWeights, setHoldingsWeights] = useState<HoldingsWeight[]>();
   const timer = React.useRef<number>();
 
+  const { selectedPF, setSelectedPF } = useContext(SelectedPortFolioContext);
   const handleSelectedPF = (portfolio: RRSW) => {
     setLoading(true);
-    onChangeSelectedPF(portfolio);
+    console.log("handleSelectedPF", portfolio);
+    setSelectedPF(portfolio);
     timer.current = window.setTimeout(() => {
       setLoading(false);
     }, 500);
@@ -78,7 +82,11 @@ const SelectedPortfolio = ({ holdings, selectedPF, onChangeSelectedPF }: Selecte
         <DoubleArrowIcon style={{ fontSize: "5rem", margin: "auto", marginLeft: "10px", marginRight: "10px" }} />
         <div>
           <Card style={{ width: "17.5rem", height: "28rem", textAlign: "center", marginTop: "73px" }}>
-            {selectedPF === undefined ? <SelectedPFSkeleton /> : <CurrentSelectedPFWithLoading loading={loading} selectedPF={selectedPF} />}
+            {selectedPF === undefined ? (
+              <SelectedPFSkeleton />
+            ) : (
+              <CurrentSelectedPFWithLoading loading={loading} selectedPF={selectedPF} />
+            )}
           </Card>
         </div>
       </div>

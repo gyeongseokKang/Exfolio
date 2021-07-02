@@ -21,10 +21,3 @@ function App() {
 }
 
 export default App;
-
-<Switch>
-  <Route exact path="/" component={Main}></Route>
-  <Route path="/create" component={CreatePage}></Route>
-  <Route path="/analysis" component={AnalysisPage}></Route>
-  <Route path="/propensity" component={PropensityPage}></Route>
-</Switch>;

@@ -7,6 +7,8 @@ import ConfirmDialog from "./component/ConfirmDialog";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { RRSW } from "src/service/getEfficientFrontier";
 import { Holding } from "../../CreatePage";
+import { useContext } from "react";
+import { SelectedPortFolioContext } from "src/contexts/SelectedPortFolioContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,12 +60,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ConfirmPortfolioProp {
-  selectedPF: RRSW | undefined;
   holdings: Holding[];
 }
 
-const ConfirmPortfolio = ({ holdings, selectedPF }: ConfirmPortfolioProp) => {
+const ConfirmPortfolio = ({ holdings }: ConfirmPortfolioProp) => {
   const classes = useStyles();
+  let { selectedPF, setSelectedPF } = useContext(SelectedPortFolioContext);
   if (selectedPF === undefined) {
     selectedPF = {
       returns: 0,
@@ -77,7 +79,10 @@ const ConfirmPortfolio = ({ holdings, selectedPF }: ConfirmPortfolioProp) => {
   }
 
   const originalWeight: number[] = [...selectedPF.weights.values];
-  const [weightList, setWeightList] = useState({ items: [...selectedPF.weights.items], values: [...selectedPF.weights.values] });
+  const [weightList, setWeightList] = useState({
+    items: [...selectedPF.weights.items],
+    values: [...selectedPF.weights.values],
+  });
 
   const onChange = (name: string, value: number) => {
     let changed = { items: [...weightList.items], values: [...weightList.values] };
@@ -135,14 +140,27 @@ const ConfirmPortfolio = ({ holdings, selectedPF }: ConfirmPortfolioProp) => {
             </Button>
             <div className={classes.stockSlider}>
               {weightList.values.map((value, index) => {
-                return <WeightSlider name={weightList.items[index]} value={value} key={weightList.items[index]} onChange={onChange} />;
+                return (
+                  <WeightSlider
+                    name={weightList.items[index]}
+                    value={value}
+                    key={weightList.items[index]}
+                    onChange={onChange}
+                  />
+                );
               })}
             </div>
             <Button
               variant="contained"
               color="primary"
               size="medium"
-              style={{ position: "absolute", bottom: "10px", right: "10px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" }}
+              style={{
+                position: "absolute",
+                bottom: "10px",
+                right: "10px",
+                fontWeight: 500,
+                fontFamily: "Noto Sans CJK KR",
+              }}
               onClick={handleClickOpen}
             >
               confirm

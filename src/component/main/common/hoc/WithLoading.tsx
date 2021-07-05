@@ -6,12 +6,16 @@ interface WithLoadingProps {
 }
 
 const withLoading =
-  (loadingMessage = "Loading...") =>
+  (loadingMessage = "Loading...", width = "100%", height = "100%") =>
   <P extends object>(Component: React.ComponentType<P>) =>
     class WithLoading extends React.Component<P & WithLoadingProps> {
       render() {
         const { loading, ...props } = this.props;
-        return loading ? <LoadingProgress height={"100%"} description={loadingMessage} /> : <Component {...(props as P)} />;
+        return loading ? (
+          <LoadingProgress height={height} width={width} description={loadingMessage} />
+        ) : (
+          <Component {...(props as P)} />
+        );
       }
     };
 

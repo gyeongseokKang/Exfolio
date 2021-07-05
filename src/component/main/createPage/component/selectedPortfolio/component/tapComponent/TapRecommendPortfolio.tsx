@@ -1,6 +1,7 @@
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import PortfolioInfoCardWithBtn from "src/component/main/common/wiget/PortfolioInfoCardWithBtn";
 import React from "react";
+import { FrontierData } from "src/service/getEfficientFrontier";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,11 +26,7 @@ interface RRSW {
 }
 
 interface TapRecommendPortfolioProp {
-  recommnedData: {
-    min_risk: RRSW;
-    max_returns: RRSW;
-    max_sharpe: RRSW;
-  };
+  recommnedData: FrontierData;
   handleSelectedPF: (portfolio: RRSW) => void;
 }
 
@@ -41,8 +38,7 @@ interface testTapRecommendPortfolioProp {
 
 const TapRecommendPortfolio = ({ handleSelectedPF, recommnedData }: TapRecommendPortfolioProp) => {
   const classes = useStyles();
-  let specific: testTapRecommendPortfolioProp = recommnedData;
-
+  let specific: testTapRecommendPortfolioProp = recommnedData.specific;
   return (
     <>
       <div className={classes.root}>

@@ -9,11 +9,11 @@ import Box from "@material-ui/core/Box";
 import TapEfficientFrontier from "./tapComponent/TapEfficientFrontier";
 import TapRecommendPortfolio from "./tapComponent/TapRecommendPortfolio";
 import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
-import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
 import TapEfficientFrontierAI from "./tapComponent/TapEfficientFrontierAI";
 import { ETFData } from "src/service/getSimilarETF";
 import TapSimilarETF from "./tapComponent/TapSimilarETF";
 import { Holding } from "../../../CreatePage";
+import WithLoading from "src/component/main/common/hoc/WithLoading";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -26,7 +26,13 @@ function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div role="tabpanel" hidden={value !== index} id={`full-width-tabpanel-${index}`} aria-labelledby={`full-width-tab-${index}`} {...other}>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
       {value === index && (
         <Box p={3}>
           <Typography>{children}</Typography>
@@ -53,13 +59,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       fontFamily: "Noto Sans CJK KR",
     },
   },
-  loading: {
-    display: "flex",
-    height: "500px",
-    justifyContent: "center",
-    flexDirection: "column",
-    alignItems: "center",
-  },
 }));
 
 interface PortfolioTabLayoutProp {
@@ -70,7 +69,18 @@ interface PortfolioTabLayoutProp {
   similarETFData: ETFData[] | undefined;
 }
 
-export default function PortfolioTabLayout({ holdings, frontierData, frontierAIData, similarETFData, handleSelectedPF }: PortfolioTabLayoutProp) {
+const TapEfficientFrontierWithLoading = WithLoading("포트폴리오 분석중", "900px", "508px")(TapEfficientFrontier);
+const TapEfficientFrontierAIWithLoading = WithLoading("AI 분석중...", "900px", "508px")(TapEfficientFrontierAI);
+const TapRecommendPortfolioWithLoading = WithLoading("Dr.폴리오 추천중...", "900px", "508px")(TapRecommendPortfolio);
+const TapSimilarETFWithLoading = WithLoading("ETF 분석중...", "900px", "508px")(TapSimilarETF);
+
+export default function PortfolioTabLayout({
+  holdings,
+  frontierData,
+  frontierAIData,
+  similarETFData,
+  handleSelectedPF,
+}: PortfolioTabLayoutProp) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -100,42 +110,41 @@ export default function PortfolioTabLayout({ holdings, frontierData, frontierAID
           <Tab label="관련 ETF 추천" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
-      <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={handleChangeIndex}>
+      <SwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {frontierData !== undefined ? (
-            <TapEfficientFrontier handleSelectedPF={handleSelectedPF} frontierData={frontierData} holdings={holdings} />
-          ) : (
-            <>
-              <LoadingProgress height={500} description={"포트폴리오 분석중..."} />
-            </>
-          )}
+          <TapEfficientFrontierWithLoading
+            loading={frontierData === undefined}
+            handleSelectedPF={handleSelectedPF}
+            holdings={holdings}
+            frontierData={frontierData!}
+          />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          {frontierAIData !== undefined ? (
-            <TapEfficientFrontierAI handleSelectedPF={handleSelectedPF} frontierData={frontierAIData} holdings={holdings} />
-          ) : (
-            <>
-              <LoadingProgress height={500} description={"AI 분석중..."} />
-            </>
-          )}
+          <TapEfficientFrontierAIWithLoading
+            loading={frontierAIData === undefined}
+            handleSelectedPF={handleSelectedPF}
+            holdings={holdings}
+            frontierData={frontierAIData!}
+          />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          {frontierData !== undefined ? (
-            <TapRecommendPortfolio handleSelectedPF={handleSelectedPF} recommnedData={frontierData.specific} />
-          ) : (
-            <>
-              <LoadingProgress height={500} description={"Dr.폴리오 추천중..."} />
-            </>
-          )}
+          <TapRecommendPortfolioWithLoading
+            loading={frontierData === undefined}
+            handleSelectedPF={handleSelectedPF}
+            recommnedData={frontierData!}
+          />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          {similarETFData !== undefined ? (
-            <TapSimilarETF handleSelectedPF={handleSelectedPF} similarETFData={similarETFData} holdings={holdings} />
-          ) : (
-            <>
-              <LoadingProgress height={500} description={"ETF 분석중..."} />
-            </>
-          )}
+          <TapSimilarETFWithLoading
+            loading={similarETFData === undefined}
+            handleSelectedPF={handleSelectedPF}
+            holdings={holdings}
+            similarETFData={similarETFData!}
+          />
         </TabPanel>
       </SwipeableViews>
     </div>

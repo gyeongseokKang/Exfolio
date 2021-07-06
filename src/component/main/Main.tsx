@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Main({ history }: any) {
   const classes = useStyles();
-  console.log("Main render");
   return (
     <>
       <div className={classes.root}>
@@ -50,7 +49,7 @@ function Main({ history }: any) {
             <img src={createPF} alt="Avatar" />
             <div className="container" style={{ paddingLeft: "30px" }}>
               <h2>Create PortFolio</h2>
-              <p>유저가 원하는 비중의 포트폴리오를 생성</p>
+              <p>유저가 원하는 비중의 포트폴리오를 생성합니다</p>
             </div>
           </div>
 

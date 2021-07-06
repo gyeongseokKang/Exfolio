@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@hot-loader/react-dom": "^17.0.1",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
@@ -25,6 +30,7 @@
     "react": "^17.0.2",
     "react-awesome-slider": "^4.1.0",
     "react-dom": "^17.0.2",
+    "react-hot-loader": "^4.13.0",
     "react-plotly.js": "^2.5.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
@@ -36,11 +42,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "web-build": "webpack"
+    "start": "webpack serve --open",
+    "watch": "webpack --watch",
+    "build": "webpack"
   },
   "eslintConfig": {
     "extends": [
@@ -61,6 +65,15 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "babel-loader": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "css-loader": "^5.2.6",
+    "csv-loader": "^3.0.3",
+    "html-webpack-plugin": "^5.3.2",
+    "style-loader": "^3.0.0",
+    "ts-loader": "^9.2.3",
+    "webpack": "^5.42.1",
+    "webpack-cli": "^4.7.2",
+    "xml-loader": "^1.2.1"
   }
 }

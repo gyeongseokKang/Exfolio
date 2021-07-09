@@ -1,6 +1,7 @@
 import React from "react";
 import { Paper } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import analysisPF from "./analysisPF.jpg";
 import createPF from "./createPF.png";
 
@@ -34,8 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Main({ history }: any) {
+function Main() {
   const classes = useStyles();
+  let history = useHistory();
   return (
     <>
       <div className={classes.root}>

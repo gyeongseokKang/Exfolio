@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function LNB({ history }: any) {
+function LNB() {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(true);
   return (
     <div className={classes.root} style={{ width: expanded ? "250px" : "80px" }}>
       <TopLogoLayout expanded={expanded} setExpanded={setExpanded} />
-      <hr />
+      <hr style={{ margin: "10px 15px 10px 15px" }} />
       <MenuItem expanded={expanded} icon={<HomeIcon />} to={"/"} title={"홈"} />
       <MenuItem expanded={expanded} icon={<PostAddIcon />} to={"/create"} title={"생성"} />
       <MenuItem expanded={expanded} icon={<FindInPageIcon />} to={"/analysis"} title={"분석"} />

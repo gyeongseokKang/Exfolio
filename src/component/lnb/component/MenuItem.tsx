@@ -6,13 +6,15 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       margin: "0px 20px 10px 20px",
-      padding: "10px 0px 10px 0px",
+      padding: "10px 0px 10px 5px",
       borderRadius: "10px",
+      cursor: "pointer",
       "&:hover": {
         backgroundColor: "#E6E6FA",
       },
     },
     link: {
+      alignItems: "center",
       color: "black",
       textDecoration: "none",
       "& .MuiSvgIcon-root": {
@@ -21,19 +23,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     expandedOn: {
       display: "flex",
-      alignItems: "center",
-      "& > div": {
-        display: "flex",
-        paddingLeft: "1rem",
-        fontSize: "1rem",
-        animation: `$fade-in 1000ms`,
-      },
+      paddingLeft: "1rem",
+      fontSize: "1rem",
+      animation: `$fade-in 1000ms`,
     },
     expandedOff: {
-      fontSize: "0.75rem",
       display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "0.75rem",
     },
     "@keyframes fade-in": {
       "0%": {
@@ -60,21 +57,12 @@ const MenuItem = ({ icon, expanded = true, to, title }: TopLogoLayoutProp) => {
 
   return (
     <div className={classes.root}>
-      <Link className={classes.link} to={to}>
+      <Link className={classes.link} to={to} style={{ display: expanded ? "flex" : "inline-block" }}>
+        {icon}
         {expanded ? (
-          <>
-            <div className={classes.expandedOn}>
-              {icon}
-              <div>{title}</div>
-            </div>
-          </>
+          <div className={classes.expandedOn}>{title}</div>
         ) : (
-          <>
-            <div className={classes.expandedOff}>
-              {icon}
-              {title}
-            </div>
-          </>
+          <div className={classes.expandedOff}>{title}</div>
         )}
       </Link>
     </div>

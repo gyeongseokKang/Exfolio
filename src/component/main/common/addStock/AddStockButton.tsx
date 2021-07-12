@@ -2,7 +2,6 @@ import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -10,8 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "50px",
       display: "flex",
       alignItems: "center",
-      marginLeft: "10px",
-      marginTop: "20px",
+      margin: "20px 0px 0px 15px",
       "& > img": {
         width: "36px",
         height: "36px",
@@ -23,9 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       borderRadius: "50%",
-      marginLeft: "10px",
-      marginRight: "10px",
-      padding: "2px",
     },
     "@keyframes fade-in": {
       "0%": {

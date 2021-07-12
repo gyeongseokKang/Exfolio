@@ -2,6 +2,7 @@ import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,8 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: "130px",
       borderRadius: "10px",
       fontSize: "1rem",
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
+
       "& .MuiSvgIcon-root": {
         transition: "all 0.3s ease",
         marginRight: "10px",
@@ -52,7 +52,7 @@ function AddStockButton({ onClick }: AddStockButtonProp) {
     <>
       <Button className={classes.button} variant="contained" size="small" onClick={onClick}>
         <AddCircleIcon />
-        주식 추가
+        <Typography variant="h6">주식 추가</Typography>
       </Button>
     </>
   );

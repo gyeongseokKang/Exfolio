@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 import { Avatar } from "@material-ui/core";
-import AddStock from "src/component/main/common/addStock/AddStock";
+import AddStock from "src/component/common/addStock/AddStock";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

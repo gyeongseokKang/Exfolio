@@ -1,5 +1,5 @@
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
-import PortfolioInfoCardWithBtn from "src/component/main/common/widget/PortfolioInfoCardWithBtn";
+import PortfolioInfoCardWithBtn from "src/component/common/widget/PortfolioInfoCardWithBtn";
 import React from "react";
 import { FrontierData } from "src/service/getEfficientFrontier";
 

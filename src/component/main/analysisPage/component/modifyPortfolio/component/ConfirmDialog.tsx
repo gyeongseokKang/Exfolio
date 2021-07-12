@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Dialog } from "@material-ui/core";
 import Plot from "react-plotly.js";
 import { DiscreteAmount, getDiscreteAmount } from "src/service/getDiscreteAmount";
-import LoadingProgress from "src/component/main/common/widget/LoadingProgress";
+import LoadingProgress from "src/component/common/widget/LoadingProgress";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
 import StockCount from "./StockCount";
 

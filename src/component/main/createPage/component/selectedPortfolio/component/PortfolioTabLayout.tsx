@@ -13,7 +13,7 @@ import TapEfficientFrontierAI from "./tapComponent/TapEfficientFrontierAI";
 import { ETFData } from "src/service/getSimilarETF";
 import TapSimilarETF from "./tapComponent/TapSimilarETF";
 import { Holding } from "../../../CreatePage";
-import WithLoading from "src/component/main/common/hoc/WithLoading";
+import WithLoading from "src/component/common/hoc/WithLoading";
 
 interface TabPanelProps {
   children?: React.ReactNode;

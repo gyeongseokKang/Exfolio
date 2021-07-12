@@ -1,5 +1,5 @@
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
-import PortfolioInfoCardWithBtn from "src/component/main/common/widget/PortfolioInfoCardWithBtn";
+import PortfolioInfoCardWithBtn from "src/component/common/widget/PortfolioInfoCardWithBtn";
 import { ETFData } from "src/service/getSimilarETF";
 import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";

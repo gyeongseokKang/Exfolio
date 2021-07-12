@@ -5,10 +5,10 @@ import React, { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
-import PortfolioInfoCardWithBtn from "src/component/main/common/widget/PortfolioInfoCardWithBtn";
+import PortfolioInfoCardWithBtn from "src/component/common/widget/PortfolioInfoCardWithBtn";
 import ErrorIcon from "@material-ui/icons/Error";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
-import LoadingProgress from "src/component/main/common/widget/LoadingProgress";
+import LoadingProgress from "src/component/common/widget/LoadingProgress";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

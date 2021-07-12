@@ -15,13 +15,30 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 500,
       fontStyle: "normal",
       fontFamily: "Noto Sans CJK KR",
+      "& > img": {
+        width: "36px",
+        height: "36px",
+      },
+      "& > div": {
+        fontSize: "1.75rem",
+        animation: `$fade-in 1000ms`,
+      },
     },
     menuButton: {
-      color: "black",
       borderRadius: "50%",
       marginLeft: "10px",
       marginRight: "10px",
       padding: "2px",
+    },
+    "@keyframes fade-in": {
+      "0%": {
+        opacity: 0,
+        transform: "translateX(-30%)",
+      },
+      "100%": {
+        opacity: 1,
+        transform: "translateX(0)",
+      },
     },
   })
 );
@@ -44,8 +61,8 @@ const TopLogoLayout = ({ expanded = true, setExpanded }: TopLogoLayoutProp) => {
         </IconButton>
         {expanded ? (
           <>
-            <img src={applogo} alt="logo" style={{ width: "36px", height: "36px" }} />
-            <div style={{ fontSize: "1.75rem" }}>Dr.Folio</div>
+            <img src={applogo} alt="logo" />
+            <div>Dr.Folio</div>
           </>
         ) : undefined}
       </div>

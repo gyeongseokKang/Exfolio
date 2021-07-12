@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
         display: "flex",
         paddingLeft: "1rem",
         fontSize: "1rem",
+        animation: `$fade-in 1000ms`,
       },
     },
     expandedOff: {
@@ -36,6 +37,16 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+    },
+    "@keyframes fade-in": {
+      "0%": {
+        opacity: 0,
+        transform: "translateX(-100%)",
+      },
+      "100%": {
+        opacity: 1,
+        transform: "translateX(0)",
+      },
     },
   })
 );

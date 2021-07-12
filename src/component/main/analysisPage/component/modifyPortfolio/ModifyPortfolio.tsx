@@ -7,7 +7,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: { width: "800px", height: "500px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" },
+    root: { width: "800px", height: "500px" },
     card: {
       boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       width: "800px",
@@ -24,8 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowX: "hidden",
     },
     button: {
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
       "& .MuiSvgIcon-root": {
         transition: "all 0.3s ease",
       },
@@ -68,7 +66,10 @@ interface stockInfo {
 const ModifyPortfolio = ({ stockList, modifiedStockList }: ConfirmPortfolioProp) => {
   const classes = useStyles();
   const originalWeight: number[] = [...stockList.map((item) => item.weight)];
-  const [weightList, setWeightList] = useState({ items: [...stockList.map((item) => item.name)], values: [...stockList.map((item) => item.weight)] });
+  const [weightList, setWeightList] = useState({
+    items: [...stockList.map((item) => item.name)],
+    values: [...stockList.map((item) => item.weight)],
+  });
   const onChange = (name: string, value: number) => {
     let changed = { items: [...weightList.items], values: [...weightList.values] };
     changed.values[changed.items.indexOf(name)] = value;
@@ -123,12 +124,20 @@ const ModifyPortfolio = ({ stockList, modifiedStockList }: ConfirmPortfolioProp)
               variant="contained"
               color="primary"
               size="medium"
-              style={{ position: "absolute", bottom: "10px", right: "10px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" }}
+              style={{
+                position: "absolute",
+                bottom: "10px",
+                right: "10px",
+              }}
               onClick={() => {
                 let weightTotal: number = weightList.values.reduce((acc, curr) => acc + curr, 0);
                 if (weightTotal > 1) {
                   modifiedStockList = modifiedStockList.map((item, index) => {
-                    return { name: item.name, code: item.code, weight: Number((weightList.values[index] / weightTotal).toFixed(4)) };
+                    return {
+                      name: item.name,
+                      code: item.code,
+                      weight: Number((weightList.values[index] / weightTotal).toFixed(4)),
+                    };
                   });
                 }
               }}

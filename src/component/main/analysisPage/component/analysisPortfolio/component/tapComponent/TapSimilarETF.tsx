@@ -21,8 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
       "& > *": {
         margin: "auto",
         fontSize: "1rem",
-        fontWeight: 500,
-        fontFamily: "Noto Sans CJK KR",
       },
     },
   })

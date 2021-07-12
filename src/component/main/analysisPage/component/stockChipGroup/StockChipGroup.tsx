@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     chip: {
       margin: theme.spacing(0.5),
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
       "& .MuiChip-deleteIcon": {
         visibility: "hidden",
       },
@@ -31,8 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     placeHolderText: {
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
       fontSize: "0.8rem",
       color: "gray",
       marginTop: "4px",
@@ -45,8 +41,6 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: "130px",
       borderRadius: "10px",
       fontSize: "1rem",
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
       "& .MuiSvgIcon-root": {
         transition: "all 0.3s ease",
         marginRight: "10px",
@@ -90,10 +84,17 @@ export default function StockChipGroup(prop: StockListLayoutProp) {
       <div>
         <Paper elevation={0} style={{ display: "flex" }}>
           <Paper component="ul" className={classes.root}>
-            {prop.stockList.length === 0 ? <div className={classes.placeHolderText}>주식 추가 버튼을 클릭하여 주식을 추가하세요</div> : undefined}
+            {prop.stockList.length === 0 ? (
+              <div className={classes.placeHolderText}>주식 추가 버튼을 클릭하여 주식을 추가하세요</div>
+            ) : undefined}
             {prop.stockList.map((item) => (
               <li key={item.name}>
-                <Chip avatar={<Avatar>S</Avatar>} label={item.name} onDelete={handleDelete(item.name)} className={classes.chip} />
+                <Chip
+                  avatar={<Avatar>S</Avatar>}
+                  label={item.name}
+                  onDelete={handleDelete(item.name)}
+                  className={classes.chip}
+                />
               </li>
             ))}
           </Paper>

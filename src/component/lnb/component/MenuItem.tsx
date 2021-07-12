@@ -8,9 +8,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "0px 20px 10px 20px",
       padding: "10px 0px 10px 0px",
       borderRadius: "10px",
-      fontWeight: 500,
-      fontStyle: "normal",
-      fontFamily: "Noto Sans CJK KR",
       "&:hover": {
         backgroundColor: "#E6E6FA",
       },
@@ -41,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
     "@keyframes fade-in": {
       "0%": {
         opacity: 0,
-        transform: "translateX(-100%)",
+        transform: "translateX(100%)",
       },
       "100%": {
         opacity: 1,

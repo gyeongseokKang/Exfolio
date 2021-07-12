@@ -13,8 +13,6 @@ const useStyles = makeStyles((theme: Theme) =>
     closeBtn: {
       marginTop: "5px",
       fontSize: "0.8rem",
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
     },
   })
 );

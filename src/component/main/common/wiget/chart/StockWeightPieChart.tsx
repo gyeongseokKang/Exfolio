@@ -8,8 +8,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       "& div": {
         fontSize: "1.2rem",
-        fontWeight: 500,
-        fontFamily: "Noto Sans CJK KR",
       },
     },
   })

@@ -6,10 +6,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: "100%",
   },
-  "& *": {
-    fontWeight: 500,
-    fontFamily: "Noto Sans CJK KR",
-  },
 }));
 
 const PropensityPage = () => {

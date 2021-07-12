@@ -7,8 +7,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       padding: "10px",
       position: "relative",
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
     },
     header: {
       borderBottom: "1px solid lavender",
@@ -92,10 +90,18 @@ const StockDialogBody = ({ searchQuery, onAdd, onDelete, matchedStocks }: StockD
         <div className={classes.stockBody}>
           {matchedStocks
             .map((StockData: { code: string; name: string; checked: boolean }) => (
-              <BodyItem StockData={StockData} searchQuery={searchQuery} onAdd={onAdd} onDelete={onDelete} matchedStocks={matchedStocks} />
+              <BodyItem
+                StockData={StockData}
+                searchQuery={searchQuery}
+                onAdd={onAdd}
+                onDelete={onDelete}
+                matchedStocks={matchedStocks}
+              />
             ))
             .slice(0, 100)}
-          {matchedStocks.length === 0 ? <div className={classes.noMatchedText}>검색된 결과가 없습니다.</div> : undefined}
+          {matchedStocks.length === 0 ? (
+            <div className={classes.noMatchedText}>검색된 결과가 없습니다.</div>
+          ) : undefined}
           {matchedStocks.length > 100 ? (
             <div className={classes.noMatchedText}>
               검색된 100개를 초과했습니다.
@@ -126,7 +132,9 @@ const BodyItem = ({ StockData, searchQuery, onAdd, onDelete, matchedStocks }: Bo
 
   const bodyRowClicked = (e: any) => {
     if (e.target.innerText.length > 0) {
-      const targetStock = matchedStocks.find((item) => item.name === e.target.innerText || item.code === e.target.innerText);
+      const targetStock = matchedStocks.find(
+        (item) => item.name === e.target.innerText || item.code === e.target.innerText
+      );
       if (targetStock) {
         onAdd(targetStock.name, targetStock.code);
       }
@@ -165,7 +173,12 @@ const BodyItem = ({ StockData, searchQuery, onAdd, onDelete, matchedStocks }: Bo
           StockData.name
         )}
       </div>
-      <Checkbox id={`${StockData.code}_checkbox`} checked={StockData.checked} color="primary" onChange={onCheckboxClicked} />
+      <Checkbox
+        id={`${StockData.code}_checkbox`}
+        checked={StockData.checked}
+        color="primary"
+        onChange={onCheckboxClicked}
+      />
     </div>
   );
 };

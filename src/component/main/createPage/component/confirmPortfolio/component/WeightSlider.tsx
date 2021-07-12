@@ -9,8 +9,6 @@ const useStyles = makeStyles({
     width: 250,
   },
   stockName: {
-    fontWeight: 500,
-    fontFamily: "Noto Sans CJK KR",
     width: "100px",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",

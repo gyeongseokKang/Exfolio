@@ -35,7 +35,7 @@ const CurrentSelectedPF = ({ selectedPF, stockList, previousBackTest }: CurrentS
 
   return (
     <>
-      <div style={{ fontWeight: 500, fontStyle: "normal", fontSize: "1.5rem", fontFamily: "Noto Sans CJK KR" }}>모델 실행 결과</div>
+      <div style={{ fontSize: "1.5rem" }}>모델 실행 결과</div>
       <Paper elevation={0}>
         {testFinish && backTest !== undefined ? (
           <>

@@ -52,7 +52,7 @@ function AddStockButton({ onClick }: AddStockButtonProp) {
     <>
       <Button className={classes.button} variant="contained" size="small" onClick={onClick}>
         <AddCircleIcon />
-        <Typography variant="h6">주식 추가</Typography>
+        주식 추가
       </Button>
     </>
   );

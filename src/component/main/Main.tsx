@@ -28,8 +28,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       "& div": {
         paddingTop: "10px",
-        fontWeight: 500,
-        fontFamily: "Noto Sans CJK KR",
       },
     },
   })

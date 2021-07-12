@@ -55,8 +55,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: 1000,
     "& span": {
       fontSize: "1rem",
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
     },
   },
 }));

@@ -20,8 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: "-20px",
       paddingLeft: "20px",
       paddingRight: "70px",
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
       zIndex: 10,
       "&:hover": {
         background: "#E0E0E0",

@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme: Theme) =>
       "& > *": {
         margin: "auto",
         fontSize: "1.2rem",
-        fontWeight: 500,
-        fontFamily: "Noto Sans CJK KR",
       },
     },
     infoCard: {

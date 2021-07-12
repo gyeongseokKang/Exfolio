@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Card, Dialog } from "@material-ui/core";
-import IndexGaugeCharts from "src/component/main/common/wiget/chart/IndexGaugeCharts";
+import { Dialog } from "@material-ui/core";
 import Plot from "react-plotly.js";
 import { DiscreteAmount, getDiscreteAmount } from "src/service/getDiscreteAmount";
 import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
@@ -10,7 +9,7 @@ import StockCount from "./StockCount";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: { width: "900px", height: "600px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" },
+    root: { width: "900px", height: "600px" },
     card: {
       boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       height: "500px",
@@ -26,8 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowX: "hidden",
     },
     button: {
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
       "& .MuiSvgIcon-root": {
         transition: "all 0.3s ease",
       },
@@ -129,7 +126,8 @@ export default function ConfirmDialog({ stockList, open, finalWeightList, onClos
               <br />
               <div> {backTest.days[0]} 시작 금액 : 1000만원</div>
               <div>
-                {backTest.days[backTest.days.length - 1]} 현재 금액 : {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원
+                {backTest.days[backTest.days.length - 1]} 현재 금액 :{" "}
+                {Math.round(backTest.values[backTest.values.length - 1] * 1000)}만원
               </div>
               <Plot
                 data={[

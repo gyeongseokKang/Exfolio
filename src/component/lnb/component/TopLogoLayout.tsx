@@ -12,9 +12,6 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       marginLeft: "10px",
       marginTop: "20px",
-      fontWeight: 500,
-      fontStyle: "normal",
-      fontFamily: "Noto Sans CJK KR",
       "& > img": {
         width: "36px",
         height: "36px",

@@ -20,8 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
       "& > *": {
         margin: "auto",
         fontSize: "1.2rem",
-        fontWeight: 500,
-        fontFamily: "Noto Sans CJK KR",
       },
     },
     infoCard: {
@@ -60,7 +58,12 @@ interface TapEfficientFrontierProp {
   portfolioPerformance: PortfolioPerformance;
 }
 
-const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList, portfolioPerformance }: TapEfficientFrontierProp) => {
+const TapEfficientFrontier = ({
+  handleSelectedPF,
+  frontierData,
+  stockList,
+  portfolioPerformance,
+}: TapEfficientFrontierProp) => {
   const classes = useStyles();
 
   const [clickedPF, setClickedPF] = useState<RRSW>(frontierData.frontier[0]);
@@ -156,7 +159,11 @@ const TapEfficientFrontier = ({ handleSelectedPF, frontierData, stockList, portf
           </Paper>
         </div>
         <PortfolioInfoCardWithBtn title={"기존 포트폴리오"} info={portfolioPerformance.performance} />
-        <PortfolioInfoCardWithBtn title={"개선된 포트폴리오"} info={portfolioPerformance.enhance} onPfClick={handleSelectedPF} />
+        <PortfolioInfoCardWithBtn
+          title={"개선된 포트폴리오"}
+          info={portfolioPerformance.enhance}
+          onPfClick={handleSelectedPF}
+        />
       </div>
     </>
   );

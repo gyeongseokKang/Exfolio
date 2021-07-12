@@ -26,7 +26,13 @@ function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div role="tabpanel" hidden={value !== index} id={`full-width-tabpanel-${index}`} aria-labelledby={`full-width-tab-${index}`} {...other}>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
       {value === index && (
         <Box p={3}>
           <Typography>{children}</Typography>
@@ -49,8 +55,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: 1000,
     "& span": {
       fontSize: "1rem",
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
     },
   },
   loading: {
@@ -108,7 +112,11 @@ export default function PortfolioTabLayout({
           <Tab label="관련 ETF 추천" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
-      <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={handleChangeIndex}>
+      <SwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
         <TabPanel value={value} index={0} dir={theme.direction}>
           {frontierData !== undefined && portfolioPerformance !== undefined ? (
             <TapEfficientFrontier

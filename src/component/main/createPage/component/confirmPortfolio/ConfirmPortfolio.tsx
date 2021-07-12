@@ -12,7 +12,7 @@ import { SelectedPortFolioContext } from "src/contexts/SelectedPortFolioContext"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: { width: "800px", height: "500px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" },
+    root: { width: "800px", height: "500px" },
     card: {
       boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       width: "800px",
@@ -29,8 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowX: "hidden",
     },
     button: {
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
       "& .MuiSvgIcon-root": {
         transition: "all 0.3s ease",
       },
@@ -158,8 +156,6 @@ const ConfirmPortfolio = ({ holdings }: ConfirmPortfolioProp) => {
                 position: "absolute",
                 bottom: "10px",
                 right: "10px",
-                fontWeight: 500,
-                fontFamily: "Noto Sans CJK KR",
               }}
               onClick={handleClickOpen}
             >

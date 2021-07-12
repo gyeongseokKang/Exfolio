@@ -10,7 +10,7 @@ import { Holding } from "../../../CreatePage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: { width: "800px", height: "500px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" },
+    root: { width: "800px", height: "500px" },
     card: {
       boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
       height: "500px",
@@ -18,8 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "relative",
     },
     button: {
-      fontWeight: 500,
-      fontFamily: "Noto Sans CJK KR",
       "& .MuiSvgIcon-root": {
         transition: "all 0.3s ease",
       },
@@ -163,7 +161,11 @@ export default function ConfirmDialog({ holdings, open, finalWeightList, onClose
           variant="contained"
           color="primary"
           size="medium"
-          style={{ position: "absolute", bottom: "10px", right: "10px", fontWeight: 500, fontFamily: "Noto Sans CJK KR" }}
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+          }}
         >
           Buy
         </Button>

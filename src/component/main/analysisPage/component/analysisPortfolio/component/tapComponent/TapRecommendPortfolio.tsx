@@ -1,5 +1,5 @@
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
-import PortfolioInfoCardWithBtn from "src/component/main/common/wiget/PortfolioInfoCardWithBtn";
+import PortfolioInfoCardWithBtn from "src/component/main/common/widget/PortfolioInfoCardWithBtn";
 import React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>

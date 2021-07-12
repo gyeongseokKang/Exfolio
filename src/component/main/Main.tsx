@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-      justifyContent: "left",
+      justifyContent: "center",
       flexWrap: "wrap",
     },
     card: {
@@ -39,33 +39,32 @@ function Main() {
   return (
     <>
       <div className={classes.root}>
-        <Paper elevation={0}>
-          <div
-            className={classes.card}
-            onClick={() => {
-              history.push("/create");
-            }}
-          >
-            <img src={createPF} alt="Avatar" />
-            <div className="container" style={{ paddingLeft: "30px" }}>
-              <h2>Create PortFolio</h2>
-              <p>유저가 원하는 비중의 포트폴리오를 생성합니다</p>
-            </div>
+        {/* <hr style={{ margin: "10px 15px 10px 15px" }} /> */}
+        <div
+          className={classes.card}
+          onClick={() => {
+            history.push("/create");
+          }}
+        >
+          <img src={createPF} alt="Avatar" />
+          <div className="container" style={{ paddingLeft: "30px" }}>
+            <h2>Create PortFolio</h2>
+            <p>유저가 원하는 비중의 포트폴리오를 생성합니다</p>
           </div>
+        </div>
 
-          <div
-            className={classes.card}
-            onClick={() => {
-              history.push("/analysis");
-            }}
-          >
-            <img src={analysisPF} alt="Avatar" />
-            <div className="container" style={{ paddingLeft: "30px" }}>
-              <h2>Analysis PortFolio</h2>
-              <p>다양한 모델을 통해 유저의 포트폴리오를 분석 및 평가</p>
-            </div>
+        <div
+          className={classes.card}
+          onClick={() => {
+            history.push("/analysis");
+          }}
+        >
+          <img src={analysisPF} alt="Avatar" />
+          <div className="container" style={{ paddingLeft: "30px" }}>
+            <h2>Analysis PortFolio</h2>
+            <p>다양한 모델을 통해 유저의 포트폴리오를 분석 및 평가</p>
           </div>
-        </Paper>
+        </div>
       </div>
     </>
   );

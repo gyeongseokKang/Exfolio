@@ -1,5 +1,5 @@
 import React from "react";
-import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
+import LoadingProgress from "src/component/main/common/widget/LoadingProgress";
 
 interface WithLoadingProps {
   loading: boolean;

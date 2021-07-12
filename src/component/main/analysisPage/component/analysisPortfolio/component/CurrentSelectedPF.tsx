@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import PortfolioInfoCard from "src/component/main/common/wiget/PortfolioInfoCard";
+import PortfolioInfoCard from "src/component/main/common/widget/PortfolioInfoCard";
 import { RRSW } from "src/service/getEfficientFrontier";
 import React, { useEffect, useState } from "react";
 import { Paper } from "@material-ui/core";
-import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
+import LoadingProgress from "src/component/main/common/widget/LoadingProgress";
 import { BackTestData, getBackTest } from "src/service/getBackTest";
 import Plot from "react-plotly.js";
 

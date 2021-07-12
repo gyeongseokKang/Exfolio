@@ -9,7 +9,7 @@ import Box from "@material-ui/core/Box";
 import TapEfficientFrontier from "./tapComponent/TapEfficientFrontier";
 import TapRecommendPortfolio from "./tapComponent/TapRecommendPortfolio";
 import { FrontierData, RRSW } from "src/service/getEfficientFrontier";
-import LoadingProgress from "src/component/main/common/wiget/LoadingProgress";
+import LoadingProgress from "src/component/main/common/widget/LoadingProgress";
 import TapEfficientFrontierAI from "./tapComponent/TapEfficientFrontierAI";
 import { ETFData } from "src/service/getSimilarETF";
 import TapSimilarETF from "./tapComponent/TapSimilarETF";

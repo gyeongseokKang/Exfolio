@@ -5,6 +5,7 @@ import LNB from "./component/lnb/LNB";
 import CreatePage from "./component/main/createPage/CreatePage";
 import AnalysisPage from "./component/main/analysisPage/AnalysisPage";
 import PropensityPage from "./component/main/propensity/PropensityPage";
+import PerformancePage from "./component/main/performancePage/PerformancePage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/create" component={CreatePage}></Route>
         <Route path="/analysis" component={AnalysisPage}></Route>
         <Route path="/propensity" component={PropensityPage}></Route>
+        <Route path="/performance" component={PerformancePage}></Route>
       </Switch>
     </>
   );

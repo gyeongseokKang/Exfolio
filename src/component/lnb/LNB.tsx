@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
+import AssessmentIcon from "@material-ui/icons/Assessment";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import TopLogoLayout from "./component/TopLogoLayout";
 import MenuItem from "./component/MenuItem";
@@ -30,6 +31,7 @@ function LNB() {
       <MenuItem expanded={expanded} icon={<PostAddIcon />} to={"/create"} title={"생성"} />
       <MenuItem expanded={expanded} icon={<FindInPageIcon />} to={"/analysis"} title={"분석"} />
       <MenuItem expanded={expanded} icon={<AssignmentIndIcon />} to={"/propensity"} title={"성향"} />
+      <MenuItem expanded={expanded} icon={<AssessmentIcon />} to={"/performance"} title={"성과방"} />
     </div>
   );
 }

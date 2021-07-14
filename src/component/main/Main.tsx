@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import analysisPF from "./analysisPF.jpg";
 import createPF from "./createPF.png";
+import PerformancePage from "./performancePage/PerformancePage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -65,6 +66,7 @@ function Main() {
           </div>
         </div>
         <hr style={{ margin: "10px 15px 10px 15px" }} />
+        <PerformancePage />
       </div>
     </>
   );

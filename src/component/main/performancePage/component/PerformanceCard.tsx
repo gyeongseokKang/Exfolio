@@ -1,20 +1,37 @@
 import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Plot from "react-plotly.js";
+import { Typography } from "@material-ui/core";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    position: "relative",
     width: "300px",
     height: "400px",
     margin: "1rem",
+    padding: "0.5rem",
+    transition: "0.3s",
+  },
+  rating: {
+    position: "absolute",
+    right: "20px",
+    top: "-5px",
+    padding: "0px 10px 0px 10px",
+    margin: "0px 10px 0px 0px",
     borderRadius: "20px",
-    border: "2px solid #2b2828",
-    "& > div": {
-      display: "flex !important",
-      justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    border: "1px solid #F0F0F0",
+  },
+  body: {
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: "20px",
+    padding: "0.5rem",
+    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+    "&:hover": {
+      boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.4)",
+      cursor: "pointer",
     },
   },
 }));
@@ -534,59 +551,122 @@ const randomY = (length: number) => {
   }
   return yArray;
 };
-const PerformanceCard = () => {
+
+interface portfolio {
+  name: string;
+  shares: (string | number)[];
+  date: string;
+}
+
+interface PerformanceCardProp {
+  rating?: number;
+  userName: string;
+  portfolios: portfolio[];
+}
+
+const PerformanceCard = ({ rating, userName, portfolios }: PerformanceCardProp) => {
   const classes = useStyles();
 
   return (
     <>
       <div className={classes.root}>
-        <Plot
-          data={[
-            {
-              x: testX,
-              y: randomY(506),
-              mode: "lines",
-              line: { shape: "spline" },
-              name: "AP(H)",
-              marker: {
-                color: "#17BECF",
-              },
-            },
-            {
-              x: testX,
-              y: randomY(506),
-              mode: "lines",
-              line: { shape: "spline" },
-              name: "A(L)",
-              marker: {
-                color: "#7F7F7F",
-              },
-            },
-          ]}
-          layout={{
-            margin: { t: 0, b: 0, r: 10, l: 10 },
-            width: 280,
-            height: 200,
-            legend: {
-              orientation: "h",
-              xanchor: "center",
-              x: 0.5,
-            },
-            xaxis: {
-              showgrid: false,
-              showline: false,
-              showticklabels: false,
-            },
-            yaxis: {
-              showgrid: false,
-              showline: false,
-              showticklabels: false,
-            },
-          }}
-          config={{ displayModeBar: false }}
-        />
-        <h2>Create PortFolio</h2>
-        <p>유저가 원하는 비중의 포트폴리오를 생성합니다</p>
+        <div className={classes.rating}>{rating ? `${rating}위` : "---"} </div>
+        <div className={classes.body}>
+          <Typography variant="h6">{userName}</Typography>
+          <div>
+            <Plot
+              data={[
+                {
+                  x: testX,
+                  y: randomY(506),
+                  mode: "lines",
+                  line: { shape: "spline" },
+                  name: "AP(H)",
+                  marker: {
+                    color: "#FF8B8B",
+                  },
+                },
+                {
+                  x: testX,
+                  y: randomY(506),
+                  mode: "lines",
+                  line: { shape: "spline" },
+                  name: "A(L)",
+                  marker: {
+                    color: "#7FABD0",
+                  },
+                },
+                {
+                  x: testX,
+                  y: randomY(506),
+                  mode: "lines",
+                  line: { shape: "spline" },
+                  name: "A(M)",
+                  marker: {
+                    color: "#61BFAD",
+                  },
+                },
+              ]}
+              layout={{
+                margin: { t: 0, b: 0, r: 10, l: 10 },
+                width: 280,
+                height: 200,
+                legend: {
+                  orientation: "h",
+                  xanchor: "center",
+                  x: 0.5,
+                },
+                xaxis: {
+                  showgrid: false,
+                  showline: false,
+                  showticklabels: false,
+                },
+                yaxis: {
+                  zeroline: false,
+                  showgrid: false,
+                  showline: false,
+                  showticklabels: false,
+                },
+              }}
+              config={{ displayModeBar: false }}
+            />
+          </div>
+          <hr style={{ margin: "10px 15px 10px 15px" }} />
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <table style={{ width: "100%" }}>
+              <tr>
+                <th></th>
+                <th>이름</th>
+                <th>수익율</th>
+                <th>기간</th>
+              </tr>
+              <tr>
+                <td>
+                  <FiberManualRecordIcon style={{ color: "#FF8B8B" }} />
+                </td>
+                <td>AP(H)</td>
+                <td>1252%</td>
+                <td>12년 3개월</td>
+              </tr>
+              <tr>
+                <td>
+                  <FiberManualRecordIcon style={{ color: "#7FABD0" }} />
+                </td>
+                <td>AP(H)</td>
+                <td>1252%</td>
+                <td>12년 3개월</td>
+              </tr>
+              <tr>
+                <td>
+                  <FiberManualRecordIcon style={{ color: "#61BFAD" }} />
+                </td>
+                <td>AP(H)</td>
+                <td>1252%</td>
+                <td>12년 3개월</td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </>
   );

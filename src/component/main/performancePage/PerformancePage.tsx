@@ -14,20 +14,111 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const PerformancePage = () => {
   const classes = useStyles();
+  const testCard = [
+    {
+      rating: 1,
+      name: "kang",
+      portfolios: [
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+      ],
+    },
+    {
+      rating: 2,
+      name: "kang1",
+      portfolios: [
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+      ],
+    },
+    {
+      rating: 3,
+      name: "kang2",
+      portfolios: [
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+      ],
+    },
+    {
+      rating: 4,
+      name: "kang3",
+      portfolios: [
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+      ],
+    },
+    {
+      rating: 5,
+      name: "kang3",
+      portfolios: [
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+      ],
+    },
+    {
+      rating: 6,
+      name: "kang3",
+      portfolios: [
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+        {
+          name: "main PF",
+          shares: [121, 12412, 12312, 12312],
+          date: "12년 3개월",
+        },
+      ],
+    },
+  ];
   return (
     <>
       <div className={classes.root}>
         <div className={classes.cards}>
-          <PerformanceCard />
-          <PerformanceCard />
-          <PerformanceCard />
-          <PerformanceCard />
-          <PerformanceCard />
-          <PerformanceCard />
-          <PerformanceCard />
-          <PerformanceCard />
-          <PerformanceCard />
-          <PerformanceCard />
+          {testCard.map((item) => {
+            return <PerformanceCard rating={item.rating} userName={item.name} portfolios={item.portfolios} />;
+          })}
         </div>
       </div>
     </>

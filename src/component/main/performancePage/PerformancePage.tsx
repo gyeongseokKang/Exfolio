@@ -112,12 +112,15 @@ const PerformancePage = () => {
       ],
     },
   ];
+  console.log("ddd");
   return (
     <>
       <div className={classes.root}>
         <div className={classes.cards}>
           {testCard.map((item) => {
-            return <PerformanceCard rating={item.rating} userName={item.name} portfolios={item.portfolios} />;
+            return (
+              <PerformanceCard key={item.name} rating={item.rating} userName={item.name} portfolios={item.portfolios} />
+            );
           })}
         </div>
       </div>

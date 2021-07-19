@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       float: "left",
       justifyContent: "center",
+      alignItems: "center",
       paddingTop: "10px",
       paddingLeft: "10px",
     },
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: "-20px",
       paddingLeft: "20px",
       paddingRight: "70px",
+      fontFamily: "Noto Sans CJK KR",
       zIndex: 10,
       "&:hover": {
         background: "#E0E0E0",
@@ -74,6 +76,7 @@ const StockDialogInput = ({ searchQuery, setSearchQuery }: StockDialogProp) => {
             id="header-search"
             placeholder="삼성전자 or 005930"
             name=""
+            spellCheck="false"
           />
         </form>
         <HighlightOffIcon className={classes.closeIcon} fontSize={"small"} onClick={inputClear} />

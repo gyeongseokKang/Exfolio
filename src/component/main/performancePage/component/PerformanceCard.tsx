@@ -634,36 +634,40 @@ const PerformanceCard = ({ rating, userName, portfolios }: PerformanceCardProp) 
           <hr style={{ margin: "10px 15px 10px 15px" }} />
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <table style={{ width: "100%" }}>
-              <tr>
-                <th></th>
-                <th>이름</th>
-                <th>수익율</th>
-                <th>기간</th>
-              </tr>
-              <tr>
-                <td>
-                  <FiberManualRecordIcon style={{ color: "#FF8B8B" }} />
-                </td>
-                <td>AP(H)</td>
-                <td>1252%</td>
-                <td>12년 3개월</td>
-              </tr>
-              <tr>
-                <td>
-                  <FiberManualRecordIcon style={{ color: "#7FABD0" }} />
-                </td>
-                <td>AP(H)</td>
-                <td>1252%</td>
-                <td>12년 3개월</td>
-              </tr>
-              <tr>
-                <td>
-                  <FiberManualRecordIcon style={{ color: "#61BFAD" }} />
-                </td>
-                <td>AP(H)</td>
-                <td>1252%</td>
-                <td>12년 3개월</td>
-              </tr>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>이름</th>
+                  <th>수익율</th>
+                  <th>기간</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <FiberManualRecordIcon style={{ color: "#FF8B8B" }} />
+                  </td>
+                  <td>AP(H)</td>
+                  <td>1252%</td>
+                  <td>12년 3개월</td>
+                </tr>
+                <tr>
+                  <td>
+                    <FiberManualRecordIcon style={{ color: "#7FABD0" }} />
+                  </td>
+                  <td>AP(H)</td>
+                  <td>1252%</td>
+                  <td>12년 3개월</td>
+                </tr>
+                <tr>
+                  <td>
+                    <FiberManualRecordIcon style={{ color: "#61BFAD" }} />
+                  </td>
+                  <td>AP(H)</td>
+                  <td>1252%</td>
+                  <td>12년 3개월</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>

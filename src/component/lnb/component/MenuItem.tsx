@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: "#E6E6FA",
       },
     },
+    mobileRoot: {
+      margin: "10px",
+      padding: "10px",
+    },
     link: {
       alignItems: "center",
       color: "black",
@@ -32,6 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       fontSize: "0.75rem",
     },
+    mobileText: {
+      display: "none",
+      padding: "0px",
+    },
     "@keyframes fade-in": {
       "0%": {
         opacity: 0,
@@ -46,23 +54,23 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface TopLogoLayoutProp {
+  width: number;
   icon: any;
   expanded: boolean;
   to: string;
   title: string;
 }
 
-const MenuItem = ({ icon, expanded = true, to, title }: TopLogoLayoutProp) => {
+const MenuItem = ({ width, icon, expanded = true, to, title }: TopLogoLayoutProp) => {
   const classes = useStyles();
-
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} ${width < 800 && classes.mobileRoot}`}>
       <Link className={classes.link} to={to} style={{ display: expanded ? "flex" : "inline-block" }}>
         {icon}
         {expanded ? (
-          <div className={classes.expandedOn}>{title}</div>
+          <div className={`${classes.expandedOn} ${width < 800 && classes.mobileText}`}>{title}</div>
         ) : (
-          <div className={classes.expandedOff}>{title}</div>
+          <div className={`${classes.expandedOff} ${width < 800 && classes.mobileText}`}>{title}</div>
         )}
       </Link>
     </div>

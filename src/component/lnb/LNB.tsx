@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
@@ -12,26 +12,53 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: "#EEEEEE",
+      transition: "all 0.5s ease",
+    },
+    leftBar: {
       height: "100vh",
       float: "left",
       borderRadius: "0px 20px 20px 0px / 0px 20px 20px 0px",
-      transition: "all 0.5s ease",
+      "& > hr": {
+        margin: "10px 15px 10px 15px",
+      },
+    },
+    topBar: {
+      display: "flex",
+      alignItems: "center",
+      "& > hr": {
+        margin: "0px",
+      },
     },
   })
 );
 
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+  return size;
+}
+
 function LNB() {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(true);
+  const [width, height] = useWindowSize();
+
   return (
-    <div className={classes.root} style={{ width: expanded ? "250px" : "80px" }}>
-      <TopLogoLayout expanded={expanded} setExpanded={setExpanded} />
-      <hr style={{ margin: "10px 15px 10px 15px" }} />
-      <MenuItem expanded={expanded} icon={<HomeIcon />} to={"/"} title={"홈"} />
-      <MenuItem expanded={expanded} icon={<PostAddIcon />} to={"/create"} title={"생성"} />
-      <MenuItem expanded={expanded} icon={<FindInPageIcon />} to={"/analysis"} title={"분석"} />
-      <MenuItem expanded={expanded} icon={<AssignmentIndIcon />} to={"/propensity"} title={"성향"} />
-      <MenuItem expanded={expanded} icon={<AssessmentIcon />} to={"/performance"} title={"성과방"} />
+    <div className={`${classes.root} ${width < 800 ? classes.topBar : classes.leftBar}`}>
+      <TopLogoLayout expanded={expanded} width={width} setExpanded={setExpanded} />
+      <hr />
+      <MenuItem expanded={expanded} width={width} icon={<HomeIcon />} to={"/"} title={"홈"} />
+      <MenuItem expanded={expanded} width={width} icon={<PostAddIcon />} to={"/create"} title={"생성"} />
+      <MenuItem expanded={expanded} width={width} icon={<FindInPageIcon />} to={"/analysis"} title={"분석"} />
+      <MenuItem expanded={expanded} width={width} icon={<AssignmentIndIcon />} to={"/propensity"} title={"성향"} />
+      <MenuItem expanded={expanded} width={width} icon={<AssessmentIcon />} to={"/performance"} title={"성과방"} />
     </div>
   );
 }

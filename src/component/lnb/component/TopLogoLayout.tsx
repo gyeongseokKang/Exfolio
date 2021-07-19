@@ -18,6 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
       "& > div": {
         fontSize: "1.75rem",
         animation: `$fade-in 1000ms`,
+        width: "150px",
+      },
+    },
+    mobile: {
+      margin: "0px",
+      "& > div": {
+        width: "max-content",
       },
     },
     menuButton: {
@@ -37,18 +44,19 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface TopLogoLayoutProp {
+  width: number;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
 }
 
-const TopLogoLayout = ({ expanded = true, setExpanded }: TopLogoLayoutProp) => {
+const TopLogoLayout = ({ width, expanded = true, setExpanded }: TopLogoLayoutProp) => {
   const classes = useStyles();
   const menuIconClicked = () => {
     setExpanded(!expanded);
   };
   return (
     <>
-      <div className={classes.root}>
+      <div className={`${classes.root} ${width < 800 && classes.mobile}`}>
         <IconButton className={classes.menuButton} onClick={menuIconClicked}>
           <MenuIcon />
         </IconButton>

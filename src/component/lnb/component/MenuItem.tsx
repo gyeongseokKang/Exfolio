@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       margin: "0px 20px 10px 20px",
-      padding: "10px 0px 10px 5px",
+      padding: "10px 5px 10px 5px",
       borderRadius: "10px",
       cursor: "pointer",
       "&:hover": {

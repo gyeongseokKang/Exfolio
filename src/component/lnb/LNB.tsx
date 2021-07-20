@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
@@ -7,12 +7,15 @@ import AssessmentIcon from "@material-ui/icons/Assessment";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import TopLogoLayout from "./component/TopLogoLayout";
 import MenuItem from "./component/MenuItem";
+import GoogleLogIO from "../common/login/GoogleLogIO";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: "#EEEEEE",
       transition: "all 0.5s ease",
+      position: "sticky",
+      top: "0",
     },
     leftBar: {
       height: "100vh",
@@ -49,7 +52,6 @@ function LNB() {
   const classes = useStyles();
   const [expanded, setExpanded] = useState<boolean>(true);
   const [width, height] = useWindowSize();
-
   return (
     <div className={`${classes.root} ${width < 800 ? classes.topBar : classes.leftBar}`}>
       <TopLogoLayout expanded={expanded} width={width} setExpanded={setExpanded} />
@@ -59,6 +61,7 @@ function LNB() {
       <MenuItem expanded={expanded} width={width} icon={<FindInPageIcon />} to={"/analysis"} title={"분석"} />
       <MenuItem expanded={expanded} width={width} icon={<AssignmentIndIcon />} to={"/propensity"} title={"성향"} />
       <MenuItem expanded={expanded} width={width} icon={<AssessmentIcon />} to={"/performance"} title={"성과방"} />
+      <GoogleLogIO expanded={expanded} width={width} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import PerformanceCard from "./component/PerformanceCard";
 
@@ -112,7 +112,6 @@ const PerformancePage = () => {
       ],
     },
   ];
-  console.log("ddd");
   return (
     <>
       <div className={classes.root}>

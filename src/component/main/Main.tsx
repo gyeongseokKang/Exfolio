@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function Main() {
   const classes = useStyles();
   let history = useHistory();
+
   return (
     <>
       <div className={classes.root}>

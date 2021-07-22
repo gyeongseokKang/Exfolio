@@ -26,7 +26,6 @@ interface GoogleLogIOProp {
 const GoogleLogIO = ({ width, expanded }: GoogleLogIOProp) => {
   const classes = useStyles();
   const { userInfo, login, logout } = useContext(LoginContext);
-
   return (
     <>
       <div className={`${classes.root} ${width < 800 && classes.mobileRoot}`}>

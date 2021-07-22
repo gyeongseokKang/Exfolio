@@ -1,9 +1,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const OptimizeCssAseetsPlugin = require("optimize-css-assets-webpack-plugin");
+const mode = process.env.NODE_ENV || "development";
 
 module.exports = {
   entry: "./src/index.tsx",
-  mode: "development",
+  mode: mode,
   devtool: "inline-source-map",
   devServer: {
     contentBase: "./dist",
@@ -55,6 +58,29 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "my project",
       template: path.join(__dirname, "./public/index.html"),
+      minify:
+        process.env.NODE_ENV === "production"
+          ? {
+              collapseWhitespace: true,
+              removeComments: true,
+            }
+          : false,
     }),
   ],
+  optimization: {
+    minimizer:
+      mode === "production"
+        ? [
+            new OptimizeCssAseetsPlugin(),
+            new TerserPlugin({
+              terserOptions: {
+                compress: {
+                  drop_console: true,
+                  drop_debugger: true,
+                },
+              },
+            }),
+          ]
+        : [],
+  },
 };

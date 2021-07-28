@@ -51,7 +51,16 @@ interface RRSW {
   };
 }
 
-function getStepContent({ step, sharesHeldList, modifiedStockList, selectedPF, onChange, onDelete, onAdd, onChangeSelectedPF }: stepContentProp) {
+function getStepContent({
+  step,
+  sharesHeldList,
+  modifiedStockList,
+  selectedPF,
+  onChange,
+  onDelete,
+  onAdd,
+  onChangeSelectedPF,
+}: stepContentProp) {
   switch (step) {
     case 0:
       return <StockChipGroup stockList={sharesHeldList} onChange={onChange} onDelete={onDelete} onAdd={onAdd} />;
@@ -71,7 +80,7 @@ function getStepContent({ step, sharesHeldList, modifiedStockList, selectedPF, o
   }
 }
 
-export default function VerticalLinearStepper() {
+export default function AnalysisPage() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = ["Choose Stock", "Modify Portfolio", "Analysis Portfolio"];

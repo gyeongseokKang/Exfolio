@@ -59,7 +59,7 @@ function getStepContent({ step, holdings, onChange, onDelete, onAdd }: stepConte
   }
 }
 
-export default function VerticalLinearStepper() {
+export default function CreatePage() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = ["Choose Stock", "Select Portfolio", "Confirm Portfolio"];

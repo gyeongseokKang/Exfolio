@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Plot from "react-plotly.js";
-import { Typography } from "@material-ui/core";
+import { Dialog, Typography } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import CardPage from "./cardPage/CardPage";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -12,6 +13,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "1rem",
     padding: "0.5rem",
     transition: "0.3s",
+    "&:hover": {
+      margin: "10px 0px 0px 10px",
+    },
   },
   rating: {
     position: "absolute",
@@ -34,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       cursor: "pointer",
     },
   },
+  detailPage: {},
 }));
 const testX = [
   "2015-02-17",
@@ -552,7 +557,7 @@ const randomY = (length: number) => {
   return yArray;
 };
 
-interface portfolio {
+export interface portfolio {
   name: string;
   shares: (string | number)[];
   date: string;
@@ -560,19 +565,30 @@ interface portfolio {
 
 interface PerformanceCardProp {
   rating?: number;
-  userName: string;
+  userInfo: {
+    userId: string;
+    userName: string;
+  };
   portfolios: portfolio[];
 }
 
-const PerformanceCard = ({ rating, userName, portfolios }: PerformanceCardProp) => {
+const PerformanceCard = ({ rating, userInfo, portfolios }: PerformanceCardProp) => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <>
-      <div className={classes.root}>
+      <div className={classes.root} onClick={handleClickOpen}>
         <div className={classes.rating}>{rating ? `${rating}위` : "---"} </div>
         <div className={classes.body}>
-          <Typography variant="h6">{userName}</Typography>
+          <Typography variant="h6">{userInfo.userName}</Typography>
           <div>
             <Plot
               data={[
@@ -672,7 +688,13 @@ const PerformanceCard = ({ rating, userName, portfolios }: PerformanceCardProp) 
           </div>
         </div>
       </div>
+      <div className={classes.detailPage}>
+        <Dialog open={open} onClose={handleClose} maxWidth={false}>
+          <CardPage userInfo={userInfo} portfolios={portfolios}></CardPage>
+        </Dialog>
+      </div>
     </>
   );
 };
+
 export default PerformanceCard;

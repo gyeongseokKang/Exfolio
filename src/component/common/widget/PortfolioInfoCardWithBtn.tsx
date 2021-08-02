@@ -21,10 +21,16 @@ const useStyles = makeStyles((theme: Theme) =>
 interface PortfolioInfoCardWithBtnProp {
   title: string;
   info: RRSW;
+  buttonText?: string;
   onPfClick?: (info: RRSW) => void;
 }
 
-export default function PortfolioInfoCardWithBtn({ title, info, onPfClick }: PortfolioInfoCardWithBtnProp) {
+export default function PortfolioInfoCardWithBtn({
+  title,
+  info,
+  buttonText = "SELECT",
+  onPfClick,
+}: PortfolioInfoCardWithBtnProp) {
   const classes = useStyles();
 
   return (
@@ -47,7 +53,7 @@ export default function PortfolioInfoCardWithBtn({ title, info, onPfClick }: Por
             onPfClick(info);
           }}
         >
-          Select
+          {buttonText}
         </Button>
       ) : undefined}
     </Paper>

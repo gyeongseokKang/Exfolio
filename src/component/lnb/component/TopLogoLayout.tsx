@@ -63,7 +63,7 @@ const TopLogoLayout = ({ width, expanded = true, setExpanded }: TopLogoLayoutPro
         {expanded ? (
           <>
             <img src={applogo} alt="logo" />
-            <div>ExPolio</div>
+            <div>ExFolio</div>
           </>
         ) : undefined}
       </div>

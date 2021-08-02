@@ -60,6 +60,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "my project",
       template: path.join(__dirname, "./public/index.html"),
+      favicon: "./src/styles/favicon.ico",
       minify:
         process.env.NODE_ENV === "production"
           ? {

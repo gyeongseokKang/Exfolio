@@ -31,7 +31,7 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
         <Swiper slidesPerView={3} width={1000} freeMode={true} className={classes.sliderContainer}>
           {current.map((item, index) => {
             return (
-              <SwiperSlide className={classes.swiperSlide}>
+              <SwiperSlide key={`개선된 포트폴리오_${index}`} className={classes.swiperSlide}>
                 <PortfolioInfoCardWithBtn
                   title={`개선된 포트폴리오_${index}`}
                   info={item}

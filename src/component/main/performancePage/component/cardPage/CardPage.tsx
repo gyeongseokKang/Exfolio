@@ -5,6 +5,7 @@ import CardUserInfo from "./component/CardUserInfo";
 import PortFolioSlider from "./component/PortFolioSlider";
 import BenchmarkChart from "./component/BenchmarkChart";
 import { RRSW } from "src/service/getEfficientFrontier";
+import RecommendWeight from "./component/RecommendWeight";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -32,15 +33,15 @@ const CardPage = ({ userInfo, portfolios }: CardPageProp) => {
   const [selectedPF, setSelectedPF] = useState<undefined | RRSW>(undefined);
   const changePF = (PF: RRSW) => {
     setSelectedPF(PF);
-    console.log(PF);
   };
   return (
     <>
       <div className={classes.root}>
         <CardUserInfo userName={userInfo.userName} PFCount={testPFCount}></CardUserInfo>
         <PortFolioSlider changePF={changePF}></PortFolioSlider>
+        <div>각 포트폴리오 뱃지가 나오는 부분</div>
         <BenchmarkChart weights={selectedPF?.weights} />
-        <div>dr.folio recommend section</div>
+        <RecommendWeight weights={selectedPF?.weights}></RecommendWeight>
       </div>
     </>
   );

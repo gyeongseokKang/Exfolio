@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import Plot from "react-plotly.js";
 import { RRSW } from "src/service/getEfficientFrontier";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,6 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import PortfolioInfoCard from "src/component/common/widget/PortfolioInfoCard";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: { display: "flex", alignItems: "center", justifyContent: "space-around", flexDirection: "column" },
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   table: {
-    minWidth: 650,
+    minWidth: 150,
   },
 }));
 
@@ -39,12 +39,27 @@ const RecommendWeight = ({ weights }: RecommendWeightProp) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <div>Dr.folio가 추천하는 비율</div>
       {weights ? (
         <>
           <div className={classes.pieChartContainer}>
-            <WeightPieChart items={weights.items} values={weights.values} />
-            <WeightPieChart items={weights.items} values={weights.values} />
+            <PortfolioInfoCard
+              values={weights.values}
+              labels={weights.items}
+              title={"개선 전"}
+              volatility={25.4}
+              returns={23.2}
+              sharpe={1}
+              oridentation="v"
+            />
+            <PortfolioInfoCard
+              values={weights.values}
+              labels={weights.items}
+              title={"개선 후"}
+              volatility={20.4}
+              returns={23.2}
+              sharpe={1}
+              oridentation="v"
+            />
           </div>
           <div className={classes.tableChartContainer}>
             <StockListTable items={weights.items} values={weights.values} />
@@ -56,33 +71,6 @@ const RecommendWeight = ({ weights }: RecommendWeightProp) => {
         <div>loading~!!~!~!~</div>
       )}
     </div>
-  );
-};
-
-const WeightPieChart = (weights: RRSW["weights"]) => {
-  return (
-    <Plot
-      data={[
-        {
-          labels: weights.items,
-          values: weights.values,
-          type: "pie",
-          hoverinfo: "label+percent",
-          textinfo: "label+percent",
-          textfont: { size: 15, family: "", color: "" },
-          sort: false,
-          textposition: "inside",
-          insidetextorientation: "horizontal",
-        },
-      ]}
-      layout={{
-        width: 300,
-        height: 300,
-        margin: { t: 10, b: 20, r: 0, l: 0 },
-        showlegend: false,
-      }}
-      config={{ displayModeBar: false }}
-    />
   );
 };
 

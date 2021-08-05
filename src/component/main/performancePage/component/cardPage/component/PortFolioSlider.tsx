@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -8,8 +8,7 @@ import PortfolioInfoCardWithBtn from "src/component/common/widget/PortfolioInfoC
 import { RRSW } from "src/service/getEfficientFrontier";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: { marginTop: "2rem" },
-
+  root: { marginTop: "2rem", height: "480px" },
   sliderContainer: { display: "flex", flexDirection: "column-reverse", alignItems: "center" },
   swiperSlide: {
     width: "300px !important",
@@ -23,11 +22,14 @@ interface PortFolioSliderProp {
 const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
   const classes = useStyles();
   const current = testPF;
+  const [selectedIndex, setSelectedIndex] = useState<number | undefined>(undefined);
+  const changeIndex = (PFIndex: number) => {
+    setSelectedIndex(PFIndex);
+  };
 
   return (
     <>
       <div className={classes.root}>
-        <div>보유 포트폴리오</div>
         <Swiper slidesPerView={3} width={1000} freeMode={true} className={classes.sliderContainer}>
           {current.map((item, index) => {
             return (
@@ -35,6 +37,8 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
                 <PortfolioInfoCardWithBtn
                   title={`개선된 포트폴리오_${index}`}
                   info={item}
+                  selected={selectedIndex === index}
+                  setSelected={() => changeIndex(index)}
                   onPfClick={changePF}
                   buttonText={"Detail"}
                 />
@@ -46,7 +50,6 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
     </>
   );
 };
-
 export default PortFolioSlider;
 
 const testPF = [

@@ -58,33 +58,26 @@ const TITLE_LIST = {
 function createGaugeConfig(
   value: number,
   position: number,
-  type: "volatility" | "returns" | "sharpe"
+  type: "volatility" | "returns" | "sharpe",
+  oridentation: "v" | "h"
 ): Plotly.Data {
   let color = undefined;
-  if (
-    COLOR_CONFIG[type]["good"]["range"][0] <= value &&
-    value < COLOR_CONFIG[type]["good"]["range"][1]
-  ) {
+  if (COLOR_CONFIG[type]["good"]["range"][0] <= value && value < COLOR_CONFIG[type]["good"]["range"][1]) {
     color = COLOR_CONFIG[type]["good"]["color"];
-  } else if (
-    COLOR_CONFIG[type]["medium"]["range"][0] <= value &&
-    value < COLOR_CONFIG[type]["medium"]["range"][1]
-  ) {
+  } else if (COLOR_CONFIG[type]["medium"]["range"][0] <= value && value < COLOR_CONFIG[type]["medium"]["range"][1]) {
     color = COLOR_CONFIG[type]["medium"]["color"];
-  } else if (
-    COLOR_CONFIG[type]["bad"]["range"][0] <= value &&
-    value < COLOR_CONFIG[type]["bad"]["range"][1]
-  ) {
+  } else if (COLOR_CONFIG[type]["bad"]["range"][0] <= value && value < COLOR_CONFIG[type]["bad"]["range"][1]) {
     color = COLOR_CONFIG[type]["bad"]["color"];
   } else {
     color = COLOR_CONFIG["default"]["color"];
   }
 
+  const domain = oridentation === "h" ? { row: 0, column: position } : { row: position, column: 0 };
   return {
     type: "indicator",
     mode: "gauge+number",
     title: { text: TITLE_LIST[type], font: { size: 16 } },
-    domain: { row: 0, column: position },
+    domain: domain,
     value: value,
 
     gauge: {
@@ -97,7 +90,7 @@ function createGaugeConfig(
     number: {
       suffix: type === "sharpe" ? "" : "%",
       font: {
-        size: 18,
+        size: 14,
         color: "gray",
       },
     },
@@ -110,29 +103,39 @@ export default function IndexGaugeCharts({
   sharpe,
   height = 100,
   width = 260,
+  oridentation,
 }: {
   volatility: number;
   returns: number;
   sharpe: number;
   height?: number;
   width?: number;
+  oridentation?: "v" | "h";
 }) {
   returns = returns * 100;
   volatility = volatility * 100;
 
+  const grid =
+    oridentation === "v"
+      ? { rows: 3, columns: 1, pattern: "independent" }
+      : { rows: 1, columns: 3, pattern: "independent" };
+
+  const [h, w] = oridentation === "v" ? [260, 100] : [height, width];
+
+  const data = [
+    createGaugeConfig(volatility, 0, "volatility", oridentation || "h"),
+    createGaugeConfig(returns, 1, "returns", oridentation || "h"),
+    createGaugeConfig(sharpe, 2, "sharpe", oridentation || "h"),
+  ];
   return (
     <Plot
-      data={[
-        createGaugeConfig(volatility, 0, "volatility"),
-        createGaugeConfig(returns, 1, "returns"),
-        createGaugeConfig(sharpe, 2, "sharpe"),
-      ]}
+      data={data}
       layout={{
-        height: height,
-        width: width,
+        height: h,
+        width: w,
         showlegend: false,
-        grid: { rows: 1, columns: 3 },
-        margin: { t: 0, b: 0, l: 0, r: 0 },
+        grid: grid as any,
+        margin: { t: 10, b: 10, l: 10, r: 10 },
       }}
       config={{ displayModeBar: false }}
     />

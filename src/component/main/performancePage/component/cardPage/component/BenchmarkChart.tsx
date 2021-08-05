@@ -91,7 +91,6 @@ const TotalStockLineChart = ({ weights }: TotalStockLineChartProp) => {
       weight: weights.values,
     }).then((res) => {
       setBenchmarkData(res);
-      console.log(res);
     });
   }, [weights]);
 

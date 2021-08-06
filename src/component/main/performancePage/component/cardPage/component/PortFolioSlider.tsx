@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import "swiper/swiper.min.css";
-import "./styles.css";
+// import "swiper/swiper.min.css";
 import PortfolioInfoCardWithBtn from "src/component/common/widget/PortfolioInfoCardWithBtn";
 import { RRSW } from "src/service/getEfficientFrontier";
 

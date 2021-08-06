@@ -5,11 +5,12 @@ import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import React from "react";
 import { Paper } from "@material-ui/core";
+import "./tapSimilarETF.scss";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: "460px",
+      height: "490px",
     },
     slider: {
       overflow: "hidden",
@@ -17,7 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       display: "flex",
-      flexWrap: "wrap",
       "& > *": {
         margin: "auto",
         fontSize: "1rem",
@@ -48,7 +48,7 @@ const TapSimilarETF = ({ handleSelectedPF, holdings, similarETFData }: TapSimila
   return (
     <>
       <div className={classes.root}>
-        <AwesomeSlider className={classes.slider} style={{}}>
+        <AwesomeSlider className={classes.slider} bullets={true}>
           {similarETF.map((item: ETFData, index: number) => {
             let info = {
               returns: item.returns,
@@ -63,10 +63,6 @@ const TapSimilarETF = ({ handleSelectedPF, holdings, similarETFData }: TapSimila
                 }),
               },
             };
-            // 포함하고 있는 주식만 구하는 로직
-            // let matchedList = holdings.filter((item) => {
-            //   return info.weights.items.includes(item.name);
-            // });
             return (
               <div className={classes.content} key={item.name} style={{ backgroundColor: "white" }}>
                 <PortfolioInfoCardWithBtn title={item.name} info={info} onPfClick={handleSelectedPF} />

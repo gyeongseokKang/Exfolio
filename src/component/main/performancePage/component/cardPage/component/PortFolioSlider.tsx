@@ -14,11 +14,14 @@ import "swiper/components/pagination/pagination.scss";
 import "./PortFolioSlider.scss";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: { margin: "1.5rem 1rem 0rem 1rem", height: "480px" },
+  root: { margin: "1.5rem 1rem 1rem 1rem", height: "500px" },
   sliderContainer: { display: "flex", alignItems: "center", flexDirection: "column-reverse" },
   swiperSlide: {
     // width: "300px !important",
-    marginBottom: "5px",
+    height: "480px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
 }));
 
@@ -62,6 +65,7 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
             className={classes.sliderContainer}
             spaceBetween={0}
             slidesPerView={3}
+            freeMode={true}
             pagination={{
               clickable: true,
               type: "bullets",

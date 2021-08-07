@@ -42,7 +42,7 @@ export default function PortfolioInfoCardWithBtn({
       elevation={0}
       style={{
         border: selected ? "2px solid #303F9F" : "",
-        bottom: selected ? "5px" : "",
+        bottom: selected ? "15px" : "",
       }}
     >
       <PortfolioInfoCard

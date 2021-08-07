@@ -11,7 +11,7 @@ import PortFolioBadge from "./component/PortFolioBadge";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    width: "1600px",
+    width: "75vw",
     height: "1400px",
     padding: "1rem",
     margin: "1rem",

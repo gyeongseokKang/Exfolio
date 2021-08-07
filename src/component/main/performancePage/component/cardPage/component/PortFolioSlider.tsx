@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Swiper, SwiperSlide } from "swiper/react";
 
-// import "swiper/swiper.min.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper/core";
+
 import PortfolioInfoCardWithBtn from "src/component/common/widget/PortfolioInfoCardWithBtn";
 import { RRSW } from "src/service/getEfficientFrontier";
 
+// Import Swiper styles
+import "swiper/swiper.scss";
+import "swiper/components/navigation/navigation.scss";
+import "swiper/components/pagination/pagination.scss";
+
+import "./PortFolioSlider.scss";
 const useStyles = makeStyles((theme: Theme) => ({
-  root: { marginTop: "2rem", height: "480px" },
-  sliderContainer: { display: "flex", flexDirection: "column-reverse", alignItems: "center" },
+  root: { marginTop: "1.5rem", height: "480px" },
+  sliderContainer: { display: "flex", alignItems: "center" },
   swiperSlide: {
     width: "300px !important",
     margin: "5px",
@@ -18,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface PortFolioSliderProp {
   changePF: (PF: RRSW) => void;
 }
+
+SwiperCore.use([Navigation, Pagination, Autoplay]);
+
 const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
   const classes = useStyles();
   const current = testPF;
@@ -29,7 +39,7 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
   return (
     <>
       <div className={classes.root}>
-        <Swiper slidesPerView={3} width={1000} freeMode={true} className={classes.sliderContainer}>
+        <Swiper slidesPerView={3} width={1000} navigation pagination={{ clickable: true }} className={classes.sliderContainer}>
           {current.map((item, index) => {
             return (
               <SwiperSlide key={`개선된 포트폴리오_${index}`} className={classes.swiperSlide}>
@@ -57,19 +67,7 @@ const testPF = [
     risk: 0.2656814237028593,
     sharpe: 1,
     weights: {
-      items: [
-        "삼성전자",
-        "SK하이닉스",
-        "현대차",
-        "POSCO",
-        "KB금융",
-        "신한지주",
-        "기아",
-        "현대모비스",
-        "하나금융지주",
-        "KT&G",
-        "",
-      ],
+      items: ["삼성전자", "SK하이닉스", "현대차", "POSCO", "KB금융", "신한지주", "기아", "현대모비스", "하나금융지주", "KT&G", ""],
       values: [0.25, 0.23, 0.13, 0.09, 0.08, 0.07, 0.05, 0.04, 0.04, 0.03, 0.01],
     },
   },
@@ -78,18 +76,7 @@ const testPF = [
     risk: 0.23019540364261667,
     sharpe: 1,
     weights: {
-      items: [
-        "삼성전자",
-        "SK하이닉스",
-        "NAVER",
-        "LG화학",
-        "삼성SDI",
-        "셀트리온",
-        "현대차",
-        "현대모비스",
-        "엔씨소프트",
-        "",
-      ],
+      items: ["삼성전자", "SK하이닉스", "NAVER", "LG화학", "삼성SDI", "셀트리온", "현대차", "현대모비스", "엔씨소프트", ""],
       values: [0.24, 0.16, 0.11, 0.09, 0.08, 0.07, 0.07, 0.04, 0.04, 0.09],
     },
   },
@@ -98,20 +85,7 @@ const testPF = [
     risk: 0.2535974821500911,
     sharpe: 1,
     weights: {
-      items: [
-        "삼성전자",
-        "SK하이닉스",
-        "NAVER",
-        "현대차",
-        "POSCO",
-        "현대모비스",
-        "KB금융",
-        "신한지주",
-        "하나금융지주",
-        "삼성전자우",
-        "KT&G",
-        "",
-      ],
+      items: ["삼성전자", "SK하이닉스", "NAVER", "현대차", "POSCO", "현대모비스", "KB금융", "신한지주", "하나금융지주", "삼성전자우", "KT&G", ""],
       values: [0.25, 0.21, 0.15, 0.1, 0.06, 0.06, 0.05, 0.04, 0.03, 0.03, 0.03, 0],
     },
   },
@@ -259,11 +233,10 @@ const testPF = [
         "",
       ],
       values: [
-        0.26, 0.14, 0.09, 0.06, 0.04, 0.04, 0.03, 0.03, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
-        0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.01,
+        0.26, 0.14, 0.09, 0.06, 0.04, 0.04, 0.03, 0.03, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
+        0.01, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.01,
       ],
     },
   },
@@ -325,9 +298,8 @@ const testPF = [
         "",
       ],
       values: [
-        0.31, 0.08, 0.05, 0.04, 0.04, 0.03, 0.03, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.01, 0.01,
-        0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.04,
+        0.31, 0.08, 0.05, 0.04, 0.04, 0.03, 0.03, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
+        0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.04,
       ],
     },
   },

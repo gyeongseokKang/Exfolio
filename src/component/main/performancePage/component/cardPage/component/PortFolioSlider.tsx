@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper/core";
+import SwiperCore, { Navigation, Pagination } from "swiper/core";
 
 import PortfolioInfoCardWithBtn from "src/component/common/widget/PortfolioInfoCardWithBtn";
 import { RRSW } from "src/service/getEfficientFrontier";
@@ -11,14 +11,14 @@ import { RRSW } from "src/service/getEfficientFrontier";
 import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
-
 import "./PortFolioSlider.scss";
+
 const useStyles = makeStyles((theme: Theme) => ({
-  root: { marginTop: "1.5rem", height: "480px" },
-  sliderContainer: { display: "flex", alignItems: "center" },
+  root: { margin: "1.5rem 1rem 0rem 1rem", height: "480px" },
+  sliderContainer: { display: "flex", alignItems: "center", flexDirection: "column-reverse" },
   swiperSlide: {
-    width: "300px !important",
-    margin: "5px",
+    // width: "300px !important",
+    marginBottom: "5px",
   },
 }));
 
@@ -26,7 +26,7 @@ interface PortFolioSliderProp {
   changePF: (PF: RRSW) => void;
 }
 
-SwiperCore.use([Navigation, Pagination, Autoplay]);
+SwiperCore.use([Navigation, Pagination]);
 
 const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
   const classes = useStyles();
@@ -36,10 +36,76 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
     setSelectedIndex(PFIndex);
   };
 
+  // const navPrevButton = React.useRef<HTMLButtonElement>(null);
+  // const navNextButton = React.useRef<HTMLButtonElement>(null);
+  // const paginationLabel = React.useRef<HTMLHeadingElement>(null);
+
+  // const onBeforeInit = (Swiper: SwiperCore): void => {
+  //   if (typeof Swiper.params.navigation !== "boolean") {
+  //     const navigation = Swiper.params.navigation;
+  //     navigation!.prevEl = navPrevButton.current;
+  //     navigation!.nextEl = navNextButton.current;
+  //   }
+
+  //   if (typeof Swiper.params.pagination !== "boolean") {
+  //     console.log(Swiper.params.pagination?.el);
+
+  //     Swiper!.params!.pagination!.el = paginationLabel.current;
+  //   }
+  // };
+
   return (
     <>
       <div className={classes.root}>
-        <Swiper slidesPerView={3} width={1000} navigation pagination={{ clickable: true }} className={classes.sliderContainer}>
+        <>
+          <Swiper
+            className={classes.sliderContainer}
+            spaceBetween={0}
+            slidesPerView={3}
+            pagination={{
+              clickable: true,
+              type: "bullets",
+              bulletElement: "span",
+              bulletClass: "timeline-icon",
+              bulletActiveClass: "timeline-icon-active",
+              renderBullet: function (index, className) {
+                return `<span class=${className}>⦿</span>`;
+              },
+            }}
+          >
+            {current.map((item, index) => {
+              return (
+                <SwiperSlide key={`개선된 포트폴리오_${index}`} className={classes.swiperSlide}>
+                  <PortfolioInfoCardWithBtn
+                    title={`개선된 포트폴리오_${index}`}
+                    info={item}
+                    selected={selectedIndex === index}
+                    setSelected={() => changeIndex(index)}
+                    onPfClick={changePF}
+                    buttonText={"Detail"}
+                  />
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </>
+        {/* <Swiper
+          slidesPerView={3}
+          width={1000}
+         pagination={{
+              clickable: true,
+              // el: 'swiper-pagination',
+              type: "bullets",
+              bulletElement: "span",
+              bulletClass: "timeline-icon",
+              bulletActiveClass: "timeline-icon-active",
+              renderBullet: function (index, className) {
+                return '<span class="' + className + '">' + (index + 1) + " icon " + "</span>";
+              },
+            }}
+          onBeforeInit={onBeforeInit}
+          className={classes.sliderContainer}
+        >
           {current.map((item, index) => {
             return (
               <SwiperSlide key={`개선된 포트폴리오_${index}`} className={classes.swiperSlide}>
@@ -54,7 +120,10 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
               </SwiperSlide>
             );
           })}
-        </Swiper>
+          <div className="swiper-pagination" />
+          <button style={{ width: "50px", height: "50px", position: "absolute", left: 0, zIndex: 100 }} ref={navPrevButton} />
+          <button style={{ width: "50px", height: "50px", position: "absolute", right: 0, zIndex: 100 }} ref={navNextButton} />
+        </Swiper> */}
       </div>
     </>
   );

@@ -1,3 +1,28 @@
 .swiper-wrapper {
   align-items: flex-end;
 }
+
+.swiper-pagination {
+  text-align: center;
+  transition: 300ms opacity;
+  transform: translate3d(0, 0, 0);
+  z-index: 10;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.timeline-icon {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  border-radius: 50%;
+  margin: 0px 10px 0px 10px;
+  color: #000;
+  cursor: pointer;
+}
+
+.timeline-icon-active {
+  color: red;
+  cursor: pointer;
+}

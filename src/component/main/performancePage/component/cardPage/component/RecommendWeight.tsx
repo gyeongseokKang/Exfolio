@@ -12,7 +12,13 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import PortfolioInfoCard from "src/component/common/widget/PortfolioInfoCard";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: { display: "flex", alignItems: "center", justifyContent: "space-around", flexDirection: "column" },
+  root: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "column",
+    margin: "2rem",
+  },
   pieChartContainer: {
     display: "flex",
     justifyContent: "space-around",

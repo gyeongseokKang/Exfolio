@@ -149,29 +149,25 @@ const BodyItem = ({ StockData, searchQuery, onAdd, onDelete, matchedStocks }: Bo
       onDelete(targetStock.name);
     }
   };
+
+  const ColoredItem = ({ item, query }: { item: string; query: string }) => {
+    return item.includes(query) ? (
+      <>
+        {item.split(query)[0]}
+        <span style={{ color: "#3F51B5" }}>{query}</span>
+        {item.split(query)[1]}
+      </>
+    ) : (
+      <>{item}</>
+    );
+  };
   return (
     <div className={classes.stockItem} key={StockData.code + "layout"} onClick={bodyRowClicked}>
       <div className={classes.stockCode} id={`${StockData.code}_code`}>
-        {StockData.code.includes(searchQuery) ? (
-          <>
-            {StockData.code.split(searchQuery)[0]}
-            <span style={{ color: "#3F51B5" }}>{searchQuery}</span>
-            {StockData.code.split(searchQuery)[1]}
-          </>
-        ) : (
-          StockData.code
-        )}
+        <ColoredItem item={StockData.code} query={searchQuery} />
       </div>
       <div className={classes.stockName} id={`${StockData.name}_name`}>
-        {StockData.name.includes(searchQuery) ? (
-          <>
-            {StockData.name.split(searchQuery)[0]}
-            <span style={{ color: "#3F51B5" }}>{searchQuery}</span>
-            {StockData.name.split(searchQuery)[1]}
-          </>
-        ) : (
-          StockData.name
-        )}
+        <ColoredItem item={StockData.name} query={searchQuery} />
       </div>
       <Checkbox
         id={`${StockData.code}_checkbox`}

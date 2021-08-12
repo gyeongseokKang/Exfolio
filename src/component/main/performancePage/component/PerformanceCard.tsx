@@ -4,6 +4,7 @@ import Plot from "react-plotly.js";
 import { Dialog, Typography } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import CardPage from "./cardPage/CardPage";
+import { UserPerformance } from "src/service/getUserPerformance";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -557,25 +558,20 @@ const randomY = (length: number) => {
   return yArray;
 };
 
-export interface portfolio {
-  name: string;
-  shares: (string | number)[];
-  date: string;
-}
-
 interface PerformanceCardProp {
   rating?: number;
   userInfo: {
     userId: string;
     userName: string;
   };
-  portfolios: portfolio[];
+  portfolios: UserPerformance["portfolios"];
 }
 
 const PerformanceCard = ({ rating, userInfo, portfolios }: PerformanceCardProp) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
+  const ColorList = ["#FF8B8B", "#7FABD0", "#61BFAD"];
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -649,40 +645,29 @@ const PerformanceCard = ({ rating, userInfo, portfolios }: PerformanceCardProp) 
           </div>
           <hr style={{ margin: "10px 15px 10px 15px" }} />
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
-            <table style={{ width: "100%" }}>
+            <table style={{ width: "100%", minHeight: "130px" }}>
               <thead>
                 <tr>
                   <th></th>
-                  <th>이름</th>
-                  <th>수익율</th>
-                  <th>기간</th>
+                  <th>Name</th>
+                  <th>Rate</th>
+                  <th>Period</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <FiberManualRecordIcon style={{ color: "#FF8B8B" }} />
-                  </td>
-                  <td>AP(H)</td>
-                  <td>1252%</td>
-                  <td>12년 3개월</td>
-                </tr>
-                <tr>
-                  <td>
-                    <FiberManualRecordIcon style={{ color: "#7FABD0" }} />
-                  </td>
-                  <td>AP(H)</td>
-                  <td>1252%</td>
-                  <td>12년 3개월</td>
-                </tr>
-                <tr>
-                  <td>
-                    <FiberManualRecordIcon style={{ color: "#61BFAD" }} />
-                  </td>
-                  <td>AP(H)</td>
-                  <td>1252%</td>
-                  <td>12년 3개월</td>
-                </tr>
+              <tbody style={{ verticalAlign: "top" }}>
+                {portfolios.map((item, index) => {
+                  if (index > 2) return undefined;
+                  return (
+                    <tr>
+                      <td>
+                        <FiberManualRecordIcon style={{ color: ColorList[index] }} />
+                      </td>
+                      <td>{item.title}</td>
+                      <td>{item.portfolio.earningsRate}%</td>
+                      <td>12Y-3M</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

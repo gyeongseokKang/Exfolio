@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { RRSW } from "src/service/getEfficientFrontier";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -10,6 +9,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import PortfolioInfoCard from "src/component/common/widget/PortfolioInfoCard";
+import { getPortfolioPerformance, PortfolioPerformance } from "src/service/getPortfolioPerformance";
+import { RRSW_2, UserPerformance } from "src/service/getUserPerformance";
+import WithLoading from "src/component/common/hoc/WithLoading";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -23,6 +25,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "space-around",
     width: "100%",
+    "& > div": {
+      width: "30%",
+      minWidth: "350px",
+    },
   },
   tableChartContainer: {
     display: "flex",
@@ -38,43 +44,90 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface RecommendWeightProp {
-  weights: undefined | RRSW["weights"];
+  portfolio: RRSW_2;
 }
 
-const RecommendWeight = ({ weights }: RecommendWeightProp) => {
+const PortfolioInfoCardWithLodaing = WithLoading("포트폴리오 분석중", "30%", "100%")(PortfolioInfoCard);
+const StockListTableWithLodaing = WithLoading("포트폴리오 분석중", "100%", "100%")(StockListTable);
+const RecommendWeight = ({ portfolio }: RecommendWeightProp) => {
+  console.log("RecommendWeight render", portfolio);
   const classes = useStyles();
+  const [loading, setLoading] = useState(true);
+
+  const [portfolioPerformance, setPortfolioPerformance] = useState<PortfolioPerformance | undefined>({
+    enhance: {
+      returns: 0,
+      risk: 0,
+      sharpe: 0,
+      weights: {
+        items: [""],
+        values: [0],
+      },
+    },
+    performance: {
+      returns: portfolio.returns,
+      risk: portfolio.risk,
+      sharpe: portfolio.sharpe,
+      weights: {
+        items: portfolio.weights.items.map((item) => item.name),
+        values: portfolio.weights.values,
+      },
+    },
+  });
+
+  useEffect(() => {
+    const stockList = portfolio.weights.items.map((item, index) => {
+      return {
+        name: item.name,
+        code: item.code,
+        weight: portfolio.weights.values[index],
+      };
+    });
+    setLoading(true);
+    getPortfolioPerformance(stockList, portfolio.returns, portfolio.risk, portfolio.sharpe).then((res) => {
+      setPortfolioPerformance(res);
+      setLoading(false);
+    });
+  }, [portfolio]);
+
   return (
     <div className={classes.root}>
-      {weights ? (
+      {portfolioPerformance && (
         <>
           <div className={classes.pieChartContainer}>
             <PortfolioInfoCard
-              values={weights.values}
-              labels={weights.items}
+              values={portfolioPerformance.performance.weights.values}
+              labels={portfolioPerformance.performance.weights.items}
               title={"개선 전"}
-              volatility={25.4}
-              returns={23.2}
-              sharpe={1}
+              volatility={portfolioPerformance.performance.risk}
+              returns={portfolioPerformance.performance.returns}
+              sharpe={portfolioPerformance.performance.sharpe}
               oridentation="v"
             />
-            <PortfolioInfoCard
-              values={weights.values}
-              labels={weights.items}
+            <PortfolioInfoCardWithLodaing
+              loading={loading}
+              values={portfolioPerformance.enhance.weights.values}
+              labels={portfolioPerformance.enhance.weights.items}
               title={"개선 후"}
-              volatility={20.4}
-              returns={23.2}
-              sharpe={1}
+              volatility={portfolioPerformance.enhance.risk}
+              returns={portfolioPerformance.enhance.returns}
+              sharpe={portfolioPerformance.enhance.sharpe}
               oridentation="v"
             />
           </div>
           <div className={classes.tableChartContainer}>
-            <StockListTable items={weights.items} values={weights.values} />
+            <StockListTable
+              items={portfolioPerformance.performance.weights.items}
+              values={portfolioPerformance.performance.weights.values}
+            />
             <ArrowForwardIosIcon style={{ fontSize: "4rem" }} />
-            <StockListTable items={weights.items} values={weights.values} />
+            <StockListTableWithLodaing
+              loading={loading}
+              items={portfolioPerformance.enhance.weights.items}
+              values={portfolioPerformance.enhance.weights.values}
+            />
           </div>
         </>
-      ) : (
-        <div>loading~!!~!~!~</div>
       )}
     </div>
   );
@@ -82,7 +135,7 @@ const RecommendWeight = ({ weights }: RecommendWeightProp) => {
 
 export default RecommendWeight;
 
-function StockListTable(weights: RRSW["weights"]) {
+function StockListTable(weights: { items: string[]; values: number[] }) {
   const classes = useStyles();
   const top10Items = weights.items.slice(0, 10);
   return (

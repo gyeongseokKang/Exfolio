@@ -3,32 +3,38 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { RRSW } from "src/service/getEfficientFrontier";
 import Plot from "react-plotly.js";
 import { getBackTest } from "src/service/getBackTest";
+import { RRSW_2 } from "src/service/getUserPerformance";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: { display: "flex", justifyContent: "space-around", margin: "1rem" },
 }));
 
 interface BenchmarkChartProp {
-  weights: undefined | RRSW["weights"];
+  portfolio: RRSW_2;
 }
 
-const BenchmarkChart = ({ weights }: BenchmarkChartProp) => {
+const BenchmarkChart = ({ portfolio }: BenchmarkChartProp) => {
   const classes = useStyles();
+  const items = portfolio.weights.items.map((item) => item.name);
+  const weights = {
+    items: portfolio.weights.items.map((item) => item.name),
+    values: portfolio.weights.values,
+  };
 
   return (
     <div className={classes.root}>
-      {weights && (
+      {
         <div>
           <div>상위 10개 주식 수익율</div>
-          <Top10StockLineChart items={weights.items} />
+          <Top10StockLineChart items={items} />
         </div>
-      )}
-      {weights && (
+      }
+      {
         <div>
           <div>종합 수익율</div>
           <TotalStockLineChart weights={weights} />
         </div>
-      )}
+      }
     </div>
   );
 };

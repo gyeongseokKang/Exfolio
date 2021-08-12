@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { portfolio } from "../PerformanceCard";
 import CardUserInfo from "./component/CardUserInfo";
 import BenchmarkChart from "./component/BenchmarkChart";
 import { RRSW } from "src/service/getEfficientFrontier";
@@ -8,6 +7,7 @@ import RecommendWeight from "./component/RecommendWeight";
 import WithRoundTitle from "src/component/common/hoc/WithRoundTitle";
 import PortFolioSlider from "./component/PortFolioSlider";
 import PortFolioBadge from "./component/PortFolioBadge";
+import { RRSW_2, UserPerformance } from "src/service/getUserPerformance";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -26,7 +26,7 @@ interface CardPageProp {
     userId: string;
     userName: string;
   };
-  portfolios: portfolio[];
+  portfolios: UserPerformance["portfolios"];
 }
 const PortFolioSliderWithRoundTitle = WithRoundTitle("보유 포트폴리오", 1.25)(PortFolioSlider);
 const CardUserInfoWithRoundTitle = WithRoundTitle("유저 정보", 1.25)(CardUserInfo);
@@ -41,8 +41,8 @@ const CardPage = ({ userInfo, portfolios }: CardPageProp) => {
     private: 20,
     delete: 5,
   };
-  const [selectedPF, setSelectedPF] = useState<RRSW | undefined>(undefined);
-  const changePF = (PF: RRSW) => {
+  const [selectedPF, setSelectedPF] = useState<RRSW_2 | undefined>(undefined);
+  const changePF = (PF: RRSW_2) => {
     setSelectedPF(PF);
   };
 
@@ -50,12 +50,12 @@ const CardPage = ({ userInfo, portfolios }: CardPageProp) => {
     <>
       <div className={classes.root}>
         <CardUserInfoWithRoundTitle userName={userInfo.userName} PFCount={testPFCount} />
-        <PortFolioSliderWithRoundTitle changePF={changePF} />
+        <PortFolioSliderWithRoundTitle changePF={changePF} portfolios={portfolios} />
         {selectedPF ? (
           <>
             <PortFolioBadgeWithRoundTitle userName={userInfo.userName} PFCount={testPFCount} />
-            <BenchmarkChartWithRoundTitle weights={selectedPF?.weights} />
-            <RecommendWeightWithRoundTitle weights={selectedPF?.weights} />
+            <BenchmarkChartWithRoundTitle portfolio={selectedPF} />
+            <RecommendWeightWithRoundTitle portfolio={selectedPF} />
           </>
         ) : (
           <div style={{ display: "flex", justifyContent: "center" }}>보유 포트폴리오를 선택해주세요!!</div>

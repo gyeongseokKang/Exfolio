@@ -2,6 +2,7 @@ import _ from "lodash";
 import StockData from "../component/common/addStock/stockList.json";
 
 interface RRSW {
+  earningsRate: number;
   returns: number;
   risk: number;
   sharpe: number;
@@ -32,8 +33,9 @@ export function getRandomPortfolio(size: number): Promise<RRSW[] | undefined> {
       portfolios.push({
         title: `${randomUserEmail}_${j}`,
         portfolio: {
-          returns: Math.round(Math.random() * 100),
-          risk: Math.round(Math.random() * 100),
+          earningsRate: Math.round(Math.random() * 1500),
+          returns: Number(Math.random().toFixed(2)),
+          risk: Number(Math.random().toFixed(2)),
           sharpe: Number((Math.random() * 1.3).toFixed(1)),
           weights: {
             items: _.sampleSize(StockData.stockList, 10),

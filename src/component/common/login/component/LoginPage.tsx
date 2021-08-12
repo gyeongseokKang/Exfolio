@@ -43,12 +43,15 @@ interface LoginPageProp {
 const LoginPage = ({ login, expanded }: LoginPageProp) => {
   const classes = useStyles();
   const responseGoogle = (response: any) => {
+    if (response.error) {
+      return;
+    }
     login({
       email: response.profileObj.email,
       familyName: response.profileObj.familyName,
       givenName: response.profileObj.givenName,
       googleId: response.profileObj.googleId,
-      imageUrl: response.profileObj.imageUrl,
+      imageUrl: response.profileObjimageUrl,
     });
   };
 

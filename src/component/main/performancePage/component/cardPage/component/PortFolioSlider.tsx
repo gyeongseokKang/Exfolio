@@ -12,6 +12,7 @@ import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
 import "./PortFolioSlider.scss";
+import { RRSW_2, UserPerformance } from "src/service/getUserPerformance";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: { margin: "1.5rem 1rem 1rem 1rem", height: "500px" },
@@ -26,36 +27,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface PortFolioSliderProp {
-  changePF: (PF: RRSW) => void;
+  changePF: (PF: RRSW_2) => void;
+  portfolios: UserPerformance["portfolios"];
 }
 
 SwiperCore.use([Navigation, Pagination]);
 
-const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
+const PortFolioSlider = ({ changePF, portfolios }: PortFolioSliderProp) => {
   const classes = useStyles();
-  const current = testPF;
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>(undefined);
   const changeIndex = (PFIndex: number) => {
     setSelectedIndex(PFIndex);
+    changePF(portfolios[PFIndex].portfolio);
   };
-
-  // const navPrevButton = React.useRef<HTMLButtonElement>(null);
-  // const navNextButton = React.useRef<HTMLButtonElement>(null);
-  // const paginationLabel = React.useRef<HTMLHeadingElement>(null);
-
-  // const onBeforeInit = (Swiper: SwiperCore): void => {
-  //   if (typeof Swiper.params.navigation !== "boolean") {
-  //     const navigation = Swiper.params.navigation;
-  //     navigation!.prevEl = navPrevButton.current;
-  //     navigation!.nextEl = navNextButton.current;
-  //   }
-
-  //   if (typeof Swiper.params.pagination !== "boolean") {
-  //     console.log(Swiper.params.pagination?.el);
-
-  //     Swiper!.params!.pagination!.el = paginationLabel.current;
-  //   }
-  // };
 
   return (
     <>
@@ -77,15 +61,24 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
               },
             }}
           >
-            {current.map((item, index) => {
+            {portfolios.map((item, index) => {
+              const info = {
+                returns: item.portfolio.returns,
+                risk: item.portfolio.risk,
+                sharpe: item.portfolio.sharpe,
+                weights: {
+                  items: item.portfolio.weights.items.map((item) => item.name),
+                  values: item.portfolio.weights.values,
+                },
+              };
               return (
-                <SwiperSlide key={`개선된 포트폴리오_${index}`} className={classes.swiperSlide}>
+                <SwiperSlide key={item.title} className={classes.swiperSlide}>
                   <PortfolioInfoCardWithBtn
-                    title={`개선된 포트폴리오_${index}`}
-                    info={item}
+                    title={item.title}
+                    info={info}
                     selected={selectedIndex === index}
                     setSelected={() => changeIndex(index)}
-                    onPfClick={changePF}
+                    onPfClick={() => {}}
                     buttonText={"Detail"}
                   />
                 </SwiperSlide>
@@ -93,41 +86,6 @@ const PortFolioSlider = ({ changePF }: PortFolioSliderProp) => {
             })}
           </Swiper>
         </>
-        {/* <Swiper
-          slidesPerView={3}
-          width={1000}
-         pagination={{
-              clickable: true,
-              // el: 'swiper-pagination',
-              type: "bullets",
-              bulletElement: "span",
-              bulletClass: "timeline-icon",
-              bulletActiveClass: "timeline-icon-active",
-              renderBullet: function (index, className) {
-                return '<span class="' + className + '">' + (index + 1) + " icon " + "</span>";
-              },
-            }}
-          onBeforeInit={onBeforeInit}
-          className={classes.sliderContainer}
-        >
-          {current.map((item, index) => {
-            return (
-              <SwiperSlide key={`개선된 포트폴리오_${index}`} className={classes.swiperSlide}>
-                <PortfolioInfoCardWithBtn
-                  title={`개선된 포트폴리오_${index}`}
-                  info={item}
-                  selected={selectedIndex === index}
-                  setSelected={() => changeIndex(index)}
-                  onPfClick={changePF}
-                  buttonText={"Detail"}
-                />
-              </SwiperSlide>
-            );
-          })}
-          <div className="swiper-pagination" />
-          <button style={{ width: "50px", height: "50px", position: "absolute", left: 0, zIndex: 100 }} ref={navPrevButton} />
-          <button style={{ width: "50px", height: "50px", position: "absolute", right: 0, zIndex: 100 }} ref={navNextButton} />
-        </Swiper> */}
       </div>
     </>
   );
@@ -140,7 +98,19 @@ const testPF = [
     risk: 0.2656814237028593,
     sharpe: 1,
     weights: {
-      items: ["삼성전자", "SK하이닉스", "현대차", "POSCO", "KB금융", "신한지주", "기아", "현대모비스", "하나금융지주", "KT&G", ""],
+      items: [
+        "삼성전자",
+        "SK하이닉스",
+        "현대차",
+        "POSCO",
+        "KB금융",
+        "신한지주",
+        "기아",
+        "현대모비스",
+        "하나금융지주",
+        "KT&G",
+        "",
+      ],
       values: [0.25, 0.23, 0.13, 0.09, 0.08, 0.07, 0.05, 0.04, 0.04, 0.03, 0.01],
     },
   },
@@ -149,7 +119,18 @@ const testPF = [
     risk: 0.23019540364261667,
     sharpe: 1,
     weights: {
-      items: ["삼성전자", "SK하이닉스", "NAVER", "LG화학", "삼성SDI", "셀트리온", "현대차", "현대모비스", "엔씨소프트", ""],
+      items: [
+        "삼성전자",
+        "SK하이닉스",
+        "NAVER",
+        "LG화학",
+        "삼성SDI",
+        "셀트리온",
+        "현대차",
+        "현대모비스",
+        "엔씨소프트",
+        "",
+      ],
       values: [0.24, 0.16, 0.11, 0.09, 0.08, 0.07, 0.07, 0.04, 0.04, 0.09],
     },
   },
@@ -158,7 +139,20 @@ const testPF = [
     risk: 0.2535974821500911,
     sharpe: 1,
     weights: {
-      items: ["삼성전자", "SK하이닉스", "NAVER", "현대차", "POSCO", "현대모비스", "KB금융", "신한지주", "하나금융지주", "삼성전자우", "KT&G", ""],
+      items: [
+        "삼성전자",
+        "SK하이닉스",
+        "NAVER",
+        "현대차",
+        "POSCO",
+        "현대모비스",
+        "KB금융",
+        "신한지주",
+        "하나금융지주",
+        "삼성전자우",
+        "KT&G",
+        "",
+      ],
       values: [0.25, 0.21, 0.15, 0.1, 0.06, 0.06, 0.05, 0.04, 0.03, 0.03, 0.03, 0],
     },
   },
@@ -306,10 +300,11 @@ const testPF = [
         "",
       ],
       values: [
-        0.26, 0.14, 0.09, 0.06, 0.04, 0.04, 0.03, 0.03, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
-        0.01, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.01,
+        0.26, 0.14, 0.09, 0.06, 0.04, 0.04, 0.03, 0.03, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
+        0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.01,
       ],
     },
   },
@@ -371,8 +366,9 @@ const testPF = [
         "",
       ],
       values: [
-        0.31, 0.08, 0.05, 0.04, 0.04, 0.03, 0.03, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
-        0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.04,
+        0.31, 0.08, 0.05, 0.04, 0.04, 0.03, 0.03, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.01, 0.01,
+        0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.04,
       ],
     },
   },

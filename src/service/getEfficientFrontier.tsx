@@ -8,6 +8,7 @@ export interface RRSW {
   weights: {
     items: string[];
     values: number[];
+    code? : string[];
   };
 }
 

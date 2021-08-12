@@ -1,5 +1,6 @@
 import axios from "axios";
 import { serviceOnOff, sleep } from "./serviceSetting";
+import _ from "lodash";
 
 export interface PortfolioPerformance {
   enhance: RRSW;
@@ -22,11 +23,36 @@ interface stockInfo {
   weight: number;
 }
 
-export async function getPortfolioPerformance(stockList: stockInfo[]): Promise<PortfolioPerformance | undefined> {
+export async function getPortfolioPerformance(
+  stockList: stockInfo[],
+  returns?: number,
+  risk?: number,
+  sharpe?: number
+): Promise<PortfolioPerformance | undefined> {
   let result: PortfolioPerformance | undefined = undefined;
 
   if (serviceOnOff === false) {
-    result = testAmount;
+    result = {
+      enhance: {
+        returns: returns ? returns + 0.01 : 0.02,
+        risk: risk ? risk - 0.05 : 0.2,
+        sharpe: sharpe ? sharpe + 0.05 : 0.05,
+
+        weights: {
+          items: _.shuffle(stockList.map((item) => item.name)),
+          values: _.shuffle(stockList.map((item) => item.weight)),
+        },
+      },
+      performance: {
+        returns: returns || 0.01,
+        risk: risk || 0.25,
+        sharpe: sharpe || 0.1,
+        weights: {
+          items: stockList.map((item) => item.name),
+          values: stockList.map((item) => item.weight),
+        },
+      },
+    };
     await sleep(2000);
     return result;
   }
@@ -51,24 +77,3 @@ export async function getPortfolioPerformance(stockList: stockInfo[]): Promise<P
 
   return result;
 }
-
-let testAmount = {
-  enhance: {
-    returns: 0.1507537819548937,
-    risk: 0.12673778713994588,
-    sharpe: 1.0316874304465589,
-    weights: {
-      items: ["SK하이닉스", "LG", "현대차", "삼성전자", "한국전력", "카카오", "엔씨소프트", "셀트리온"],
-      values: [0.03824, 0.03326, 0.05083, 0.30736, 0.16573, 0.19633, 0.10676, 0.10148],
-    },
-  },
-  performance: {
-    returns: 0.12816186535910157,
-    risk: 0.126696827046503,
-    sharpe: 0.8537061888645535,
-    weights: {
-      items: ["LG", "현대차", "엔씨소프트", "카카오", "SK하이닉스", "한국전력", "삼성전자", "셀트리온"],
-      values: [0.09686, 0.11502, 0.08973, 0.08755, 0.10606, 0.19005, 0.17356, 0.14116],
-    },
-  },
-};

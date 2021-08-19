@@ -1,47 +1,39 @@
 import axios from "axios";
-import { serviceOnOff, sleep } from "./serviceSetting";
+import { firebaseURL, serviceOnOff, sleep } from "./serviceSetting";
 
-export interface BackTestData {
-  days: string[];
-  values: number[];
+export interface UserInfo {
+  portfolioCount: {
+    public: number;
+    private: number;
+    delete: number;
+  };
+  portfolioIdList: string[];
+  propensity: {
+    age: string;
+    period: string;
+    affordableRisk: string;
+    annualReturn: string;
+    financialWeight: string;
+  };
 }
 
-export async function getUserInfo(userId: string): Promise<BackTestData | undefined> {
-  let result: any | undefined = undefined;
-  if (serviceOnOff === false) {
-    result = testUserInfo;
-    await sleep(2000);
-    return result;
-  }
+export async function getUserInfo(userId: string): Promise<UserInfo | undefined> {
+  let result: UserInfo | undefined = undefined;
 
-  //   await axios({
-  //     method: "post",
-  //     url: "http://192.168.175.140:5000/backtest",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     data: JSON.stringify({
-  //       codes: stockList.code,
-  //       weights: stockList.weight,
-  //     }),
-  //   })
-  //     .then(function (response) {
-  //       result = response.data;
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
+  await axios({
+    method: "get",
+    url: `${firebaseURL}/user/kang_11.json`,
+  })
+    .then((response) => {
+      result = {
+        portfolioCount: JSON.parse(response.data.portfolioCount),
+        portfolioIdList: response.data.portfolioIdList,
+        propensity: JSON.parse(response.data.propensity),
+      };
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   return result;
 }
-
-const testUserInfo = {
-  kang0_id: {
-    PFcount: {
-      public: 5,
-      private: 5,
-      delete: 5,
-    },
-    publicPF: [{}],
-  },
-};

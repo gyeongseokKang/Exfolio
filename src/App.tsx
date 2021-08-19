@@ -7,8 +7,8 @@ import { LoginProvider } from "./contexts/LoginContext";
 function App() {
   const CreatePage = React.lazy(() => import("./component/main/createPage/CreatePage"));
   const AnalysisPage = React.lazy(() => import("./component/main/analysisPage/AnalysisPage"));
-  const PropensityPage = React.lazy(() => import("./component/main/propensity/PropensityPage"));
   const PerformancePage = React.lazy(() => import("./component/main/performancePage/PerformancePage"));
+  const IndividualPage = React.lazy(() => import("./component/main/individualPage/IndividualPage"));
   return (
     <>
       <LoginProvider>
@@ -18,8 +18,8 @@ function App() {
             <Route exact path="/" component={Main}></Route>
             <Route path="/create" component={CreatePage}></Route>
             <Route path="/analysis" component={AnalysisPage}></Route>
-            <Route path="/propensity" component={PropensityPage}></Route>
             <Route path="/performance" component={PerformancePage}></Route>
+            <Route path="/individual" component={IndividualPage}></Route>
           </Switch>
         </Suspense>
       </LoginProvider>

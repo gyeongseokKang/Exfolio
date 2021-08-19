@@ -59,8 +59,14 @@ function LNB() {
       <MenuItem expanded={expanded} width={width} icon={<HomeIcon />} to={"/"} title={"홈"} />
       <MenuItem expanded={expanded} width={width} icon={<PostAddIcon />} to={"/create"} title={"생성"} />
       <MenuItem expanded={expanded} width={width} icon={<FindInPageIcon />} to={"/analysis"} title={"분석"} />
-      <MenuItem expanded={expanded} width={width} icon={<AssignmentIndIcon />} to={"/propensity"} title={"성향"} />
       <MenuItem expanded={expanded} width={width} icon={<AssessmentIcon />} to={"/performance"} title={"성과방"} />
+      <MenuItem
+        expanded={expanded}
+        width={width}
+        icon={<AssignmentIndIcon />}
+        to={"/individual"}
+        title={"내 포트폴리오"}
+      />
       <GoogleLogIO expanded={expanded} width={width} />
     </div>
   );

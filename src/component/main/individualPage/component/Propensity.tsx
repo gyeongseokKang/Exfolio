@@ -5,6 +5,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import WithRoundTitle from "src/component/common/hoc/WithRoundTitle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -99,4 +100,5 @@ const Propensity = () => {
     </>
   );
 };
+export const PropensityWithRoundTitle = WithRoundTitle("내 성형", 1.25)(Propensity);
 export default Propensity;

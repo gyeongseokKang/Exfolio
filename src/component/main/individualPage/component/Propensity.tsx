@@ -61,6 +61,7 @@ const Propensity = () => {
       <div className={classes.root}>
         <div>
           <AnswerGroup
+            key={userInfo.age}
             question={"연령대"}
             userInfo={userInfo.age}
             answers={["19세 이하", "20~39", "40~59", "60세 이상"]}
@@ -68,6 +69,7 @@ const Propensity = () => {
             handleUserInfo={handleUserInfo}
           />
           <AnswerGroup
+            key={userInfo.period}
             question={"투자 예상 기간"}
             userInfo={userInfo.period}
             type={"period"}
@@ -75,6 +77,7 @@ const Propensity = () => {
             handleUserInfo={handleUserInfo}
           />
           <AnswerGroup
+            key={userInfo.affordableRisk}
             question={"감당 가능한 손실 수준"}
             userInfo={userInfo.affordableRisk}
             type={"affordableRisk"}
@@ -82,6 +85,7 @@ const Propensity = () => {
             handleUserInfo={handleUserInfo}
           />
           <AnswerGroup
+            key={userInfo.annualReturn}
             question={"목표 연 수익률"}
             userInfo={userInfo.annualReturn}
             type={"annualReturn"}
@@ -89,6 +93,7 @@ const Propensity = () => {
             handleUserInfo={handleUserInfo}
           />
           <AnswerGroup
+            key={userInfo.financialWeight}
             question={"총 자산대비 금융자산 비중"}
             userInfo={userInfo.financialWeight}
             type={"financialWeight"}

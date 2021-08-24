@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Propensity from "./component/Propensity";
 import MyPortfolios from "./component/MyPortfolios";
@@ -14,17 +14,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const PropensityWithRoundTitle = WithRoundTitle("내 성형", 1.25)(Propensity);
+const PropensityWithRoundTitle = WithRoundTitle("내 성향", 1.25)(Propensity);
 const IndividualPage = () => {
   const classes = useStyles();
   const userName = "0kuavkw3m6";
   const [userInfo, setUserInfo] = useState<UserInfo>();
-  useEffect(() => {
-    getUserInfo(userName).then((res) => {
-      if (res === undefined) return;
-      setUserInfo(res);
-    });
+
+  const loadPortfolios = useCallback(async () => {
+    const result = await getUserInfo(userName);
+    if (result) {
+      setUserInfo(result);
+    }
   }, []);
+
+  useEffect(() => {
+    loadPortfolios();
+  }, [loadPortfolios]);
 
   return (
     <>

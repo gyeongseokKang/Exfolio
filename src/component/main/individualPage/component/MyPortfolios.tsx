@@ -32,7 +32,7 @@ const MyPortfolios = ({ userName, portfolioCount, portfolioIdList }: MyPortfolio
       if (res === undefined) return;
       setUserPortfolio(res);
     });
-  }, [userName]);
+  }, [userName, portfolioIdList]);
 
   return (
     <div className={classes.root}>
@@ -40,7 +40,7 @@ const MyPortfolios = ({ userName, portfolioCount, portfolioIdList }: MyPortfolio
       {userPortfolio && (
         <PortFolioSliderWithRoundTitle
           publicIdList={portfolioIdList}
-          changePF={() => {}}
+          userName={userName}
           portfolios={userPortfolio.portfolios}
         />
       )}

@@ -11,7 +11,8 @@ import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
 import "./PortFolioSlider.scss";
-import { RRSW_2, UserPerformance } from "src/service/getUserPerformance";
+import { UserPerformance } from "src/service/getUserPerformance";
+import { setPortfolioDisclosed } from "src/service/setPortfolioDisclosed";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: { margin: "1.5rem 1rem 1rem 1rem", height: "500px" },
@@ -25,16 +26,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface PortFolioSliderProp {
-  changePF: (PF: RRSW_2) => void;
   publicIdList: string[];
+  userName: string;
   portfolios: UserPerformance["portfolios"];
 }
 
 SwiperCore.use([Navigation, Pagination]);
 
-const PortFolioSlider = ({ changePF, portfolios, publicIdList }: PortFolioSliderProp) => {
+const PortFolioSlider = ({ userName, portfolios, publicIdList }: PortFolioSliderProp) => {
   const classes = useStyles();
-
+  const [currentPublicIdList, setCurrentPublicIdList] = useState(publicIdList);
+  const onClick = (newPublicIdList: any) => {
+    setCurrentPublicIdList(newPublicIdList);
+    setPortfolioDisclosed("kang_11", newPublicIdList);
+  };
   return (
     <>
       <div className={classes.root}>
@@ -70,10 +75,25 @@ const PortFolioSlider = ({ changePF, portfolios, publicIdList }: PortFolioSlider
                   <PortfolioInfoCardWithBtn
                     title={item.title}
                     info={info}
-                    selected={publicIdList.includes(item.title)}
+                    selected={currentPublicIdList && currentPublicIdList.includes(item.title)}
                     setSelected={() => {}}
-                    onPfClick={() => {}}
-                    buttonText={publicIdList.includes(item.title) ? "비공개하기" : "공개하기"}
+                    onPfClick={() => {
+                      let newPublicIdList = [];
+                      if (currentPublicIdList && currentPublicIdList.includes(item.title)) {
+                        newPublicIdList = currentPublicIdList.filter((_item) => _item !== item.title);
+                      } else {
+                        if (currentPublicIdList) {
+                          newPublicIdList = [...currentPublicIdList, item.title];
+                        } else {
+                          newPublicIdList = [item.title];
+                        }
+                      }
+
+                      onClick(newPublicIdList);
+                    }}
+                    buttonText={
+                      currentPublicIdList && currentPublicIdList.includes(item.title) ? "비공개하기" : "공개하기"
+                    }
                   />
                 </SwiperSlide>
               );

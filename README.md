@@ -11,23 +11,6 @@ https://user-images.githubusercontent.com/61446585/143387296-127c36d0-0839-48cf-
   </h3>
 </p>
 
-
-
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">서비스목표</a>
-    </li>
-    <li><a href="#done">서비스성과</a></li>
-    <li><a href="#todo">아쉬운 점</a></li>
-    <li><a href="#stack">Stack</a></li>
-  </ol>
-</details>
-
-
-
 <!-- ABOUT THE PROJECT -->
 ## 서비스목표
 * 금융공학 + AI를 이용한 최적의 포트폴리오 추천 서비스
